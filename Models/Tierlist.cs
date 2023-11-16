@@ -6,5 +6,5 @@ public class TierlistModel
     public required string Name { get; set; }
     public int TemplateId { get; set; }
     public int UserId { get; set; }
-    public required ElementModel[] RankedElements { get; set; }
+    public required RankedElement[] RankedElements { get; set; }
 }

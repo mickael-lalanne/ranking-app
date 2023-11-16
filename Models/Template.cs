@@ -5,6 +5,7 @@ public class TemplateModel
     public int Id { get; set; }
     public required string Name { get; set; }
     public int UserId { get; set; }
-    public required TierModel[] Tiers { get; set; }
-    public required ElementModel[] Elements { get; set; }
+    public required ICollection<Tier> Tiers { get; set; }
+    public required ICollection<Element> Elements { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

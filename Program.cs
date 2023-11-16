@@ -22,6 +22,10 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
+// Configure dependency injection for ranking_app_DB postgresql database
+builder.Services.AddDbContext<RankingAppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
