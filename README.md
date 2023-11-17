@@ -129,6 +129,7 @@ Mickaël Lalanne - mickael.lalanne03@gmail.com
 * [Entity Framework](https://learn.microsoft.com/en-us/aspnet/entity-framework)
 * [Building a Robust ASP.NET Core Web API with PostgreSQL](https://www.c-sharpcorner.com/article/building-a-powerful-asp-net-core-web-api-with-postgresql/)
 * [Create a React App with .NET 5 API Backend in VSCode (Entity Framework Core & Postgres)](https://www.youtube.com/watch?v=2Ayfi7OJhBI)
+* [Tutorial: How to Use C# with React and TypeScript](https://kenny-designs.github.io/articles/2022-06-05-csharp-react-typescript-tutorial.html)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
