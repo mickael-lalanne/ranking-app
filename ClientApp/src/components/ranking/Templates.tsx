@@ -1,21 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import TemplatesViewer from './TemplatesViewer';
 
 const Templates = () => {
-
-    useEffect(() => {
-        console.log('#useEffect#');
-
-        const fetchTemplates = async () => {
-            const templates = await fetch('template');
-            console.log(templates);
-            console.log(await templates.json());
-        };
-        fetchTemplates();
-    });
-
-    return(
-        <div>Bonjour</div>
-    );
+    return(<>
+        <div>Templates list :</div>
+        <TemplatesViewer />
+    </>);
 };
 
 export default Templates;
