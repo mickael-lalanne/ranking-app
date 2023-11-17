@@ -10,5 +10,6 @@ namespace ranking_app.Data
         }
 
         public DbSet<TemplateModel> Templates { get; set; }
+        public DbSet<TierlistModel> Tierlists { get; set; }
     }
 }
