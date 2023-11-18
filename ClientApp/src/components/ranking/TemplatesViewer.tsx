@@ -7,7 +7,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { deleteTemplate, getTemplates } from '../../services/TemplateServices';
 
 const TemplatesViewer = () => {
     const [userTemplates, setUserTemplates] = useState<Template[]>([]);
@@ -16,14 +16,22 @@ const TemplatesViewer = () => {
     useEffect(() => {
         // Get all user templates from the database
         const fetchTemplates: () => Promise<void> = async () => {
-            const templatesResponse = await fetch('template');
-            setUserTemplates(await templatesResponse.json());
+            setUserTemplates(await getTemplates());
         };
         fetchTemplates()
             .catch(err => {
                 // TODO: handle errors
             });
     }, []);
+
+    /**
+     * Called when the user clicked on the "Delete" button
+     * Delete the template (both client and server side) 
+     */
+    const onDeleteClick = async (templateId: number): Promise<void> => {
+        await deleteTemplate(templateId);
+        setUserTemplates(userTemplates.filter(t => t.id !== templateId));
+    };
 
     const generateTemplatesListItems = (): JSX.Element[] => {
         const litsItems: JSX.Element[] = [];
@@ -33,7 +41,7 @@ const TemplatesViewer = () => {
                 <ListItem>
                     <ListItemButton>
                         <ListItemText primary={template.name} />
-                        <IconButton edge="end" aria-label="delete">
+                        <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(template.id!)}>
                             <DeleteIcon />
                         </IconButton>
                     </ListItemButton>

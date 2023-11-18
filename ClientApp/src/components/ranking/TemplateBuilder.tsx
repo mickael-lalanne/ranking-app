@@ -7,6 +7,7 @@ import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
 import TmpElementImg from '../../images/tmp_element_img.png';
 import Button from '@mui/material/Button';
+import { createTemplate } from '../../services/TemplateServices';
 
 const TemplateBuilder = () => {
     const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
@@ -23,13 +24,7 @@ const TemplateBuilder = () => {
 
         // Get all user templates from the database
         const postTemplate: () => Promise<void> = async () => {
-            const requestOptions: RequestInit = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(templateToCreate)
-            };
-
-            const serverResponse = await fetch('template', requestOptions);
+            await createTemplate(templateToCreate);
 
             // Reset data
             setTemplateToCreate(undefined);
@@ -62,7 +57,7 @@ const TemplateBuilder = () => {
     /**
      * Called when "Create Template" button has been clicked
      */
-    const createTemplate = (): void => {
+    const onCreateButtonClick = (): void => {
         setTemplateToCreate({
             name: templateName,
             tiers: tiersToCreate,
@@ -127,7 +122,7 @@ const TemplateBuilder = () => {
 
         <ElementEditView createCallback={onElementCreated} />
 
-        <Button variant="contained" onClick={createTemplate}>Create Template</Button>
+        <Button variant="contained" onClick={onCreateButtonClick}>Create Template</Button>
     </>);
 };
 
