@@ -83,7 +83,11 @@ public class TemplateController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTemplate(int id)
     {
-        var template = await _context.Templates.FindAsync(id);
+        var template = await _context.Templates
+            .Where(template => template.Id == id)
+            .Include(template => template.Tiers)
+            .Include(template => template.Elements)
+            .FirstAsync();
 
         if (template == null)
         {
