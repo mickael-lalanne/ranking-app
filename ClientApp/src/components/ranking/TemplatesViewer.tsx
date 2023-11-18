@@ -23,7 +23,7 @@ const TemplatesViewer = () => {
             .catch(err => {
                 // TODO: handle errors
             });
-    });
+    }, []);
 
     const generateTemplatesListItems = (): JSX.Element[] => {
         const litsItems: JSX.Element[] = [];

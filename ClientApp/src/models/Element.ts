@@ -1,8 +1,8 @@
 export interface Element {
-    id: number;
+    id?: number;
     name: string;
     image: string;
-    type: number;
+    type?: number;
 }
 
 export interface RankedElement {

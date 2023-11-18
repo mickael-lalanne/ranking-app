@@ -1,16 +1,24 @@
 import { Element } from './Element';
 
 export interface Template {
-    id: number;
+    id?: number;
     name: string;
-    userId: number;
+    userId?: number;
     tiers: Tier[];
     elements: Element[];
-    createdAt: string; // ex: "2023-11-16T20:26:59.654363Z"
+    createdAt?: string; // ex: "2023-11-16T20:26:59.654363Z"
 }
 
 export interface Tier {
-    id: number;
+    id?: number;
     name: string;
     rank: number;
 }
+
+export const TIERS_COLORS: string[] = [
+    '#FF8C7F', // Rank 1
+    '#FFC07D', // Rank 2
+    '#FEF782', // Rank 3
+    '#7AEA81', // Rank 4
+    '#78BDFD', // Rank 5
+];
