@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Template } from '../../models/Template';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
+import { TIERS_COLORS, Template, Tier } from '../../models/Template';
+import { css } from '@emotion/css';
 import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteTemplate, getTemplates } from '../../services/TemplateServices';
 
@@ -28,24 +24,46 @@ const TemplatesViewer = () => {
      * Called when the user clicked on the "Delete" button
      * Delete the template (both client and server side) 
      */
-    const onDeleteClick = async (templateId: number): Promise<void> => {
-        await deleteTemplate(templateId);
-        setUserTemplates(userTemplates.filter(t => t.id !== templateId));
+    // const onDeleteClick = async (templateId: number): Promise<void> => {
+    //     await deleteTemplate(templateId);
+    //     setUserTemplates(userTemplates.filter(t => t.id !== templateId));
+    // };
+
+    /**
+     * Some design to display tiers colors in the template preview
+     * @param {Tiers} tiers template's tiers
+     * @returns {JSX.Element[]} divs containing with the tiers colors in background
+     */
+    const generateTemplateTiersItems = (tiers: Tier[]): JSX.Element[] => {
+        const tierItems: JSX.Element[] = [];
+
+        tiers.forEach(tier => {
+            tierItems.push(
+                <div className={tier_style} style={{backgroundColor: TIERS_COLORS[tier.rank]}}></div>
+            );
+        });
+
+        return tierItems;
     };
 
-    const generateTemplatesListItems = (): JSX.Element[] => {
+    /**
+     * Display a preview for all user's template
+     * @returns {JSX.Element[]} squares with data like the template name and its tiers
+     */
+    const generateTemplatesPreviewItems = (): JSX.Element[] => {
         const litsItems: JSX.Element[] = [];
 
         userTemplates.forEach(template => {
             litsItems.push(
-                <ListItem>
-                    <ListItemButton>
-                        <ListItemText primary={template.name} />
-                        <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(template.id!)}>
+                <div className={template_container_style}>
+                    <div className="app_spacer"></div>
+                    <div>{template.name}</div>
+                        {/* <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(template.id!)}>
                             <DeleteIcon />
-                        </IconButton>
-                    </ListItemButton>
-                </ListItem>
+                        </IconButton> */}
+                    <div className="app_spacer"></div>
+                    {generateTemplateTiersItems(template.tiers)}
+                </div>
             );
         });
 
@@ -53,12 +71,39 @@ const TemplatesViewer = () => {
     };
 
     return (<>
-        <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            <List>
-                {generateTemplatesListItems()}
-            </List>
-        </Box>
+        <div className={templates_container_style}>
+            {generateTemplatesPreviewItems()}
+        </div>
     </>);
 };
 
 export default TemplatesViewer;
+
+/**
+ * CSS STYLES
+ */
+const templates_container_style = css({
+    display: 'flex',
+    width: 'fit-content'
+});
+
+const template_container_style = css({
+    display: 'flex',
+    alignItems: 'center',
+    margin: '25px',
+    width: '200px',
+    height: '200px',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+    cursor: 'pointer',
+    transitionDuration: '500ms',
+    ":hover": {
+        transform: 'scale(1.15)'
+    }
+});
+
+const tier_style = css({
+    width: '100%',
+    height: '5px',
+});
