@@ -21,7 +21,10 @@ public class TemplateController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TemplateModel>>> GetTemplates()
     {
-        return await _context.Templates.ToListAsync();
+        return await _context.Templates
+            .Include(template => template.Tiers)
+            .Include(template => template.Elements)
+            .ToListAsync();
     }
 
     [HttpGet("{id}")]
