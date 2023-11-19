@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { css } from '@emotion/css';
 import { Element } from '../../models/Element';
+import { generateRandomId } from '../../services/Util';
 
 enum ElementViewMode {
     Edit = 'edit', // When user wants to edit an element 
@@ -31,7 +32,11 @@ const ElementEditView = ({createCallback}: {
 
     // Called when the "Create" button of the edit view has been clicked
     const createElement = () => {
-        createCallback({ name: elementName as string, image: 'tmp_img'});
+        createCallback({
+            id: generateRandomId(),
+            name: elementName as string,
+            image: 'tmp_img'
+        });
         setElementEditView(ElementViewMode.Hide);
     };
 

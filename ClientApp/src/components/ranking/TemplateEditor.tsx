@@ -7,6 +7,9 @@ import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
 import TmpElementImg from '../../images/tmp_element_img.png';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const TemplateEditor = (
     { saveHandler, template, mode }: {
@@ -19,6 +22,8 @@ const TemplateEditor = (
     const [elementsToCreate, setElementsToCreate] = useState<Element[]>([]);
     const [templateName, setTemplateName] = useState<string>('');
     const [saveButtonText, setSaveButtonText] = useState<string>('');
+    const [tierHovering, setTierHovering] = useState<number>();
+    const [elementHovering, setElementHovering] = useState<number>();
 
     /**
      * Called when in Edit mode to set the existing template informations
@@ -71,20 +76,50 @@ const TemplateEditor = (
         setTemplateName(e.target.value);
     };
 
+    // Called when the delete button of a tier has been clicked
+    const onTierDeleteButtonClick = (tierId: number) => {
+        setTiersToCreate(tiersToCreate.filter(t => t.id !== tierId));
+    };
+
+    // Called when the delete button of an element has been clicked
+    const onElementDeleteButtonClick = (elementId: number) => {
+        setElementsToCreate(elementsToCreate.filter(e => e.id !== elementId));
+    };
+
     /**
      * Display the list of the created tiers
      * @returns {JSX.Element[]} array of created tiers elements
      */
     const CreatedTiers = (): JSX.Element[] => {
         let createdTiersList: JSX.Element[] = [];
-        // Display tiers by rank
+        // Sort tiers by rank
         const sortedTiers: Tier[] = tiersToCreate.sort((a, b) => a.rank - b.rank);
 
+        // Show the delete tier button only on hover
+        const DeleteTierButton = (tierId: number): React.JSX.Element | undefined => {
+            if (tierHovering === tierId) {
+                return (
+                    <IconButton edge="end" onClick={() => onTierDeleteButtonClick(tierId)} className={delete_btn_style}>
+                        <DeleteIcon />
+                    </IconButton>
+                );
+            }
+        };
+
         sortedTiers.forEach(tier => {
-            createdTiersList.push(<div className={tier_container_style} style={{backgroundColor: TIERS_COLORS[tier.rank]}}>
-                <div className={tier_rank_style}>{tier.rank + 1}</div>
-                <div className={tier_name_style}>{tier.name}</div>
-            </div>);
+            createdTiersList.push(
+                <div
+                    className={tier_container_style}
+                    style={{backgroundColor: TIERS_COLORS[tier.rank]}}
+                    onMouseEnter={() => setTierHovering(tier.id)}
+                    onMouseLeave={() => setTierHovering(undefined)}
+                >
+                    <div className={tier_rank_style}>{tier.rank + 1}</div>
+                    <div className={tier_name_style}>{tier.name}</div>
+                    <div className="app_spacer"></div>
+                    {DeleteTierButton(tier.id!)}
+                </div>
+            );
         });
         return createdTiersList;
     };
@@ -96,18 +131,45 @@ const TemplateEditor = (
     const CreatedElements = (): JSX.Element[] => {
         let createdElementsList: JSX.Element[] = [];
 
+        // Show the delete tier button only on hover
+        const DeleteElementButton = (elementId: number): React.JSX.Element | undefined => {
+            if (elementHovering === elementId) {
+                return (
+                    <div className={element_delete_container_style}>
+                        <RemoveCircleOutlineIcon
+                            onClick={() => onElementDeleteButtonClick(elementId)}
+                            className={remove_element_icon_style}
+                        />
+                        <div className={element_delete_bg_style}></div>
+                    </div>
+                );
+            }
+        };
+
         elementsToCreate.forEach(element => {
-            createdElementsList.push(<div className={element_container_style}>
-                <img src={TmpElementImg} style={{width: '50px'}} />
-                <div className="app_text_ellipsis">{element.name}</div>
-            </div>);
+            createdElementsList.push(
+                <div
+                    className={element_container_style}
+                    onMouseEnter={() => setElementHovering(element.id)}
+                    onMouseLeave={() => setElementHovering(undefined)}
+                >
+                    <img src={TmpElementImg} style={{width: '50px'}} />
+                    <div className="app_text_ellipsis">{element.name}</div>
+                    {DeleteElementButton(element.id!)}
+                </div>
+            );
         });
         return createdElementsList;
     };
 
     return(<>
-        <div>Create a template :</div>
-        <TextField label="Name" variant="outlined" onChange={onNameFieldChange} value={templateName} />
+        <TextField
+            label="Name"
+            variant="outlined"
+            onChange={onNameFieldChange}
+            value={templateName}
+            fullWidth={true}
+        />
 
         <div>Tiers :</div>
         <div>
@@ -148,6 +210,7 @@ const elements_container_style = css({
 const element_container_style = css({
     display: 'flex',
     alignItems: 'center',
+    position: 'relative',
     border: '1px solid',
     flexDirection: 'column',
     width: '100px',
@@ -168,4 +231,38 @@ const tier_rank_style = css({
 
 const tier_name_style = css({
     padding: '0 20px'
+});
+
+const delete_btn_style = css({
+    margin: '0 15px !important'
+});
+
+const element_delete_container_style = css({
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1
+});
+
+const element_delete_bg_style = css({
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    opacity: 0.7,
+    backgroundColor: 'black',
+    zIndex: -1
+});
+
+const remove_element_icon_style = css({
+    color: 'white',
+    width: '65px !important',
+    height: '65px !important',
+    cursor: 'pointer'
 });

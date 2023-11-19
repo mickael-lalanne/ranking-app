@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { css } from '@emotion/css';
 import { TIERS_COLORS, Tier } from '../../models/Template';
+import { generateRandomId } from '../../services/Util';
 
 enum TierViewMode {
     Edit = 'edit', // When user wants to edit a tier 
@@ -42,7 +43,11 @@ const TierEditView = ({createCallback, existingTiers}: {
 
     // Called when the "Create" button of the edit view has been clicked
     const createTier = () => {
-        createCallback({ name: tierName as string, rank: tierRank as number});
+        createCallback({
+            id: generateRandomId(),
+            name: tierName as string,
+            rank: tierRank as number
+        });
         setTierEditView(TierViewMode.Hide);
     };
 
