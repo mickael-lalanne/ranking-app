@@ -24,3 +24,14 @@ export const createTemplate = async (templateToCreate: Template): Promise<Templa
 export const deleteTemplate = async (templateId: number): Promise<void> => {
     await fetch(`${TEMPLATE_ENDPOINT}/${templateId}`, { method: 'DELETE' });
 };
+
+// PUT
+export const updateTemplate = async (templateToUpdate: Template): Promise<Response> => {
+    const requestOptions: RequestInit = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(templateToUpdate)
+    };
+
+    return await fetch(`${TEMPLATE_ENDPOINT}/${templateToUpdate.id}`, requestOptions);
+}

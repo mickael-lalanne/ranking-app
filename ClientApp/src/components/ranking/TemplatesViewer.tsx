@@ -5,7 +5,9 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteTemplate, getTemplates } from '../../services/TemplateServices';
 
-const TemplatesViewer = () => {
+const TemplatesViewer = (
+    { editHandler } : { editHandler: (template: Template) => void }
+) => {
     const [userTemplates, setUserTemplates] = useState<Template[]>([]);
 
     // Called when the component is initialized
@@ -55,9 +57,9 @@ const TemplatesViewer = () => {
 
         userTemplates.forEach(template => {
             litsItems.push(
-                <div className={template_container_style}>
+                <div className={template_container_style} onClick={() => editHandler(template)}>
                     <div className="app_spacer"></div>
-                    <div>{template.name}</div>
+                    <div style={{ padding: '20px' }}>{template.name}</div>
                         {/* <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(template.id!)}>
                             <DeleteIcon />
                         </IconButton> */}
@@ -98,6 +100,7 @@ const template_container_style = css({
     boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
     cursor: 'pointer',
     transitionDuration: '500ms',
+    textAlign: 'center',
     ":hover": {
         transform: 'scale(1.15)'
     }

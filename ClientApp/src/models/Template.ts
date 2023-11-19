@@ -22,3 +22,9 @@ export const TIERS_COLORS: string[] = [
     '#7AEA81', // Rank 4
     '#78BDFD', // Rank 5
 ];
+
+export enum ETemplateMode {
+    Viewer = 'viewer',
+    Builder = 'builder',
+    Editor = 'editor'
+};

@@ -1,43 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import TierEditView from './TierEditView';
-import { TIERS_COLORS, Template, Tier } from '../../models/Template';
+import { ETemplateMode, TIERS_COLORS, Template, Tier } from '../../models/Template';
 import { Element } from '../../models/Element';
 import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
 import TmpElementImg from '../../images/tmp_element_img.png';
 import Button from '@mui/material/Button';
 
-const TemplateBuilder = (
-    { creationHandler }: { creationHandler: (templateToCreate: Template) => Promise<void>}
+const TemplateEditor = (
+    { saveHandler, template, mode }: {
+        saveHandler: (templateToCreate: Template) => Promise<void>,
+        template?: Template,
+        mode: ETemplateMode
+    }
 ) => {
     const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
     const [elementsToCreate, setElementsToCreate] = useState<Element[]>([]);
-    const [templateToCreate, setTemplateToCreate] = useState<Template>();
     const [templateName, setTemplateName] = useState<string>('');
+    const [saveButtonText, setSaveButtonText] = useState<string>('');
 
     /**
-     * Called when a template has been created
-     * Send a post request to the server to create the template in the database
+     * Called when in Edit mode to set the existing template informations
      */
     useEffect(() => {
-        if (!templateToCreate) { return; }
+        if (mode === ETemplateMode.Editor && template) {
+            setTiersToCreate(template.tiers);
+            setElementsToCreate(template.elements);
+            setTemplateName(template.name);
+            setSaveButtonText('Edit template');
+        }
 
-        // Get all user templates from the database
-        const postTemplate: () => Promise<void> = async () => {
-            creationHandler(templateToCreate);
-
-            // Reset data
-            setTemplateToCreate(undefined);
-            setTiersToCreate([]);
-            setElementsToCreate([]);
-            setTemplateName('');
-        };
-        postTemplate()
-            .catch(err => {
-                // TODO: handle errors
-            });
-    }, [templateToCreate]);
+        if (mode === ETemplateMode.Builder) {
+            setSaveButtonText('Create template');
+        }
+    }, [mode]);
 
     /**
      * Called when a new tier has been created from the Edit view
@@ -56,14 +53,17 @@ const TemplateBuilder = (
     };
 
     /**
-     * Called when "Create Template" button has been clicked
+     * Called when the save button has been clicked
      */
-    const onCreateButtonClick = (): void => {
-        setTemplateToCreate({
+    const onSaveButtonClick = (): void => {
+        const templateToSave: Template = {
+            ...template,
             name: templateName,
             tiers: tiersToCreate,
             elements: elementsToCreate
-        });
+        };
+
+        saveHandler(templateToSave);
     };
 
     // Called when the template name has changed
@@ -107,7 +107,7 @@ const TemplateBuilder = (
 
     return(<>
         <div>Create a template :</div>
-        <TextField label="Name" variant="outlined" onChange={onNameFieldChange} />
+        <TextField label="Name" variant="outlined" onChange={onNameFieldChange} value={templateName} />
 
         <div>Tiers :</div>
         <div>
@@ -123,11 +123,11 @@ const TemplateBuilder = (
 
         <ElementEditView createCallback={onElementCreated} />
 
-        <Button variant="contained" onClick={onCreateButtonClick}>Create Template</Button>
+        <Button variant="contained" onClick={onSaveButtonClick}>{saveButtonText}</Button>
     </>);
 };
 
-export default TemplateBuilder;
+export default TemplateEditor;
 
 /**
  * CSS STYLES
