@@ -4,6 +4,8 @@ import TemplateBuilder from './TemplateBuilder';
 import { css } from '@emotion/css';
 import AddButton from '../shared/AddButton';
 import AppTitle from '../shared/AppTitle';
+import { Template } from '../../models/Template';
+import { createTemplate } from '../../services/TemplateServices';
 
 enum ETemplateMode {
     Viewer = 'viewer',
@@ -25,25 +27,46 @@ const Templates = () => {
     const [headerButtonText, setHeaderButtonText] = useState<string>(VIEWER_BTN_TEXT);
 
     /**
-     * Called when the header button 
-     * Change the mode and the header texts depending on the new mode
+     * Change the mode and the header texts depending on the mode parameter
+     * @param {ETemplateMode} mode the new mode to display
      */
-    const onHeaderButtonClick = (): void => {
-        switch (templateMode) {
-            case ETemplateMode.Viewer:
+    const _switchMode = (mode: ETemplateMode) => {
+        switch (mode) {
+            case ETemplateMode.Builder:
                 setTemplateMode(ETemplateMode.Builder);
                 setHeaderTitle(BUILDER_TITLE);
                 setHeaderSubtitle(BUILDER_SUBTITLE);
                 setHeaderButtonText(BUILDER_BTN_TEXT);
                 break;
         
-            case ETemplateMode.Builder:
+            case ETemplateMode.Viewer:
                 setTemplateMode(ETemplateMode.Viewer);
                 setHeaderTitle(VIEWER_TITLE);
                 setHeaderSubtitle(VIEWER_SUBTITLE);
                 setHeaderButtonText(VIEWER_BTN_TEXT);
                 break;
         }
+    }
+
+    /**
+     * Called when the header button has been clicked
+     * Change the template mode
+     */
+    const onHeaderButtonClick = (): void => {
+        switch (templateMode) {
+            case ETemplateMode.Viewer:
+                _switchMode(ETemplateMode.Builder);
+                break;
+        
+            case ETemplateMode.Builder:
+                _switchMode(ETemplateMode.Viewer);
+                break;
+        }
+    };
+
+    const creationHandler = async (newTemplate: Template): Promise<void> => {
+        await createTemplate(newTemplate);
+        _switchMode(ETemplateMode.Viewer);
     };
 
     /**
@@ -53,7 +76,7 @@ const Templates = () => {
     const showRightMode = (): JSX.Element => {
         switch (templateMode) {
             case ETemplateMode.Builder:
-                return <TemplateBuilder />
+                return <TemplateBuilder creationHandler={creationHandler} />
 
             case ETemplateMode.Viewer:
             default:

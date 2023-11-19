@@ -7,9 +7,10 @@ import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
 import TmpElementImg from '../../images/tmp_element_img.png';
 import Button from '@mui/material/Button';
-import { createTemplate } from '../../services/TemplateServices';
 
-const TemplateBuilder = () => {
+const TemplateBuilder = (
+    { creationHandler }: { creationHandler: (templateToCreate: Template) => Promise<void>}
+) => {
     const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
     const [elementsToCreate, setElementsToCreate] = useState<Element[]>([]);
     const [templateToCreate, setTemplateToCreate] = useState<Template>();
@@ -24,7 +25,7 @@ const TemplateBuilder = () => {
 
         // Get all user templates from the database
         const postTemplate: () => Promise<void> = async () => {
-            await createTemplate(templateToCreate);
+            creationHandler(templateToCreate);
 
             // Reset data
             setTemplateToCreate(undefined);
