@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import { NavMenu } from './NavMenu';
 import { css } from '@emotion/css';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 
 const NAV_HEADER_HEIGHT = '60px';
+const PRIMARY_COLOR = '#BB2525';
 
 const theme = createTheme({
     defaultRankingTheme: {
-        primary: '#BB2525',
+        primary: PRIMARY_COLOR,
         primaryLight: '#FF6969',
         light: '#FFF5E0',
         dark: '#141E46',
     },
+    palette: {
+        primary: {
+            main: alpha(PRIMARY_COLOR, 0.7),
+            light: alpha(PRIMARY_COLOR, 0.5),
+            dark: alpha(PRIMARY_COLOR, 0.9),
+        }
+    }
 });
 
 declare module '@mui/material/styles' {

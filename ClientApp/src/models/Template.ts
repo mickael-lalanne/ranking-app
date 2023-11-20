@@ -28,3 +28,9 @@ export enum ETemplateMode {
     Builder = 'builder',
     Editor = 'editor'
 };
+
+export enum EEditViewMode {
+    EditElement = 'edit-element', // When user wants to edit an element
+    EditTier = 'edit-tier', // When user wants to edit a tier
+    Hide = 'hide' // When the view isn't displayed or an element
+};

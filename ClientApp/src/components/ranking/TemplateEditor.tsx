@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import TierEditView from './TierEditView';
-import { ETemplateMode, TIERS_COLORS, Template, Tier } from '../../models/Template';
+import { EEditViewMode, ETemplateMode, TIERS_COLORS, Template, Tier } from '../../models/Template';
 import { Element } from '../../models/Element';
 import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
@@ -9,8 +9,10 @@ import TmpElementImg from '../../images/tmp_element_img.png';
 import IconButton from '@mui/material/IconButton';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AppButton from '../shared/AppButton';
 import { useTheme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 const TemplateEditor = (
     { saveHandler, template, mode }: {
@@ -25,6 +27,7 @@ const TemplateEditor = (
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [tierHovering, setTierHovering] = useState<number>();
     const [elementHovering, setElementHovering] = useState<number>();
+    const [editViewMode, setEditViewMode] = useState<EEditViewMode>(EEditViewMode.Hide);
 
     const theme = useTheme();
 
@@ -49,7 +52,12 @@ const TemplateEditor = (
      * @param {Tier} newTier the tier which was created in the Edit view
      */
     const onTierCreated = (newTier: Tier): void => {
-        setTiersToCreate(tiersToCreate.concat(newTier))
+        setTiersToCreate(tiersToCreate.concat(newTier));
+        setEditViewMode(EEditViewMode.Hide);
+    };
+
+    const onEditViewCancel = () => {
+        setEditViewMode(EEditViewMode.Hide);
     };
 
     /**
@@ -57,7 +65,8 @@ const TemplateEditor = (
      * @param {Element} newElement the element which was created in the Edit view
      */
     const onElementCreated = (newElement: Element): void => {
-        setElementsToCreate(elementsToCreate.concat(newElement))
+        setElementsToCreate(elementsToCreate.concat(newElement));
+        setEditViewMode(EEditViewMode.Hide);
     };
 
     /**
@@ -165,29 +174,74 @@ const TemplateEditor = (
         return createdElementsList;
     };
 
+    /**
+     * @returns {JSX.Element} the add tier button only if a tier can be created
+     */
+    const AddTierButton = (): JSX.Element => {
+        if (tiersToCreate.length < 5) {
+            return (
+                <Button
+                    variant="contained"
+                    className={add_tier_btn_style}
+                    onClick={() => setEditViewMode(EEditViewMode.EditTier)}
+                >
+                    Add Tier
+                </Button>
+            );
+        }
+        return <></>;
+    }
+
+    /**
+     * @returns {JSX.Element} the add element button
+     */
+    const AddElementButton = (): JSX.Element => {
+        return (
+            <Button
+                variant="contained"
+                className={add_tier_btn_style + ' ' + element_container_style}
+                onClick={() => setEditViewMode(EEditViewMode.EditElement)}
+            >
+                <AddCircleOutlineIcon style={{ width: '60px', height: '60px' }} />
+            </Button>
+        );
+    }
+
     return(<>
         <div>
-        <TextField
-            label="Name"
-            variant="outlined"
-            onChange={onNameFieldChange}
-            value={templateName}
-            fullWidth={true}
-        />
+            <TextField
+                label="Name"
+                variant="outlined"
+                color="primary"
+                onChange={onNameFieldChange}
+                value={templateName}
+                fullWidth={true}
+            />
 
-        <div>Tiers :</div>
-        <div>
-            {CreatedTiers()}
-        </div>
+            <div className={editor_title_style}>Tiers :</div>
+            <div>
+                {CreatedTiers()}
+            </div>
 
-        <TierEditView existingTiers={tiersToCreate} createCallback={onTierCreated} />
+            {AddTierButton()}
+            <TierEditView
+                existingTiers={tiersToCreate}
+                createCallback={onTierCreated}
+                cancelCallback={onEditViewCancel}
+                editViewMode={editViewMode}
+            />
 
-        <div>Elements :</div>
-        <div className={elements_container_style}>
-            {CreatedElements()}
-        </div>
+            <div className={editor_title_style}>Elements :</div>
+            <div className={elements_container_style}>
+                {CreatedElements()}
+                {AddElementButton()}
+            </div>
 
-        <ElementEditView createCallback={onElementCreated} />
+            <ElementEditView
+                createCallback={onElementCreated}
+                cancelCallback={onEditViewCancel}
+                editViewMode={editViewMode}
+            />
         </div>
         <div className={footer_style}>
             <div className="app_spacer"></div>
@@ -197,7 +251,8 @@ const TemplateEditor = (
 };
 
 export default TemplateEditor;
-
+const TIER_HEIGHT:  string = '50px';
+const TIER_MARGIN_TOP:  string = '5px !important';
 /**
  * CSS STYLES
  */
@@ -205,8 +260,8 @@ const tier_container_style = css({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    height: '50px',
-    marginTop: '5px'
+    height: TIER_HEIGHT,
+    marginTop: TIER_MARGIN_TOP
 });
 
 const elements_container_style = css({
@@ -220,10 +275,10 @@ const element_container_style = css({
     position: 'relative',
     border: '1px solid',
     flexDirection: 'column',
-    width: '100px',
-    height: '100px',
-    padding: '5px',
-    margin: '5px',
+    width: '100px !important',
+    height: '100px !important',
+    padding: '5px !important',
+    margin: '5px !important',
     justifyContent: 'center',
     textAlign: 'center'
 });
@@ -238,6 +293,13 @@ const tier_rank_style = css({
 
 const tier_name_style = css({
     padding: '0 20px'
+});
+
+const editor_title_style = css({
+    margin: '20px 0',
+    fontFamily: '"Raleway", sans-serif',
+    fontWeight: 300,
+    fontSize: '17px'
 });
 
 const delete_btn_style = css({
@@ -277,4 +339,10 @@ const remove_element_icon_style = css({
 const footer_style = css({
     display: 'flex',
     margin: '20px 0'
+});
+
+const add_tier_btn_style = css({
+    marginTop: TIER_MARGIN_TOP,
+    width: '100%',
+    height: TIER_HEIGHT
 });

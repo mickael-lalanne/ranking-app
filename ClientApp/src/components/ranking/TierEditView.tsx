@@ -2,23 +2,18 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { css } from '@emotion/css';
-import { TIERS_COLORS, Tier } from '../../models/Template';
+import { EEditViewMode, TIERS_COLORS, Tier } from '../../models/Template';
 import { generateRandomId } from '../../services/Util';
-
-enum TierViewMode {
-    Edit = 'edit', // When user wants to edit a tier 
-    Create = 'create', // When user wants to create a tier
-    Hide = 'hide' // When the view isn't displayed
-};
 
 /**
  * View displayed when the user wants to create a new tier or edit an existing one
  */
-const TierEditView = ({createCallback, existingTiers}: {
+const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMode}: {
     createCallback: (tier: Tier) => void,
-    existingTiers: Tier[]
+    cancelCallback: () => void,
+    existingTiers: Tier[],
+    editViewMode: EEditViewMode
 }) => {
-    const [tierEditView, setTierEditView] = useState<TierViewMode>(TierViewMode.Hide);
     const [tierRank, setTierRank] = useState<number>();
     const [tierName, setTierName] = useState<string>();
     const [availableRanks, setAvailableRanks] = useState<number[]>([0, 1, 2, 3, 4]);
@@ -31,16 +26,6 @@ const TierEditView = ({createCallback, existingTiers}: {
         setAvailableRanks(availableRanks.filter(r => existingTiers.find(tier => tier.rank === r) === undefined));
     }, [existingTiers]);
 
-    // Called when the "Add tier" button has been clicked
-    const showCreateView = () => {
-        setTierEditView(TierViewMode.Create);
-    };
-
-    // Called when the "Cancel" button of the edit view has been clicked 
-    const hideEditView = () => {
-        setTierEditView(TierViewMode.Hide);
-    };
-
     // Called when the "Create" button of the edit view has been clicked
     const createTier = () => {
         createCallback({
@@ -48,7 +33,6 @@ const TierEditView = ({createCallback, existingTiers}: {
             name: tierName as string,
             rank: tierRank as number
         });
-        setTierEditView(TierViewMode.Hide);
     };
 
     // Called when the tier name has changed
@@ -79,7 +63,7 @@ const TierEditView = ({createCallback, existingTiers}: {
         return(<div style={{ display: 'flex' }}>{rankCells}</div>)
     };
 
-    if (tierEditView !== TierViewMode.Hide) {
+    if (editViewMode === EEditViewMode.EditTier) {
         return (<div className={tiers_edit_view_container_style}>
             <TextField
                 label="Tier name"
@@ -92,13 +76,13 @@ const TierEditView = ({createCallback, existingTiers}: {
             </div>
             <div className={footer_buttons_style}>
                 <div className="app_spacer"></div>
-                <Button variant="outlined" onClick={hideEditView}>Cancel</Button>
+                <Button variant="outlined" onClick={cancelCallback}>Cancel</Button>
                 <Button variant="contained" onClick={createTier} style={{ marginLeft: '10px' }}>Create</Button>
             </div>
         </div>);
     }
 
-    return <Button variant="contained" className={add_btn_style} onClick={showCreateView}>Add Tier</Button>;
+    return <></>;
 };
 
 export default TierEditView;
@@ -145,9 +129,4 @@ const rank_cell_disabled_style = css({
     pointerEvents: 'none',
     opacity: 0.3,
     borderColor: 'unset'
-});
-
-const add_btn_style = css({
-    marginTop: '5px',
-    width: '100%'
 });
