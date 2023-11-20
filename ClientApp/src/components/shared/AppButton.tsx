@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/css';
+import { useTheme } from '@mui/material/styles';
 
-const AddButton = (
-    { text, onClickHandler } : { text: string; onClickHandler: () => void }
+const AppButton = (
+    { text, onClickHandler, color } : { text: string; onClickHandler: () => void, color?: string }
 ) => {
+    const theme = useTheme();
+    const [btnColor, setBtnColor] = useState<string>(theme.defaultRankingTheme.primary);
+
+    // Change the default button color if a color is provided
+    useEffect(() => {
+        if (color) {
+            setBtnColor(color);
+        }
+    }, [color]);
+
     return(
         <button className={add_btn_pushable} role="button" onClick={onClickHandler}>
             <span className={add_btn_shadow + ' add_btn_shadow'}></span>
-            <span className={app_add_btn_edge}></span>
-            <span className={app_add_btn_front + ' add_btn_front'}>
+            <span className={app_add_btn_edge} style={{ background: btnColor }}></span>
+            <span
+                className={app_add_btn_front + ' add_btn_front'}
+                style={{ background: btnColor, color: btnColor === 'white' ? 'black' : 'white' }}
+            >
                 {text}
             </span>
         </button>
     );
 };
 
-export default AddButton;
+export default AppButton;
 
 /**
  * CSS STYLES
@@ -87,13 +101,7 @@ const app_add_btn_edge = css`
     width: 100%;
     height: 100%;
     border-radius: 12px;
-    background: linear-gradient(
-        to left,
-        hsl(340deg 100% 16%) 0%,
-        hsl(340deg 100% 32%) 8%,
-        hsl(340deg 100% 32%) 92%,
-        hsl(340deg 100% 16%) 100%
-    );
+    filter: brightness(0.5);
 `;
 
 const app_add_btn_front = css`
@@ -102,12 +110,11 @@ const app_add_btn_front = css`
     padding: 12px 27px;
     border-radius: 12px;
     font-size: 1.1rem;
-    color: white;
-    background: hsl(345deg 100% 47%);
     will-change: transform;
     transform: translateY(-4px);
     transition:
         transform
         600ms
         cubic-bezier(.3, .7, .4, 1);
+    border: 1px solid black;
 `;

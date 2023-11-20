@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import TemplatesViewer from './TemplatesViewer';
 import TemplateEditor from './TemplateEditor';
 import { css } from '@emotion/css';
-import AddButton from '../shared/AddButton';
+import AppButton from '../shared/AppButton';
 import AppTitle from '../shared/AppTitle';
 import { ETemplateMode, Template } from '../../models/Template';
 import { createTemplate, updateTemplate } from '../../services/TemplateServices';
+import { useTheme } from '@mui/material/styles';
 
 const VIEWER_TITLE = 'My templates';
 const VIEWER_SUBTITLE = 'Create, Edit or Delete';
@@ -24,7 +25,10 @@ const Templates = () => {
     const [headerTitle, setHeaderTitle] = useState<string>(VIEWER_TITLE);
     const [headerSubtitle, setHeaderSubtitle] = useState<string>(VIEWER_SUBTITLE);
     const [headerButtonText, setHeaderButtonText] = useState<string>(VIEWER_BTN_TEXT);
+    const [headerButtonColor, setHeaderButtonColor] = useState<string>();
     const [templateToEdit, setTemplateToEdit] = useState<Template>();
+
+    const theme = useTheme();
 
     /**
      * Change the mode and the header texts depending on the mode parameter
@@ -36,18 +40,21 @@ const Templates = () => {
                 setHeaderTitle(BUILDER_TITLE);
                 setHeaderSubtitle(BUILDER_SUBTITLE);
                 setHeaderButtonText(BUILDER_BTN_TEXT);
+                setHeaderButtonColor('white');
                 break;
 
             case ETemplateMode.Editor:
                 setHeaderTitle(EDITOR_TITLE);
                 setHeaderSubtitle(EDITOR_SUBTITLE);
                 setHeaderButtonText(EDITOR_BTN_TEXT);
+                setHeaderButtonColor('white');
                 break;
         
             case ETemplateMode.Viewer:
                 setHeaderTitle(VIEWER_TITLE);
                 setHeaderSubtitle(VIEWER_SUBTITLE);
                 setHeaderButtonText(VIEWER_BTN_TEXT);
+                setHeaderButtonColor(theme.defaultRankingTheme.primary);
                 break;
         }
         setTemplateMode(mode);
@@ -117,7 +124,11 @@ const Templates = () => {
     return(<>
         <div className={viewer_header_style}>
             <AppTitle title={headerTitle} subtitle={headerSubtitle} />
-            <AddButton text={headerButtonText} onClickHandler={onHeaderButtonClick}/>
+            <AppButton
+                text={headerButtonText}
+                onClickHandler={onHeaderButtonClick}
+                color={headerButtonColor}
+            />
         </div>
 
         {showRightMode()}

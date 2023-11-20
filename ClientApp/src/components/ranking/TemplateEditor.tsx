@@ -6,10 +6,11 @@ import { Element } from '../../models/Element';
 import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
 import TmpElementImg from '../../images/tmp_element_img.png';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AppButton from '../shared/AppButton';
+import { useTheme } from '@mui/material/styles';
 
 const TemplateEditor = (
     { saveHandler, template, mode }: {
@@ -24,6 +25,8 @@ const TemplateEditor = (
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [tierHovering, setTierHovering] = useState<number>();
     const [elementHovering, setElementHovering] = useState<number>();
+
+    const theme = useTheme();
 
     /**
      * Called when in Edit mode to set the existing template informations
@@ -163,6 +166,7 @@ const TemplateEditor = (
     };
 
     return(<>
+        <div>
         <TextField
             label="Name"
             variant="outlined"
@@ -184,8 +188,11 @@ const TemplateEditor = (
         </div>
 
         <ElementEditView createCallback={onElementCreated} />
-
-        <Button variant="contained" onClick={onSaveButtonClick}>{saveButtonText}</Button>
+        </div>
+        <div className={footer_style}>
+            <div className="app_spacer"></div>
+            <AppButton text={saveButtonText} onClickHandler={onSaveButtonClick} />
+        </div>
     </>);
 };
 
@@ -265,4 +272,9 @@ const remove_element_icon_style = css({
     width: '65px !important',
     height: '65px !important',
     cursor: 'pointer'
+});
+
+const footer_style = css({
+    display: 'flex',
+    margin: '20px 0'
 });
