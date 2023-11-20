@@ -7,3 +7,8 @@ public class Element
     public string? Image { get; set; }
     public int Type { get; set; }
 }
+
+public class ElementPayload : Element
+{
+    new public int? Id { get; set; }
+}

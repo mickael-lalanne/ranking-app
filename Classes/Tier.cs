@@ -8,3 +8,8 @@ public class Tier
 
     public int Rank { get; set; }
 }
+
+public class TierPayload : Tier
+{
+    new public int? Id { get; set; }
+}

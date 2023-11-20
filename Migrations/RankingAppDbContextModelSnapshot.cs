@@ -46,7 +46,7 @@ namespace ranking_app.Migrations
 
                     b.HasIndex("TemplateModelId");
 
-                    b.ToTable("Element");
+                    b.ToTable("Element", (string)null);
                 });
 
             modelBuilder.Entity("ranking_app.Models.TemplateModel", b =>
@@ -69,7 +69,7 @@ namespace ranking_app.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Templates");
+                    b.ToTable("Templates", (string)null);
                 });
 
             modelBuilder.Entity("ranking_app.Models.TierlistModel", b =>
@@ -95,7 +95,7 @@ namespace ranking_app.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tierlists");
+                    b.ToTable("Tierlists", (string)null);
                 });
 
             modelBuilder.Entity("ranking_app.RankedElement", b =>
@@ -119,7 +119,7 @@ namespace ranking_app.Migrations
 
                     b.HasIndex("TierlistModelId");
 
-                    b.ToTable("RankedElement");
+                    b.ToTable("RankedElement", (string)null);
                 });
 
             modelBuilder.Entity("ranking_app.Tier", b =>
@@ -144,7 +144,7 @@ namespace ranking_app.Migrations
 
                     b.HasIndex("TemplateModelId");
 
-                    b.ToTable("Tier");
+                    b.ToTable("Tier", (string)null);
                 });
 
             modelBuilder.Entity("ranking_app.Element", b =>

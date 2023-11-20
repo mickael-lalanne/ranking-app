@@ -55,17 +55,61 @@ public class TemplateController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTemplate(int id, TemplateModel template)
+    public async Task<IActionResult> PutTemplate(int id, TemplatePutPayload template)
     {
         if (id != template.Id)
         {
             return BadRequest();
         }
 
-        _context.Entry(template).State = EntityState.Modified;
-
         try
         {
+            var baseTemplate = await _context.Templates
+                .Where(template => template.Id == id)
+                .Include(template => template.Tiers)
+                .Include(template => template.Elements)
+                .FirstAsync();
+            
+            baseTemplate.Name = template.Name;
+
+            // Check for tiers to delete
+            foreach (var baseTier in baseTemplate.Tiers)
+            {
+                // If the base tier is not present in the template to update
+                if (template.Tiers.Any(tier => tier.Id == baseTier.Id) == false) {
+                    // We have to remove it from the database
+                    baseTemplate.Tiers.Remove(baseTier);
+                }
+            }
+
+            // Check for deleted elements
+            foreach (var baseElement in baseTemplate.Elements)
+            {
+                // If the base tier is not present in the template to update
+                if (template.Elements.Any(element => element.Id == baseElement.Id) == false) {
+                    // We have to remove it from the database
+                    baseTemplate.Elements.Remove(baseElement);
+                }
+            }
+
+            // Check for tiers to add
+            foreach (var tier in template.Tiers)
+            {
+                // If a tier has no id, we have to create it
+                if (tier.Id == null) {
+                    baseTemplate.Tiers.Add(tier);
+                }
+            }
+
+            // Check for elements to add
+            foreach (var element in template.Elements)
+            {
+                // If a tier has no id, we have to create it
+                if (element.Id == null) {
+                    baseTemplate.Elements.Add(element);
+                }
+            }
+
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
