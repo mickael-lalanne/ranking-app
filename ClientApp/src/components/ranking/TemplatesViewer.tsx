@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TIERS_COLORS, Template, Tier } from '../../models/Template';
 import { css } from '@emotion/css';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteTemplate, getTemplates } from '../../services/TemplateServices';
+import { getTemplates } from '../../services/TemplateServices';
 
 const TemplatesViewer = (
     { editHandler } : { editHandler: (template: Template) => void }
@@ -21,15 +19,6 @@ const TemplatesViewer = (
                 // TODO: handle errors
             });
     }, []);
-
-    /**
-     * Called when the user clicked on the "Delete" button
-     * Delete the template (both client and server side) 
-     */
-    // const onDeleteClick = async (templateId: number): Promise<void> => {
-    //     await deleteTemplate(templateId);
-    //     setUserTemplates(userTemplates.filter(t => t.id !== templateId));
-    // };
 
     /**
      * Some design to display tiers colors in the template preview
@@ -60,9 +49,6 @@ const TemplatesViewer = (
                 <div className={template_container_style} onClick={() => editHandler(template)}>
                     <div className="app_spacer"></div>
                     <div style={{ padding: '20px' }}>{template.name}</div>
-                        {/* <IconButton edge="end" aria-label="delete" onClick={() => onDeleteClick(template.id!)}>
-                            <DeleteIcon />
-                        </IconButton> */}
                     <div className="app_spacer"></div>
                     {generateTemplateTiersItems(template.tiers)}
                 </div>

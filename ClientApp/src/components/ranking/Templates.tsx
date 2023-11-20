@@ -5,8 +5,10 @@ import { css } from '@emotion/css';
 import AppButton from '../shared/AppButton';
 import AppTitle from '../shared/AppTitle';
 import { ETemplateMode, Template } from '../../models/Template';
-import { createTemplate, updateTemplate } from '../../services/TemplateServices';
+import { createTemplate, deleteTemplate, updateTemplate } from '../../services/TemplateServices';
 import { useTheme } from '@mui/material/styles';
+import { Button } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const VIEWER_TITLE = 'My templates';
 const VIEWER_SUBTITLE = 'Create, Edit or Delete';
@@ -106,6 +108,18 @@ const Templates = () => {
     };
 
     /**
+     * Called when the delete template button has been clicked
+     * Call the server to delete the template in the database
+     */
+    const onDeleteTemplateButtonClick = async (): Promise<void> => {
+        // Todo : show a loading indicator while the template is deleting
+        if (templateToEdit && templateToEdit.id) {
+            await deleteTemplate(templateToEdit.id)
+        }
+        _switchMode(ETemplateMode.Viewer);
+    };
+
+    /**
      * Show Viewer or Builder depending on the current mode
      * @returns {JSX.Element} the Viewer or the Builder React component
      */
@@ -121,9 +135,26 @@ const Templates = () => {
         }
     };
 
+    /**
+     * @returns {JSX.Element} a delete template button only if we are in edit mode
+     */
+    const DeleteTemplateButton = (): JSX.Element => {
+        // Todo : display a confirmation popup when the delete button has been clicked
+        if (templateMode === ETemplateMode.Editor) {
+            return (
+                <Button onClick={onDeleteTemplateButtonClick} className={delete_template_btn_style}>
+                    <DeleteForeverIcon style={{ height: '32px', width: '32px' }} />
+                </Button>
+            );
+        }
+        return <></>;
+    };
+
     return(<>
         <div className={viewer_header_style}>
             <AppTitle title={headerTitle} subtitle={headerSubtitle} />
+            <div className="app_spacer"></div>
+            {DeleteTemplateButton()}
             <AppButton
                 text={headerButtonText}
                 onClickHandler={onHeaderButtonClick}
@@ -144,4 +175,10 @@ const viewer_header_style = css({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
+});
+
+const delete_template_btn_style = css({
+    minWidth: '50px !important',
+    height: '50px',
+    margin: '0 15px !important'
 });
