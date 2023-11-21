@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import TierEditView from './TierEditView';
-import { EEditViewMode, ETemplateMode, TIERS_COLORS, Template, Tier } from '../../models/Template';
+import { EEditViewMode, TIERS_COLORS, Template, Tier } from '../../models/Template';
 import { Element } from '../../models/Element';
 import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
@@ -11,14 +11,14 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AppButton from '../shared/AppButton';
-import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import { ERankingLayoutMode } from '../../models/RankingLayout';
 
 const TemplateEditor = (
     { saveHandler, template, mode }: {
         saveHandler: (templateToCreate: Template) => Promise<void>,
         template?: Template,
-        mode: ETemplateMode
+        mode: ERankingLayoutMode
     }
 ) => {
     const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
@@ -29,20 +29,18 @@ const TemplateEditor = (
     const [elementHovering, setElementHovering] = useState<number>();
     const [editViewMode, setEditViewMode] = useState<EEditViewMode>(EEditViewMode.Hide);
 
-    const theme = useTheme();
-
     /**
      * Called when in Edit mode to set the existing template informations
      */
     useEffect(() => {
-        if (mode === ETemplateMode.Editor && template) {
+        if (mode === ERankingLayoutMode.Editor && template) {
             setTiersToCreate(template.tiers);
             setElementsToCreate(template.elements);
             setTemplateName(template.name);
             setSaveButtonText('Edit template');
         }
 
-        if (mode === ETemplateMode.Builder) {
+        if (mode === ERankingLayoutMode.Builder) {
             setSaveButtonText('Create template');
         }
     }, [mode]);

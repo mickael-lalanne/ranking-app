@@ -92,6 +92,15 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
                                     Templates
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    tag={Link}
+                                    className="text-dark"
+                                    to="/tierlists"
+                                >
+                                    Tierlists
+                                </NavLink>
+                            </NavItem>
                             <LoginMenu></LoginMenu>
                         </ul>
                     </Collapse>
