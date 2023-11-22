@@ -5,14 +5,13 @@ import { EEditViewMode, TIERS_COLORS, Template, Tier } from '../../models/Templa
 import { Element } from '../../models/Element';
 import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
-import TmpElementImg from '../../images/tmp_element_img.png';
 import IconButton from '@mui/material/IconButton';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AppButton from '../shared/AppButton';
 import Button from '@mui/material/Button';
 import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLayout';
+import ElementPreview, { element_container_style } from '../shared/ElementPreview';
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
@@ -22,7 +21,6 @@ const TemplateEditor = (
     const [templateName, setTemplateName] = useState<string>('');
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [tierHovering, setTierHovering] = useState<number>();
-    const [elementHovering, setElementHovering] = useState<number>();
     const [editViewMode, setEditViewMode] = useState<EEditViewMode>(EEditViewMode.Hide);
 
     /**
@@ -139,32 +137,9 @@ const TemplateEditor = (
     const CreatedElements = (): JSX.Element[] => {
         let createdElementsList: JSX.Element[] = [];
 
-        // Show the delete tier button only on hover
-        const DeleteElementButton = (elementId: number): React.JSX.Element | undefined => {
-            if (elementHovering === elementId) {
-                return (
-                    <div className={element_delete_container_style}>
-                        <RemoveCircleOutlineIcon
-                            onClick={() => onElementDeleteButtonClick(elementId)}
-                            className={remove_element_icon_style}
-                        />
-                        <div className={element_delete_bg_style}></div>
-                    </div>
-                );
-            }
-        };
-
         elementsToCreate.forEach(element => {
             createdElementsList.push(
-                <div
-                    className={element_container_style}
-                    onMouseEnter={() => setElementHovering(element.id)}
-                    onMouseLeave={() => setElementHovering(undefined)}
-                >
-                    <img src={TmpElementImg} style={{width: '50px'}} />
-                    <div className="app_text_ellipsis">{element.name}</div>
-                    {DeleteElementButton(element.id!)}
-                </div>
+                <ElementPreview element={element} deleteElementHandler={onElementDeleteButtonClick} />
             );
         });
         return createdElementsList;
@@ -265,20 +240,6 @@ const elements_container_style = css({
     alignItems: 'center'
 });
 
-const element_container_style = css({
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    border: '1px solid',
-    flexDirection: 'column',
-    width: '100px !important',
-    height: '100px !important',
-    padding: '5px !important',
-    margin: '5px !important',
-    justifyContent: 'center',
-    textAlign: 'center'
-});
-
 const tier_rank_style = css({
     padding: '0 20px',
     border: '1px solid black',
@@ -300,36 +261,6 @@ const editor_title_style = css({
 
 const delete_btn_style = css({
     margin: '0 15px !important'
-});
-
-const element_delete_container_style = css({
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1
-});
-
-const element_delete_bg_style = css({
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    opacity: 0.7,
-    backgroundColor: 'black',
-    zIndex: -1
-});
-
-const remove_element_icon_style = css({
-    color: 'white',
-    width: '65px !important',
-    height: '65px !important',
-    cursor: 'pointer'
 });
 
 const footer_style = css({

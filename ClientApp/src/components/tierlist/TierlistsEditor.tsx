@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useAppSelector } from '../../app/hooks';
 import { EditorComponentProps } from '../../models/RankingLayout';
 import RankingGrid from './RankingGrid';
+import ToRankSection from './ToRankSection';
 
 const TierlistsEditor = ({ itemToEdit }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template>();
@@ -53,6 +54,8 @@ const TierlistsEditor = ({ itemToEdit }: EditorComponentProps) => {
             {TemplateSelector()}
 
             <RankingGrid template={selectedTemplate} />
+
+            <ToRankSection template={selectedTemplate} rankedElements={[]} />
         </div>
         <div></div>
     </>);
