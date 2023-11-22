@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TIERS_COLORS, Template, Tier } from '../../models/Template';
 import { css } from '@emotion/css';
-import { getTemplates } from '../../services/TemplateServices';
+import { useAppSelector } from '../../app/hooks';
 
 const TemplatesViewer = (
     { editHandler } : { editHandler: (template: Template) => void }
 ) => {
-    const [userTemplates, setUserTemplates] = useState<Template[]>([]);
-
-    // Called when the component is initialized
-    useEffect(() => {
-        // Get all user templates from the database
-        const fetchTemplates: () => Promise<void> = async () => {
-            setUserTemplates(await getTemplates());
-        };
-        fetchTemplates()
-            .catch(err => {
-                // TODO: handle errors
-            });
-    }, []);
+    // Retrieve user templates from the store
+    const userTemplates: Template[] = useAppSelector((state) => state.templates.templates);
 
     /**
      * Some design to display tiers colors in the template preview

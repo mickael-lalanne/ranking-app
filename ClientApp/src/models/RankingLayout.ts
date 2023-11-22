@@ -5,6 +5,7 @@ import TemplateEditor from '../components/template/TemplateEditor';
 import { createTemplate, deleteTemplate, updateTemplate } from '../services/TemplateServices';
 import TierlistsViewer from '../components/tierlist/TierlistsViewer';
 import TierlistsEditor from '../components/tierlist/TierlistsEditor';
+import { AppDispatch } from '../app/store';
 
 export type RankingType = Template | Tierlist;
 
@@ -32,9 +33,9 @@ export interface RankingLayoutProps {
         template?: Template | undefined;
         mode: ERankingLayoutMode;
     }) => React.JSX.Element;
-    createFunction: (itemToCreate: RankingType) => Promise<any>;
-    updateFunction: (itemToUpdate: RankingType) => Promise<any>;
-    deleteFunction: (itemIdToDelete: number) => Promise<any>;
+    createFunction: (itemToCreate: RankingType, dispatch: AppDispatch) => Promise<any>;
+    updateFunction: (itemToUpdate: RankingType, dispatch: AppDispatch) => Promise<any>;
+    deleteFunction: (itemIdToDelete: number, dispatch: AppDispatch) => Promise<any>;
 }
 
 
@@ -50,8 +51,8 @@ export const TEMPLATE_LAYOUT_PROPS: RankingLayoutProps = {
     editorBtnText: 'Cancel',
     ViewerComponent: TemplatesViewer,
     EditorComponent: TemplateEditor,
-    createFunction: createTemplate as (templateToCreate: any) => Promise<any>,
-    updateFunction: updateTemplate as (templateToUpdate: any) => Promise<any>,
+    createFunction: createTemplate as (templateToCreate: any, dispatch: AppDispatch) => Promise<any>,
+    updateFunction: updateTemplate as (templateToUpdate: any, dispatch: AppDispatch) => Promise<any>,
     deleteFunction: deleteTemplate
 };
 

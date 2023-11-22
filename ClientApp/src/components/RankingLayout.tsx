@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/css';
 import AppButton from './shared/AppButton';
 import AppTitle from './shared/AppTitle';
@@ -6,6 +6,8 @@ import { useTheme } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { ERankingLayoutMode, RankingLayoutProps, RankingType } from '../models/RankingLayout';
+import { getTemplates } from '../services/TemplateServices';
+import { useAppDispatch } from '../app/hooks';
 
 const RankingLayout = (
     {
@@ -25,6 +27,18 @@ const RankingLayout = (
     const [headerButtonText, setHeaderButtonText] = useState<string>(viewerBtnText);
     const [headerButtonColor, setHeaderButtonColor] = useState<string>();
     const [itemToEdit, setItemToEdit] = useState<RankingType>();
+
+    const dispatch = useAppDispatch();
+
+    // Called when the component is initialized
+    useEffect(() => {
+        // Get all user templates from the database
+        const fetchTemplates: () => Promise<void> = async () => await getTemplates(dispatch);
+        fetchTemplates()
+            .catch(err => {
+                // TODO: handle errors
+            });
+    }, []);
 
     const theme = useTheme();
 
@@ -93,11 +107,11 @@ const RankingLayout = (
         // Todo: show a loading indicator while the server is updating
 
         if (rankingLayoutMode === ERankingLayoutMode.Builder) {
-            await createFunction(newItem);
+            await createFunction(newItem, dispatch);
         }
 
         if (rankingLayoutMode === ERankingLayoutMode.Editor) {
-            await updateFunction(newItem);
+            await updateFunction(newItem, dispatch);
         }
 
         _switchMode(ERankingLayoutMode.Viewer);
@@ -110,7 +124,7 @@ const RankingLayout = (
     const onDeleteItemButtonClick = async (): Promise<void> => {
         // Todo : show a loading indicator while the item is deleting
         if (itemToEdit && itemToEdit.id) {
-            await deleteFunction(itemToEdit.id)
+            await deleteFunction(itemToEdit.id, dispatch)
         }
         _switchMode(ERankingLayoutMode.Viewer);
     };

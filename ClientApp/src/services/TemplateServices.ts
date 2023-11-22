@@ -1,16 +1,29 @@
+import { useAppDispatch } from "../app/hooks";
+import { AppDispatch } from "../app/store";
 import { Template } from "../models/Template";
+import {
+    addTemplate as addTemplateInStore,
+    init,
+    removeTemplate as removeTemplateInStore,
+    updateTemplate as updateTemplateInStore
+} from "../store/TemplateStore";
 import { isTemporaryId } from "./Util";
 
 const TEMPLATE_ENDPOINT: string = 'template';
 
 // GET ALL
-export const getTemplates = async (): Promise<Template[]> => {
-    const templatesResponse = await fetch(TEMPLATE_ENDPOINT);
-    return await templatesResponse.json();
+export const getTemplates = async (dispatch: AppDispatch): Promise<void> => {
+    const templatesResponse: Response = await fetch(TEMPLATE_ENDPOINT);
+    const allUserTemplates: Template[] = await templatesResponse.json();
+    // Save user templates in the store
+    dispatch(init(allUserTemplates));
 };
 
 // POST
-export const createTemplate = async (templateToCreate: Template): Promise<Template> => {
+export const createTemplate = async (
+    templateToCreate: Template,
+    dispatch: AppDispatch
+): Promise<Template> => {
     _removeTmpIds(templateToCreate);
 
     const requestOptions: RequestInit = {
@@ -19,17 +32,29 @@ export const createTemplate = async (templateToCreate: Template): Promise<Templa
         body: JSON.stringify(templateToCreate)
     };
 
-    const serverResponse = await fetch(TEMPLATE_ENDPOINT, requestOptions);
-    return await serverResponse.json();
+    const serverResponse: Response = await fetch(TEMPLATE_ENDPOINT, requestOptions);
+    const createdTemplated: Template = await serverResponse.json();
+    // Save the created template in the store
+    dispatch(addTemplateInStore(createdTemplated));
+
+    return createdTemplated;
 }
 
 // DELETE
-export const deleteTemplate = async (templateId: number): Promise<void> => {
+export const deleteTemplate = async (
+    templateId: number,
+    dispatch: AppDispatch
+): Promise<void> => {
     await fetch(`${TEMPLATE_ENDPOINT}/${templateId}`, { method: 'DELETE' });
+    // Once template is deleted in base, remove it from the store
+    dispatch(removeTemplateInStore(templateId));
 };
 
 // PUT
-export const updateTemplate = async (templateToUpdate: Template): Promise<Response> => {
+export const updateTemplate = async (
+    templateToUpdate: Template,
+    dispatch: AppDispatch
+): Promise<void> => {
     _removeTmpIds(templateToUpdate);
 
     const requestOptions: RequestInit = {
@@ -38,7 +63,9 @@ export const updateTemplate = async (templateToUpdate: Template): Promise<Respon
         body: JSON.stringify(templateToUpdate)
     };
 
-    return await fetch(`${TEMPLATE_ENDPOINT}/${templateToUpdate.id}`, requestOptions);
+    await fetch(`${TEMPLATE_ENDPOINT}/${templateToUpdate.id}`, requestOptions);
+    // Once template is updated in base, update the store
+    dispatch(updateTemplateInStore(templateToUpdate)); 
 }
 
 /**
