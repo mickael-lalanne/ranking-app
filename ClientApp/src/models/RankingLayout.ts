@@ -15,6 +15,14 @@ export enum ERankingLayoutMode {
     Editor = 'editor'
 };
 
+type EditorComponent = ({ saveHandler, itemToEdit, mode }: EditorComponentProps) => React.JSX.Element;
+
+export interface EditorComponentProps {
+    saveHandler: (templateToCreate: Template) => Promise<void>;
+    itemToEdit?: Template | Tierlist | undefined;
+    mode: ERankingLayoutMode;
+};
+
 export interface RankingLayoutProps {
     viewerTitle: string;
     viewerSubtitle: string;
@@ -28,11 +36,7 @@ export interface RankingLayoutProps {
     ViewerComponent: ({ editHandler }: {
         editHandler: (template: Template) => void;
     }) => React.JSX.Element;
-    EditorComponent: ({ saveHandler, template, mode }: {
-        saveHandler: (templateToCreate: Template) => Promise<void>;
-        template?: Template | undefined;
-        mode: ERankingLayoutMode;
-    }) => React.JSX.Element;
+    EditorComponent: EditorComponent;
     createFunction: (itemToCreate: RankingType, dispatch: AppDispatch) => Promise<any>;
     updateFunction: (itemToUpdate: RankingType, dispatch: AppDispatch) => Promise<any>;
     deleteFunction: (itemIdToDelete: number, dispatch: AppDispatch) => Promise<any>;

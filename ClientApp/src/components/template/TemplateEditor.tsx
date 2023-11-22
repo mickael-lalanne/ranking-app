@@ -12,14 +12,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AppButton from '../shared/AppButton';
 import Button from '@mui/material/Button';
-import { ERankingLayoutMode } from '../../models/RankingLayout';
+import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLayout';
 
 const TemplateEditor = (
-    { saveHandler, template, mode }: {
-        saveHandler: (templateToCreate: Template) => Promise<void>,
-        template?: Template,
-        mode: ERankingLayoutMode
-    }
+    { saveHandler, itemToEdit, mode }: EditorComponentProps
 ) => {
     const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
     const [elementsToCreate, setElementsToCreate] = useState<Element[]>([]);
@@ -33,10 +29,10 @@ const TemplateEditor = (
      * Called when in Edit mode to set the existing template informations
      */
     useEffect(() => {
-        if (mode === ERankingLayoutMode.Editor && template) {
-            setTiersToCreate(template.tiers);
-            setElementsToCreate(template.elements);
-            setTemplateName(template.name);
+        if (mode === ERankingLayoutMode.Editor && itemToEdit) {
+            setTiersToCreate((itemToEdit as Template).tiers);
+            setElementsToCreate((itemToEdit as Template).elements);
+            setTemplateName((itemToEdit as Template).name);
             setSaveButtonText('Edit template');
         }
 
@@ -72,7 +68,7 @@ const TemplateEditor = (
      */
     const onSaveButtonClick = (): void => {
         const templateToSave: Template = {
-            ...template,
+            ...itemToEdit as Template,
             name: templateName,
             tiers: tiersToCreate,
             elements: elementsToCreate
@@ -101,9 +97,11 @@ const TemplateEditor = (
      * @returns {JSX.Element[]} array of created tiers elements
      */
     const CreatedTiers = (): JSX.Element[] => {
+        console.log('#CreatedTiers#');
+        console.log(tiersToCreate);
         let createdTiersList: JSX.Element[] = [];
         // Sort tiers by rank
-        const sortedTiers: Tier[] = tiersToCreate.sort((a, b) => a.rank - b.rank);
+        const sortedTiers: Tier[] = tiersToCreate.slice().sort((a, b) => a.rank - b.rank);
 
         // Show the delete tier button only on hover
         const DeleteTierButton = (tierId: number): React.JSX.Element | undefined => {

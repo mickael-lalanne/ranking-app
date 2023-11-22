@@ -139,7 +139,7 @@ const RankingLayout = (
             case ERankingLayoutMode.Editor:
                 return <EditorComponent
                     saveHandler={saveHandler}
-                    template={itemToEdit as any}
+                    itemToEdit={itemToEdit}
                     mode={rankingLayoutMode}
                 />;
 
