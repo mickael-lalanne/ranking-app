@@ -4,9 +4,11 @@ import { Element } from '../../models/Element';
 import TmpElementImg from '../../images/tmp_element_img.png';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
-const ElementPreview = ({ element, deleteElementHandler }: {
+const ElementPreview = ({ element, deleteElementHandler, dragStartHandler, dragEndHandler }: {
     element: Element,
     deleteElementHandler?: (elementId: number) => void,
+    dragStartHandler?: (element: Element) => void,
+    dragEndHandler?: () => void
 }) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
 
@@ -30,6 +32,9 @@ const ElementPreview = ({ element, deleteElementHandler }: {
             className={element_container_style}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
+            onDragStart={e => dragStartHandler ? dragStartHandler(element) : undefined}
+            onDragEnd={() => dragEndHandler ? dragEndHandler() : undefined}
+            onDragOver={e => e.preventDefault()}
         >
             <img src={TmpElementImg} style={{width: '50px'}} />
             <div className="app_text_ellipsis">{element.name}</div>

@@ -4,14 +4,16 @@ import { Template } from '../../models/Template';
 import { Element, RankedElement } from '../../models/Element';
 import ElementPreview from '../shared/ElementPreview';
 
-const ToRankSection = ({ template, rankedElements }: {
+const ToRankSection = ({ template, rankedElements, dragStartHandler, dragEndHandler }: {
     template?: Template,
-    rankedElements: RankedElement[]
+    rankedElements: RankedElement[],
+    dragStartHandler: (element: Element) => void,
+    dragEndHandler: () => void,
 }) => {
     const [notRankedElements, setNotRankedElements] = useState<Element[]>([]);
 
     /**
-     * Called when the selected template has changed
+     * Called when the selected template has changed or when a element has been ranked
      * Determine all not ranked elements
      */
     useEffect(() => {
@@ -21,14 +23,18 @@ const ToRankSection = ({ template, rankedElements }: {
             );
             setNotRankedElements(notRankedElements);
         }
-    }, [template]);
+    }, [template, rankedElements]);
 
     const ElementsList = (): React.JSX.Element[] => {
         const list: React.JSX.Element[] = [];
 
         notRankedElements.forEach(element => {
             list.push(
-                <ElementPreview element={element} />
+                <ElementPreview
+                    element={element}
+                    dragStartHandler={dragStartHandler}
+                    dragEndHandler={dragEndHandler}
+                />
             );
         });
 
