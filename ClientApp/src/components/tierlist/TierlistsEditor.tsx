@@ -50,7 +50,20 @@ const TierlistsEditor = ({ itemToEdit }: EditorComponentProps) => {
     const onElementDrop = (tierId: number, position: number): void => {
         if (draggedElement && draggedElement.id) {
             const newRankedElement: RankedElement = { elementId: draggedElement.id, tierId, position};
-            setRankedElements(rankedElements.concat(newRankedElement));
+
+            const rankedEltIndex: number = rankedElements.findIndex(
+                elt => elt.elementId === newRankedElement.elementId
+            );
+
+            // If element has been dropped for the not ranked list, add it to the rankedElements array
+            if (rankedEltIndex === -1) {
+                setRankedElements(rankedElements.concat(newRankedElement));
+            }
+            //  If the element has already been ranked, when its position has been changed, update the rankedElements array
+            else {
+                rankedElements[rankedEltIndex] = newRankedElement;
+                setRankedElements(rankedElements);
+            }
         }
 
         setDraggedElement(undefined);
@@ -89,6 +102,8 @@ const TierlistsEditor = ({ itemToEdit }: EditorComponentProps) => {
                 template={selectedTemplate}
                 rankedElements={rankedElements}
                 dropHandler={onElementDrop}
+                dragStartHandler={onElementDragStart}
+                dragEndHandler={onElementDragEnd}
             />
 
             <ToRankSection
