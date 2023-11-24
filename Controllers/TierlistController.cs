@@ -21,7 +21,9 @@ public class TierlistController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TierlistModel>>> GetTierlists()
     {
-        return await _context.Tierlists.ToListAsync();
+        return await _context.Tierlists
+            .Include(tierlist => tierlist.RankedElements)
+            .ToListAsync();
     }
 
     [HttpGet("{id}")]
