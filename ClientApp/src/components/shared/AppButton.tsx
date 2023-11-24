@@ -3,7 +3,12 @@ import { css } from '@emotion/css';
 import { useTheme } from '@mui/material/styles';
 
 const AppButton = (
-    { text, onClickHandler, color } : { text: string; onClickHandler: () => void, color?: string }
+    { text, onClickHandler, color, disabled = false } : {
+        text: string;
+        onClickHandler: () => void,
+        color?: string,
+        disabled?: boolean
+    }
 ) => {
     const theme = useTheme();
     const [btnColor, setBtnColor] = useState<string>(theme.defaultRankingTheme.primary);
@@ -16,7 +21,15 @@ const AppButton = (
     }, [color]);
 
     return(
-        <button className={add_btn_pushable} role="button" onClick={onClickHandler}>
+        <button
+            className={`
+                ${add_btn_pushable}
+                ${disabled ? add_btn_disable : ''}
+            `}
+            role="button"
+            onClick={onClickHandler}
+            disabled={disabled}
+        >
             <span className={add_btn_shadow + ' add_btn_shadow'}></span>
             <span className={app_add_btn_edge} style={{ background: btnColor }}></span>
             <span
@@ -118,3 +131,10 @@ const app_add_btn_front = css`
         cubic-bezier(.3, .7, .4, 1);
     border: 1px solid black;
 `;
+
+const add_btn_disable = css({
+    filter: 'grayscale(1)',
+    pointerEvents: 'none',
+    userSelect: 'none',
+    opacity: 0.5
+});

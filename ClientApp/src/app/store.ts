@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { templateSlice } from '../store/TemplateStore';
+import { tierlistSlice } from '../store/TierlistStore';
 
 const store = configureStore({
     reducer: {
-        templates: templateSlice.reducer
+        templates: templateSlice.reducer,
+        tierlists: tierlistSlice.reducer
     },
 });
 

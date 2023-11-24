@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/css';
 import { Template } from '../../models/Template';
 import { Element, RankedElement } from '../../models/Element';
@@ -8,11 +8,18 @@ import { useAppSelector } from '../../app/hooks';
 import { EditorComponentProps } from '../../models/RankingLayout';
 import RankingGrid from './RankingGrid';
 import ToRankSection from './ToRankSection';
+import AppButton from '../shared/AppButton';
+import { Tierlist } from '../../models/Tierlist';
 
-const TierlistsEditor = ({ itemToEdit }: EditorComponentProps) => {
+const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template>();
     const [draggedElement, setDraggedElement] = useState<Element>();
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
+    const [saveButtonText, setSaveButtonText] = useState<string>('');
+
+    useEffect(() => {
+        setSaveButtonText(itemToEdit ? 'Save changes' : 'Create tierlist');
+    }, [mode]);
 
     // Retrieve user templates from the store
     const allUserTemplates: Template[] = useAppSelector((state) => state.templates.templates);
@@ -70,6 +77,21 @@ const TierlistsEditor = ({ itemToEdit }: EditorComponentProps) => {
     };
 
     /**
+     * Called when the save button has been clicked
+     */
+    const onSaveButtonClick = (): void => {
+        if (selectedTemplate && selectedTemplate.id) {
+            const tierlistToSave: Tierlist = {
+                ...itemToEdit as Tierlist,
+                name: 'Todo',
+                rankedElements: rankedElements,
+                templateId: selectedTemplate.id
+            };
+            saveHandler(tierlistToSave);
+        }
+    };
+
+    /**
      * @returns {React.JSX.Element} a Select HTML Element to choose the template used for the tierlist
      */
     const TemplateSelector = (): React.JSX.Element => {
@@ -113,7 +135,15 @@ const TierlistsEditor = ({ itemToEdit }: EditorComponentProps) => {
                 dragEndHandler={onElementDragEnd}
             />
         </div>
-        <div></div>
+        
+        <div className={footer_style}>
+            <div className="app_spacer"></div>
+            <AppButton
+                text={saveButtonText}
+                onClickHandler={onSaveButtonClick}
+                disabled={!selectedTemplate}
+            />
+        </div>
     </>);
 };
 
@@ -126,4 +156,9 @@ const template_select_style = css({
     height: '40px',
     width: '100%',
     marginBottom: '40px !important'
+});
+
+const footer_style = css({
+    display: 'flex',
+    margin: '20px 0'
 });

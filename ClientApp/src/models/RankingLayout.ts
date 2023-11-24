@@ -6,6 +6,7 @@ import { createTemplate, deleteTemplate, updateTemplate } from '../services/Temp
 import TierlistsViewer from '../components/tierlist/TierlistsViewer';
 import TierlistsEditor from '../components/tierlist/TierlistsEditor';
 import { AppDispatch } from '../app/store';
+import { createTierlist, deleteTierlist, updateTierlist } from '../services/TierlistServices';
 
 export type RankingType = Template | Tierlist;
 
@@ -18,7 +19,7 @@ export enum ERankingLayoutMode {
 type EditorComponent = ({ saveHandler, itemToEdit, mode }: EditorComponentProps) => React.JSX.Element;
 
 export interface EditorComponentProps {
-    saveHandler: (templateToCreate: Template) => Promise<void>;
+    saveHandler: (itemToSave: Template | Tierlist) => Promise<void>;
     itemToEdit?: Template | Tierlist | undefined;
     mode: ERankingLayoutMode;
 };
@@ -55,8 +56,8 @@ export const TEMPLATE_LAYOUT_PROPS: RankingLayoutProps = {
     editorBtnText: 'Cancel',
     ViewerComponent: TemplatesViewer,
     EditorComponent: TemplateEditor,
-    createFunction: createTemplate as (templateToCreate: any, dispatch: AppDispatch) => Promise<any>,
-    updateFunction: updateTemplate as (templateToUpdate: any, dispatch: AppDispatch) => Promise<any>,
+    createFunction: createTemplate as (templateToCreate: RankingType, dispatch: AppDispatch) => Promise<Template>,
+    updateFunction: updateTemplate as (templateToUpdate: RankingType, dispatch: AppDispatch) => Promise<void>,
     deleteFunction: deleteTemplate
 };
 
@@ -72,7 +73,7 @@ export const TIERLIST_LAYOUT_PROPS: RankingLayoutProps = {
     editorBtnText: 'Cancel',
     ViewerComponent: TierlistsViewer,
     EditorComponent: TierlistsEditor,
-    createFunction: () => new Promise(() => {}), // TODO
-    updateFunction: () => new Promise(() => {}), // TODO,
-    deleteFunction: () => new Promise(() => {}), // TODO
+    createFunction: createTierlist as (tierlistToCreate: RankingType) => Promise<Tierlist>,
+    updateFunction: updateTierlist as (tierlistToUpdate: RankingType) => Promise<Response>,
+    deleteFunction: deleteTierlist
 };

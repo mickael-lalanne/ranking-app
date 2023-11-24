@@ -8,6 +8,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { ERankingLayoutMode, RankingLayoutProps, RankingType } from '../models/RankingLayout';
 import { getTemplates } from '../services/TemplateServices';
 import { useAppDispatch } from '../app/hooks';
+import { getTierlists } from '../services/TierlistServices';
+import TierlistsViewer from './tierlist/TierlistsViewer';
 
 const RankingLayout = (
     {
@@ -40,6 +42,18 @@ const RankingLayout = (
             });
     }, []);
 
+    // Called when the user come to the Tierlists page
+    useEffect(() => {
+        if (ViewerComponent && ViewerComponent.name === TierlistsViewer.name) {
+            // Get all user tierlists from the database
+            const fetchTierlists: () => Promise<void> = async () => await getTierlists(dispatch);
+            fetchTierlists()
+                .catch(err => {
+                    // TODO: handle errors
+                });
+            }
+    }, [ViewerComponent]);
+
     const theme = useTheme();
 
     /**
@@ -65,7 +79,7 @@ const RankingLayout = (
             case ERankingLayoutMode.Viewer:
                 setHeaderTitle(viewerTitle);
                 setHeaderSubtitle(viewerSubtitle);
-                setHeaderButtonText(viewerSubtitle);
+                setHeaderButtonText(viewerBtnText);
                 setHeaderButtonColor(theme.defaultRankingTheme.primary);
                 break;
         }
