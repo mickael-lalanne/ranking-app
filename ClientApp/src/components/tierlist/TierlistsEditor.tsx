@@ -11,14 +11,31 @@ import ToRankSection from './ToRankSection';
 import AppButton from '../shared/AppButton';
 import { Tierlist } from '../../models/Tierlist';
 
+// Hack : without an empty template used in the useState default value,
+// mui select won't display the value when a tierlist is edited
+// That's because when you pass a value to TextField component with undefined,
+// the TextField component will assume that is an uncontrolled component.
+// Cf https://stackoverflow.com/questions/63567876/react-hooks-not-setting-the-select-value-after-fetching-options
+const emptyTemplate: Template = { id: -1, name: '', tiers: [], elements: []};
+
 const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
-    const [selectedTemplate, setSelectedTemplate] = useState<Template>();
+    const [selectedTemplate, setSelectedTemplate] = useState<Template | undefined>(emptyTemplate);
     const [draggedElement, setDraggedElement] = useState<Element>();
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
 
     useEffect(() => {
         setSaveButtonText(itemToEdit ? 'Save changes' : 'Create tierlist');
+
+        if (itemToEdit) {
+            const templateToSelect: Template | undefined = allUserTemplates.find(
+                t => t.id === (itemToEdit as Tierlist).templateId
+            );
+            if (templateToSelect) {
+                setSelectedTemplate(templateToSelect);
+            }
+            setRankedElements((itemToEdit as Tierlist).rankedElements);
+        }
     }, [mode]);
 
     // Retrieve user templates from the store
@@ -68,8 +85,9 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
             }
             //  If the element has already been ranked, when its position has been changed, update the rankedElements array
             else {
-                rankedElements[rankedEltIndex] = newRankedElement;
-                setRankedElements(rankedElements);
+                const rankedElementCopy: RankedElement[] = rankedElements.slice();
+                rankedElementCopy[rankedEltIndex] = newRankedElement;
+                setRankedElements(rankedElementCopy);
             }
         }
 
@@ -105,7 +123,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
 
         return (
             <TextField
-                value={selectedTemplate?.name}
+                value={selectedTemplate?.id}
                 className={template_select_style}
                 label="Template"
                 select

@@ -17,11 +17,16 @@ export enum ERankingLayoutMode {
 };
 
 type EditorComponent = ({ saveHandler, itemToEdit, mode }: EditorComponentProps) => React.JSX.Element;
+type ViewerComponent = ({ editHandler }: ViewerComponentProps) => React.JSX.Element;
 
 export interface EditorComponentProps {
-    saveHandler: (itemToSave: Template | Tierlist) => Promise<void>;
-    itemToEdit?: Template | Tierlist | undefined;
+    saveHandler: (itemToSave: RankingType) => Promise<void>;
+    itemToEdit?: RankingType | undefined;
     mode: ERankingLayoutMode;
+};
+
+export interface ViewerComponentProps {
+    editHandler: (itemToEdit: RankingType) => void;
 };
 
 export interface RankingLayoutProps {
@@ -34,9 +39,7 @@ export interface RankingLayoutProps {
     editorTitle: string;
     editorSubtitle: string;
     editorBtnText: string;
-    ViewerComponent: ({ editHandler }: {
-        editHandler: (template: Template) => void;
-    }) => React.JSX.Element;
+    ViewerComponent: ViewerComponent;
     EditorComponent: EditorComponent;
     createFunction: (itemToCreate: RankingType, dispatch: AppDispatch) => Promise<any>;
     updateFunction: (itemToUpdate: RankingType, dispatch: AppDispatch) => Promise<any>;
@@ -74,6 +77,6 @@ export const TIERLIST_LAYOUT_PROPS: RankingLayoutProps = {
     ViewerComponent: TierlistsViewer,
     EditorComponent: TierlistsEditor,
     createFunction: createTierlist as (tierlistToCreate: RankingType) => Promise<Tierlist>,
-    updateFunction: updateTierlist as (tierlistToUpdate: RankingType) => Promise<Response>,
+    updateFunction: updateTierlist as (tierlistToUpdate: RankingType) => Promise<void>,
     deleteFunction: deleteTierlist
 };

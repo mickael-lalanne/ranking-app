@@ -31,7 +31,7 @@ export const createTierlist = async (
     const serverResponse = await fetch(TIERLIST_ENDPOINT, requestOptions);
     const createdTierlist: Tierlist = await serverResponse.json();
     
-    // Save the created template in the store
+    // Save the created tierlist in the store
     dispatch(addTierlistInStore(createdTierlist));
 
     return createdTierlist;
@@ -43,12 +43,18 @@ export const deleteTierlist = async (tierlistId: number): Promise<void> => {
 };
 
 // PUT
-export const updateTierlist = async (tierlistToUpdate: Tierlist): Promise<Response> => {
+export const updateTierlist = async (
+    tierlistToUpdate: Tierlist,
+    dispatch: AppDispatch
+): Promise<void> => {
     const requestOptions: RequestInit = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tierlistToUpdate)
     };
 
-    return await fetch(`${TIERLIST_ENDPOINT}/${tierlistToUpdate.id}`, requestOptions);
+    await fetch(`${TIERLIST_ENDPOINT}/${tierlistToUpdate.id}`, requestOptions);
+
+    // Once tierlist is updated in base, update the store
+    dispatch(updateTierlistInStore(tierlistToUpdate)); 
 }

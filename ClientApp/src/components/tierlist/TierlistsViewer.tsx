@@ -4,8 +4,9 @@ import { Tierlist } from '../../models/Tierlist';
 import { useAppSelector } from '../../app/hooks';
 import { Template } from '../../models/Template';
 import RankingGrid from './RankingGrid';
+import { ViewerComponentProps } from '../../models/RankingLayout';
 
-const TierlistsViewer = () => {
+const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user tierlists from the store
     const userTierlists: Tierlist[] = useAppSelector((state) => state.tierlists.tierlists);
     const userTemplates: Template[] = useAppSelector((state) => state.templates.templates);
@@ -26,7 +27,7 @@ const TierlistsViewer = () => {
 
         userTierlists.forEach(tierlist => {
             tierlists.push(
-                <div className={tierlist_element_style}>
+                <div className={tierlist_element_style} onClick={() => editHandler(tierlist)}>
                     {TierlistPreview(tierlist)}
                     <div className={tierlist_title_style}>{tierlist.name}</div>
                 </div>
