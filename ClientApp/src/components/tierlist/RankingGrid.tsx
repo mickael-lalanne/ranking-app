@@ -4,12 +4,13 @@ import { TIERS_COLORS, Template } from '../../models/Template';
 import { RankedElement, Element } from '../../models/Element';
 import ElementPreview from '../shared/ElementPreview';
 
-const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler }: {
+const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler, readonly = false }: {
     template?: Template,
     rankedElements: RankedElement[],
-    dropHandler: (tierId: number, rank: number) => void,
-    dragStartHandler: (element: Element) => void,
-    dragEndHandler: () => void
+    dropHandler?: (tierId: number, rank: number) => void,
+    dragStartHandler?: (element: Element) => void,
+    dragEndHandler?: () => void,
+    readonly?: boolean
 }) => {
     /**
      * @param {number} tierId necessary for the drop handler
@@ -38,6 +39,7 @@ const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, 
                         element={elementObject}
                         dragStartHandler={dragStartHandler}
                         dragEndHandler={dragEndHandler}
+                        readonly={readonly}
                     />
                 );
             }
@@ -49,9 +51,10 @@ const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, 
                 <div
                     className={tier_cell_style}
                     key={cell}
-                    onDrop={() => dropHandler(tierId, cell)}
+                    onDrop={() => dropHandler ? dropHandler(tierId, cell) : undefined}
                     onDragOver={e => e.preventDefault()}
                     onDragEnter={e => e.preventDefault()}
+                    draggable={!readonly}
                 >
                     {ElementInCell(cell)}
                 </div>
@@ -96,7 +99,8 @@ const tiers_grid_style = css({
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '530px',
-    margin: 'auto'
+    margin: 'auto',
+    width: '100%'
 });
 
 const tier_line_style = css({
@@ -107,5 +111,6 @@ const tier_line_style = css({
 
 const tier_cell_style = css({
     width: '20%',
-    aspectRatio: '1 / 1'
+    aspectRatio: '1 / 1',
+    padding: '5px'
 });

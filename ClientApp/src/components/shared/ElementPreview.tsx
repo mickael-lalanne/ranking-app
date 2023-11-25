@@ -4,11 +4,12 @@ import { Element } from '../../models/Element';
 import TmpElementImg from '../../images/tmp_element_img.png';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
-const ElementPreview = ({ element, deleteElementHandler, dragStartHandler, dragEndHandler }: {
+const ElementPreview = ({ element, deleteElementHandler, dragStartHandler, dragEndHandler, readonly = false }: {
     element: Element,
     deleteElementHandler?: (elementId: number) => void,
     dragStartHandler?: (element: Element) => void,
-    dragEndHandler?: () => void
+    dragEndHandler?: () => void,
+    readonly?: boolean
 }) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
 
@@ -35,8 +36,9 @@ const ElementPreview = ({ element, deleteElementHandler, dragStartHandler, dragE
             onDragStart={e => dragStartHandler ? dragStartHandler(element) : undefined}
             onDragEnd={() => dragEndHandler ? dragEndHandler() : undefined}
             onDragOver={e => e.preventDefault()}
+            draggable={!readonly}
         >
-            <img src={TmpElementImg} style={{width: '50px'}} />
+            <img src={TmpElementImg} className={element_img_style} />
             <div className="app_text_ellipsis">{element.name}</div>
             {DeleteElementButton(element.id!)}
         </div>
@@ -54,10 +56,8 @@ export const element_container_style = css({
     position: 'relative',
     border: '1px solid',
     flexDirection: 'column',
-    width: '100px !important',
-    height: '100px !important',
+    height: '100% !important',
     padding: '5px !important',
-    margin: '5px !important',
     justifyContent: 'center',
     textAlign: 'center'
 });
@@ -90,4 +90,11 @@ const remove_element_icon_style = css({
     width: '65px !important',
     height: '65px !important',
     cursor: 'pointer'
+});
+
+const element_img_style = css({
+    maxWidth: '100%',
+    maxHeight: '100%',
+    height: 'auto',
+    width: 'auto'
 });
