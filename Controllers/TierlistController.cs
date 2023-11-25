@@ -62,6 +62,11 @@ public class TierlistController : ControllerBase
 
         _context.Entry(tierlist).State = EntityState.Modified;
 
+        // Update the ranked elements
+        tierlist.RankedElements.ToList().ForEach(rankedElement =>
+            _context.Entry(rankedElement).State = EntityState.Modified
+        );
+
         try
         {
             await _context.SaveChangesAsync();
