@@ -59,7 +59,9 @@ export const element_container_style = css({
     height: '100% !important',
     padding: '5px !important',
     justifyContent: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
+    aspectRatio: 1,
+    width: 'fit-content'
 });
 
 const element_delete_container_style = css({

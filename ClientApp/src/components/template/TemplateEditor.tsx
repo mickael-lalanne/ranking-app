@@ -169,7 +169,7 @@ const TemplateEditor = (
         return (
             <Button
                 variant="contained"
-                className={add_tier_btn_style + ' ' + element_container_style}
+                className={add_tier_btn_style + ' ' + element_container_style + ' ' + add_elt_btn_style}
                 onClick={() => setEditViewMode(EEditViewMode.EditElement)}
             >
                 <AddCircleOutlineIcon style={{ width: '60px', height: '60px' }} />
@@ -236,7 +236,8 @@ const tier_container_style = css({
 
 const elements_container_style = css({
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '75px'
 });
 
 const tier_rank_style = css({
@@ -271,4 +272,9 @@ const add_tier_btn_style = css({
     marginTop: TIER_MARGIN_TOP,
     width: '100%',
     height: TIER_HEIGHT
+});
+
+const add_elt_btn_style = css({
+    margin: '0 !important',
+    width: 'auto'
 });
