@@ -95,8 +95,6 @@ const TemplateEditor = (
      * @returns {JSX.Element[]} array of created tiers elements
      */
     const CreatedTiers = (): JSX.Element[] => {
-        console.log('#CreatedTiers#');
-        console.log(tiersToCreate);
         let createdTiersList: JSX.Element[] = [];
         // Sort tiers by rank
         const sortedTiers: Tier[] = tiersToCreate.slice().sort((a, b) => a.rank - b.rank);
@@ -116,6 +114,7 @@ const TemplateEditor = (
             createdTiersList.push(
                 <div
                     className={tier_container_style}
+                    key={tier.id}
                     style={{backgroundColor: TIERS_COLORS[tier.rank]}}
                     onMouseEnter={() => setTierHovering(tier.id)}
                     onMouseLeave={() => setTierHovering(undefined)}
@@ -139,7 +138,7 @@ const TemplateEditor = (
 
         elementsToCreate.forEach(element => {
             createdElementsList.push(
-                <ElementPreview element={element} deleteElementHandler={onElementDeleteButtonClick} />
+                <ElementPreview element={element} key={element.id} deleteElementHandler={onElementDeleteButtonClick} />
             );
         });
         return createdElementsList;
