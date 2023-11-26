@@ -10,6 +10,7 @@ import { getTemplates } from '../services/TemplateServices';
 import { useAppDispatch } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
 import TierlistsViewer from './tierlist/TierlistsViewer';
+import { useLocation } from 'react-router-dom';
 
 const RankingLayout = (
     {
@@ -31,6 +32,7 @@ const RankingLayout = (
     const [itemToEdit, setItemToEdit] = useState<RankingType>();
 
     const dispatch = useAppDispatch();
+    const location = useLocation();
 
     // Called when the component is initialized
     useEffect(() => {
@@ -53,6 +55,13 @@ const RankingLayout = (
                 });
             }
     }, [ViewerComponent]);
+
+    // Called when the url has changed
+    // For example, user goes from Templates page to Tierlists page
+    useEffect(() => {
+        // Update header and buttons values
+       _switchMode(ERankingLayoutMode.Viewer);
+    }, [location]);
 
     const theme = useTheme();
 
