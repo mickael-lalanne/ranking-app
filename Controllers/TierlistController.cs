@@ -89,7 +89,10 @@ public class TierlistController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTierlist(int id)
     {
-        var tierlist = await _context.Tierlists.FindAsync(id);
+        var tierlist = await _context.Tierlists
+            .Where(tierlist => tierlist.Id == id)
+            .Include(tierlist => tierlist.RankedElements)
+            .FirstAsync();
 
         if (tierlist == null)
         {
