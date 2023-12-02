@@ -8,7 +8,6 @@ import {
     NavLink,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { LoginMenu } from './api-authorization/LoginMenu';
 import './NavMenu.css';
 
 interface IRecipeProps {
@@ -78,15 +77,6 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
                                 <NavLink
                                     tag={Link}
                                     className="text-dark"
-                                    to="/fetch-data"
-                                >
-                                    Fetch data
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    tag={Link}
-                                    className="text-dark"
                                     to="/templates"
                                 >
                                     Templates
@@ -101,7 +91,6 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
                                     Tierlists
                                 </NavLink>
                             </NavItem>
-                            <LoginMenu></LoginMenu>
                         </ul>
                     </Collapse>
                 </Navbar>
