@@ -10,7 +10,6 @@ const context = [
   "/tierlist",
   "/_configuration",
   "/.well-known",
-  "/Identity",
   "/connect",
   "/ApplyDatabaseMigrations",
   "/_framework"
