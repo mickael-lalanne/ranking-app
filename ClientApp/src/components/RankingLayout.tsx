@@ -11,6 +11,8 @@ import { useAppDispatch } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
 import TierlistsViewer from './tierlist/TierlistsViewer';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from "@clerk/clerk-react";
+import { updateUser } from '../store/UserStore';
 
 const RankingLayout = (
     {
@@ -33,11 +35,15 @@ const RankingLayout = (
 
     const dispatch = useAppDispatch();
     const location = useLocation();
+    const { userId } = useAuth();
 
     // Called when the component is initialized
     useEffect(() => {
-        // Get all user templates from the database
-        const fetchTemplates: () => Promise<void> = async () => await getTemplates(dispatch);
+        // First, get user info and store it into the store
+        dispatch(updateUser({ id: userId}));
+
+        // Then, get all user templates from the database
+        const fetchTemplates: () => Promise<void> = async () => await getTemplates(dispatch, userId!);
         fetchTemplates()
             .catch(err => {
                 // TODO: handle errors

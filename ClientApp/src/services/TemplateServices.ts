@@ -11,8 +11,10 @@ import { isTemporaryId } from "./Util";
 const TEMPLATE_ENDPOINT: string = 'template';
 
 // GET ALL
-export const getTemplates = async (dispatch: AppDispatch): Promise<void> => {
-    const templatesResponse: Response = await fetch(TEMPLATE_ENDPOINT);
+export const getTemplates = async (dispatch: AppDispatch, userId: string): Promise<void> => {
+    const queryParams: string = `?userId=${userId}`;
+
+    const templatesResponse: Response = await fetch(TEMPLATE_ENDPOINT + queryParams);
     const allUserTemplates: Template[] = await templatesResponse.json();
     // Save user templates in the store
     dispatch(init(allUserTemplates));

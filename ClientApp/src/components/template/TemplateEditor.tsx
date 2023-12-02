@@ -12,6 +12,8 @@ import AppButton from '../shared/AppButton';
 import Button from '@mui/material/Button';
 import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLayout';
 import ElementPreview, { element_container_style } from '../shared/ElementPreview';
+import { useAppSelector } from '../../app/hooks';
+import { UserId } from '../../models/User';
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
@@ -38,6 +40,8 @@ const TemplateEditor = (
             setSaveButtonText('Create template');
         }
     }, [mode]);
+
+    const userId: UserId= useAppSelector(state => state.user.user?.id);
 
     /**
      * Called when a new tier has been created from the Edit view
@@ -69,7 +73,8 @@ const TemplateEditor = (
             ...itemToEdit as Template,
             name: templateName,
             tiers: tiersToCreate,
-            elements: elementsToCreate
+            elements: elementsToCreate,
+            userId
         };
 
         saveHandler(templateToSave);

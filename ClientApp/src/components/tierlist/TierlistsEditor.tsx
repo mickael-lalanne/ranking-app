@@ -10,6 +10,7 @@ import RankingGrid from './RankingGrid';
 import ToRankSection from './ToRankSection';
 import AppButton from '../shared/AppButton';
 import { Tierlist } from '../../models/Tierlist';
+import { UserId } from '../../models/User';
 
 // Hack : without an empty template used in the useState default value,
 // mui select won't display the value when a tierlist is edited
@@ -40,6 +41,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
 
     // Retrieve user templates from the store
     const allUserTemplates: Template[] = useAppSelector((state) => state.templates.templates);
+    const userId: UserId= useAppSelector(state => state.user.user?.id);
 
     /**
      * Called when a template has been selected
@@ -103,7 +105,8 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 ...itemToEdit as Tierlist,
                 name: 'Todo',
                 rankedElements: rankedElements,
-                templateId: selectedTemplate.id
+                templateId: selectedTemplate.id,
+                userId
             };
             saveHandler(tierlistToSave);
         }
