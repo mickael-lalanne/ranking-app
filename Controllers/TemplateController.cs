@@ -21,7 +21,10 @@ public class TemplateController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TemplateModel>>> GetTemplates()
     {
+        string userId = HttpContext.Request.Query["userId"].ToString();
+
         return await _context.Templates
+            .Where(template => template.UserId == userId)
             .Include(template => template.Tiers)
             .Include(template => template.Elements)
             .ToListAsync();
@@ -30,8 +33,11 @@ public class TemplateController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<TemplateModel>> GetTemplate(int id)
     {
+        string userId = HttpContext.Request.Query["userId"].ToString();
+
         var template = await _context.Templates
             .Where(template => template.Id == id)
+            .Where(template => template.UserId == userId)
             .Include(template => template.Tiers)
             .Include(template => template.Elements)
             .FirstAsync();
