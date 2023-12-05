@@ -75,15 +75,28 @@ Description coming soon...
    cd client
    npm install
    ```
-3. Run the app locally
+3. Store the sensitive data in the local secret store
    ```sh
    cd ..
+   dotnet user-secrets init
+   dotnet user-secrets set "Cloudinary:CloudName" "<cloud_name>"
+   dotnet user-secrets set "Cloudinary:ApiKey" "<api_key>"
+   dotnet user-secrets set "Cloudinary:ApiSecret" "<api_secret>"
+   ```
+4. Run the app locally
+   ```sh
    dotnet run
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 👷 Handle changes in the backend architecture
+## 👷 Backend functioning
+
+### How to debug in VS Code
+1. Set a breakpoint
+2. Press F5
+
+### Handle changes in the backend architecture
 
 + When a change is made (to a model or a controller for example)
 1. Create a migration
@@ -130,6 +143,7 @@ Mickaël Lalanne - mickael.lalanne03@gmail.com
 * [Building a Robust ASP.NET Core Web API with PostgreSQL](https://www.c-sharpcorner.com/article/building-a-powerful-asp-net-core-web-api-with-postgresql/)
 * [Create a React App with .NET 5 API Backend in VSCode (Entity Framework Core & Postgres)](https://www.youtube.com/watch?v=2Ayfi7OJhBI)
 * [Tutorial: How to Use C# with React and TypeScript](https://kenny-designs.github.io/articles/2022-06-05-csharp-react-typescript-tutorial.html)
+* [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
