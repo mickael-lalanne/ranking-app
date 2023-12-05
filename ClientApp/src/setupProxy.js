@@ -8,6 +8,7 @@ const context = [
   "/weatherforecast",
   "/template",
   "/tierlist",
+  "/cloudinary",
   "/_configuration",
   "/.well-known",
   "/connect",

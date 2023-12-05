@@ -14,6 +14,7 @@ import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLa
 import ElementPreview, { element_container_style } from '../shared/ElementPreview';
 import { useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
+import { uploadElementsImages } from '../../services/CloudinaryService';
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
@@ -68,12 +69,17 @@ const TemplateEditor = (
     /**
      * Called when the save button has been clicked
      */
-    const onSaveButtonClick = (): void => {
+    const onSaveButtonClick = async (): Promise<void> => {
+        // First, upload the elements images to cloudinary
+        const elementsWithUploadedImages: Element[] =
+            await uploadElementsImages(elementsToCreate);
+
+        // Then, save the template in database
         const templateToSave: Template = {
             ...itemToEdit as Template,
             name: templateName,
             tiers: tiersToCreate,
-            elements: elementsToCreate,
+            elements: elementsWithUploadedImages,
             userId
         };
 
