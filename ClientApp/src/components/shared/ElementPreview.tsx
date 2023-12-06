@@ -22,12 +22,14 @@ const ElementPreview = ({
 
     // Called when the component is initialized and when the element prop has changed
     useEffect(() => {
-        const elementImage: string = typeof element.image === 'string'
-            // If type is string, it means the image has already been uploaded to Cloudinary
-            ? getElementImageUrl(element.image)
-            // Otherwise, it means the element is not created yet, so use the source of the file
-            : URL.createObjectURL(element.image);
-        setElementImage(elementImage);
+        if (element.image) {
+            const elementImage: string = typeof element.image === 'string'
+                // If type is string, it means the image has already been uploaded to Cloudinary
+                ? getElementImageUrl(element.image)
+                // Otherwise, it means the element is not created yet, so use the source of the file
+                : URL.createObjectURL(element.image);
+            setElementImage(elementImage);
+        }
     }, [element]);
 
     // Show the delete tier button only on hover
