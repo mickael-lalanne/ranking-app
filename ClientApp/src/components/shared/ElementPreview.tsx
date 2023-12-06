@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/css';
 import { Element } from '../../models/Element';
-import TmpElementImg from '../../images/tmp_element_img.png';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { getElementImageUrl } from '../../services/CloudinaryService';
 
-const ElementPreview = ({ element, deleteElementHandler, dragStartHandler, dragEndHandler, readonly = false }: {
+const ElementPreview = ({
+    element,
+    deleteElementHandler, dragStartHandler, dragEndHandler,
+    readonly = false,
+    padding = '5px'
+}: {
     element: Element,
     deleteElementHandler?: (elementId: number) => void,
     dragStartHandler?: (element: Element) => void,
     dragEndHandler?: () => void,
-    readonly?: boolean
+    readonly?: boolean,
+    padding?: string
 }) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
+    const [elementImage, setElementImage] = useState<string>();
+
+    // Called when the component is initialized and when the element prop has changed
+    useEffect(() => {
+        const elementImage: string = typeof element.image === 'string'
+            // If type is string, it means the image has already been uploaded to Cloudinary
+            ? getElementImageUrl(element.image)
+            // Otherwise, it means the element is not created yet, so use the source of the file
+            : URL.createObjectURL(element.image);
+        setElementImage(elementImage);
+    }, [element]);
 
     // Show the delete tier button only on hover
     const DeleteElementButton = (elementId: number): React.JSX.Element | undefined => {
@@ -31,6 +48,7 @@ const ElementPreview = ({ element, deleteElementHandler, dragStartHandler, dragE
     return(<>
         <div
             className={element_container_style}
+            style={{ padding: padding }}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
             onDragStart={e => dragStartHandler ? dragStartHandler(element) : undefined}
@@ -38,8 +56,7 @@ const ElementPreview = ({ element, deleteElementHandler, dragStartHandler, dragE
             onDragOver={e => e.preventDefault()}
             draggable={!readonly}
         >
-            <img src={TmpElementImg} className={element_img_style} />
-            <div className="app_text_ellipsis">{element.name}</div>
+            <img src={elementImage} className={element_img_style} />
             {DeleteElementButton(element.id!)}
         </div>
     </>);
@@ -57,7 +74,6 @@ export const element_container_style = css({
     border: '1px solid',
     flexDirection: 'column',
     height: '100% !important',
-    padding: '5px !important',
     justifyContent: 'center',
     textAlign: 'center',
     aspectRatio: 1,
@@ -97,6 +113,7 @@ const remove_element_icon_style = css({
 const element_img_style = css({
     maxWidth: '100%',
     maxHeight: '100%',
-    height: 'auto',
-    width: 'auto'
+    height: '100%',
+    width: '100%',
+    objectFit: 'cover'
 });

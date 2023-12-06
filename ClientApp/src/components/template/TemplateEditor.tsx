@@ -42,7 +42,7 @@ const TemplateEditor = (
         }
     }, [mode]);
 
-    const userId: UserId= useAppSelector(state => state.user.user?.id);
+    const userId: UserId = useAppSelector(state => state.user.user?.id);
 
     /**
      * Called when a new tier has been created from the Edit view
@@ -72,7 +72,7 @@ const TemplateEditor = (
     const onSaveButtonClick = async (): Promise<void> => {
         // First, upload the elements images to cloudinary
         const elementsWithUploadedImages: Element[] =
-            await uploadElementsImages(elementsToCreate);
+            await uploadElementsImages(elementsToCreate, userId!);
 
         // Then, save the template in database
         const templateToSave: Template = {

@@ -22,22 +22,25 @@ public class CloudinaryController : ControllerBase
 
     }
 
-    [HttpGet]
-    public async Task<ActionResult<SignData>> GetSignature()
+    [HttpPost]
+    public async Task<ActionResult<SignResponse>> AskSignature(SignPayload payload)
     {
         long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+        string folder = payload.UserId + "/elements";
     
         IDictionary<string, object> parameters = new Dictionary<string, object>
         {
+            { "folder", folder },
             { "timestamp", timestamp },
         };
         
-        SignData signData = new SignData
+        SignResponse signData = new SignResponse
         {
             Apikey = _config["Cloudinary:ApiKey"],
             Timestamp = timestamp,
             Signature = cloudinary.Api.SignParameters(parameters),
-            Cloudname = _config["Cloudinary:CloudName"]
+            Cloudname = _config["Cloudinary:CloudName"],
+            Folder = folder
         };
     
         return signData;
