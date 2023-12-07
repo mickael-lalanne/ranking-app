@@ -6,7 +6,8 @@ const TMP_ID_IDENTIFIER = '99999';
  * @returns {number} a random temporary id
  */
 export const generateRandomId = (): number => {
-    return Number(TMP_ID_IDENTIFIER + Date.now());
+    const randomNumber: number = Math.floor(Math.random() * 1000000000);
+    return Number(TMP_ID_IDENTIFIER + randomNumber);
 };
 
 /**

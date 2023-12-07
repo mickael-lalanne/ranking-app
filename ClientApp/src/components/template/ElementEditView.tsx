@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { css } from '@emotion/css';
@@ -11,105 +11,127 @@ import ElementPreview from '../shared/ElementPreview';
 /**
  * View displayed when the user wants to create a new element or edit an existing one
  */
-const ElementEditView = ({createCallback, cancelCallback, editViewMode}: {
-    createCallback: (element: Element) => void,
+const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultImages}: {
+    createCallback: (elements: Element[]) => void,
     cancelCallback: () => void,
-    editViewMode: EEditViewMode
+    editViewMode: EEditViewMode,
+    defaultImages: File[]
 }) => {
-    const [elementName, setElementName] = useState<string>();
-    const [elementImg, setElementImg] = useState<File>();
-    const [uploadBtnHover, setUploadBtnHover] = useState<boolean>(false);
-    const [shrink, setShrink] = useState(false);
+    const [currentElements, setCurrentElements] = useState<Element[]>([]);
+    const [uploadBtnHover, setUploadBtnHover] = useState<number>();
+
+    /**
+     * Called when the defaultImages props has changed
+     * Set the current elements with thanks to default images data
+     */
+    useEffect(() => {
+        const elements: Element[] = defaultImages.map(imgFile => {
+            return {
+                id: generateRandomId(),
+                image: imgFile,
+                name: imgFile.name
+            };
+        });
+        setCurrentElements(elements);
+    }, [defaultImages]);
 
     // Called when the "Create" button of the edit view has been clicked
-    const createElement = () => {
-        createCallback({
-            id: generateRandomId(),
-            name: elementName as string,
-            image: elementImg!
-        });
+    const createElements = () => {
+        createCallback(currentElements);
     };
 
     // Called when the element name has changed
-    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setElementName(e.target.value);
+    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, elementId: number) => {
+        const eltToUpdateIndex: number = currentElements.findIndex(e => e.id === elementId);
+        if (eltToUpdateIndex > -1) {
+            currentElements[eltToUpdateIndex].name = e.target.value;
+            setCurrentElements([...currentElements]);
+        }
     };
 
     // Called when the user has chosen an image with the file input
-    const onImageFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setElementImg(e.target.files[0]);
-            // If the element name is not setted yet
-            if (!elementName) {
-                // Fill it with the file name
-                setElementName(e.target.files[0].name);
-                setShrink(true); // Change the label position (so it's not overlapped with the name)
+    const onImageFieldChange = (e: React.ChangeEvent<HTMLInputElement>, elementId: number): void => {
+        const eltToUpdateIndex: number = currentElements.findIndex(e => e.id === elementId);
+        if (eltToUpdateIndex > -1) {
+            if (e.target.files) {
+                // Be sure to create a new object so ElementPreview can detect the change
+                // Otherwise the useEffect for the element props is not called
+                // So we need to create a new reference (for objects AND arrays)
+                currentElements[eltToUpdateIndex] = {
+                    ...currentElements[eltToUpdateIndex],
+                    image: e.target.files[0]
+                };
+                setCurrentElements([...currentElements]);
             }
-        } else {
-            setElementImg(undefined);
         }
-        setUploadBtnHover(false);
+        setUploadBtnHover(undefined);
     };
 
     // Called when the cancel button has been clicked
     const onCancelButtonClick = (): void => {
         // Reset data
-        setElementImg(undefined);
-        setElementName(undefined);
+        setCurrentElements([]);
 
         cancelCallback();
     };
 
 
     // The content of the upload button
-    // It can be the element's image if it exists, or only the upload icon
-    const UploadButtonContent = (): React.JSX.Element => {
+    // It can be the element's image if it exists, and the upload icon if hovered
+    const UploadButtonContent = (elt: Element): React.JSX.Element => {
         const uploadIcon: React.JSX.Element = <UploadFileIcon className={upload_icon_style} />;
 
-        // If an image has already been choosen by the user, display it
-        if (elementImg) {
-            const tmpElement: Element = { name: elementName!, image: elementImg };
-
-            return (<>
-                <ElementPreview element={tmpElement} readonly padding="0" />
-                {/* Show the upload icon only on hover */}
-                { uploadBtnHover ? uploadIcon : null }
-            </>);
-        }
-        // Otherwise, display only the upload icon
-        return (uploadIcon);
+        return (<>
+            <ElementPreview element={elt} readonly padding="0" />
+            {/* Show the upload icon only on hover */}
+            { uploadBtnHover === elt.id ? uploadIcon : null }
+        </>);
     };
 
-    if (editViewMode === EEditViewMode.EditElement) {
-        return (<div className={element_edit_view_container_style}>
-            <div className={element_edit_view_content_style}>
+    const ElementsEdition = (): React.JSX.Element[] => {
+        const editionsView: React.JSX.Element[] = [];
+        currentElements.forEach(elt => {
+            const eltEditView = <div className={element_edit_view_content_style} key={elt.id}>
                 <div className={element_image_style}>
                     <Button
                         variant="contained"
                         component="label"
                         className={upload_btn_style}
-                        onMouseEnter={() => setUploadBtnHover(true)}
-                        onMouseLeave={() => setUploadBtnHover(false)}
+                        onMouseEnter={() => setUploadBtnHover(elt.id)}
+                        onMouseLeave={() => setUploadBtnHover(elt.id)}
                     >
-                        {UploadButtonContent()}
-                        <input type="file" className={image_input_style} onChange={onImageFieldChange}></input>
+                        {UploadButtonContent(elt)}
+                        <input
+                            type="file"
+                            className={image_input_style}
+                            onChange={e => onImageFieldChange(e, elt.id!)}
+                        ></input>
                     </Button>
                 </div>
                 <TextField
                     label="Element name"
                     variant="outlined"
                     style={{ flex: 1 }}
-                    value={elementName}
-                    onFocus={() => setShrink(true)}
-                    onBlur={(e) => setShrink(!!e.target.value)}
-                    InputLabelProps={{ shrink }}
-                    onChange={onNameFieldChange}
+                    value={elt.name}
+                    onChange={e => onNameFieldChange(e, elt.id!)}
                 />
-            </div>
+            </div>;
+
+            editionsView.push(eltEditView);
+        });
+
+        return editionsView;
+    };
+
+    if (editViewMode === EEditViewMode.EditElement) {
+        return (<div className={element_edit_view_container_style}>
+
+            {ElementsEdition()}
+
             <div className={footer_buttons_style}>
                 <div className="app_spacer"></div>
                 <Button variant="outlined" onClick={onCancelButtonClick}>Cancel</Button>
-                <Button variant="contained" onClick={createElement} style={{ marginLeft: '10px' }}>Create</Button>
+                <Button variant="contained" onClick={createElements} style={{ marginLeft: '10px' }}>Create</Button>
             </div>
         </div>);
     }

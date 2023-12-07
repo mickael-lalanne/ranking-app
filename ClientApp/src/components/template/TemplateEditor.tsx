@@ -21,6 +21,7 @@ const TemplateEditor = (
 ) => {
     const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
     const [elementsToCreate, setElementsToCreate] = useState<Element[]>([]);
+    const [elementsImages, setElementsImages] = useState<File[]>([]);
     const [templateName, setTemplateName] = useState<string>('');
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [tierHovering, setTierHovering] = useState<number>();
@@ -55,14 +56,15 @@ const TemplateEditor = (
 
     const onEditViewCancel = () => {
         setEditViewMode(EEditViewMode.Hide);
+        setElementsImages([]);
     };
 
     /**
      * Called when a new element has been created from the Edit view
-     * @param {Element} newElement the element which was created in the Edit view
+     * @param {Element[]} newElements the elements which was created in the Edit view
      */
-    const onElementCreated = (newElement: Element): void => {
-        setElementsToCreate(elementsToCreate.concat(newElement));
+    const onElementCreated = (newElements: Element[]): void => {
+        setElementsToCreate(elementsToCreate.concat(newElements));
         setEditViewMode(EEditViewMode.Hide);
     };
 
@@ -99,6 +101,18 @@ const TemplateEditor = (
     // Called when the delete button of an element has been clicked
     const onElementDeleteButtonClick = (elementId: number) => {
         setElementsToCreate(elementsToCreate.filter(e => e.id !== elementId));
+    };
+
+    // Called when the user has selected one or many images for its elements
+    const onElementImageInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        if (e.target.files) {
+            const files: File[] = [];
+            Array.from(e.target.files).forEach(file => {
+                files.push(file);
+            });
+            setElementsImages(files);
+            setEditViewMode(EEditViewMode.EditElement);
+        }
     };
 
     /**
@@ -180,10 +194,16 @@ const TemplateEditor = (
         return (
             <Button
                 variant="contained"
+                component="label"
                 className={add_tier_btn_style + ' ' + element_container_style + ' ' + add_elt_btn_style}
-                onClick={() => setEditViewMode(EEditViewMode.EditElement)}
             >
                 <AddCircleOutlineIcon style={{ width: '60px', height: '60px' }} />
+                <input
+                    type="file"
+                    multiple
+                    className={add_element_input_style}
+                    onChange={onElementImageInputChange}
+                ></input>
             </Button>
         );
     }
@@ -221,6 +241,7 @@ const TemplateEditor = (
             <ElementEditView
                 createCallback={onElementCreated}
                 cancelCallback={onEditViewCancel}
+                defaultImages={elementsImages}
                 editViewMode={editViewMode}
             />
         </div>
@@ -288,4 +309,9 @@ const add_tier_btn_style = css({
 const add_elt_btn_style = css({
     margin: '0 !important',
     width: 'auto'
+});
+
+const add_element_input_style = css({
+    opacity: 0,
+    zIndex: -9999,
 });
