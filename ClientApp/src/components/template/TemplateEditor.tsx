@@ -7,14 +7,14 @@ import { css } from '@emotion/css';
 import ElementEditView from './ElementEditView';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AppButton from '../shared/AppButton';
 import Button from '@mui/material/Button';
 import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLayout';
-import ElementPreview, { element_container_style } from '../shared/ElementPreview';
+import ElementPreview from '../shared/ElementPreview';
 import { useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
 import { uploadElementsImages } from '../../services/CloudinaryService';
+import AddElementButton from '../shared/AddElementButton';
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
@@ -188,24 +188,12 @@ const TemplateEditor = (
     }
 
     /**
-     * @returns {JSX.Element} the add element button
+     * @returns {JSX.Element} the add element button if the edit view is not displayed
      */
-    const AddElementButton = (): JSX.Element => {
-        return (
-            <Button
-                variant="contained"
-                component="label"
-                className={add_tier_btn_style + ' ' + element_container_style + ' ' + add_elt_btn_style}
-            >
-                <AddCircleOutlineIcon style={{ width: '60px', height: '60px' }} />
-                <input
-                    type="file"
-                    multiple
-                    className={add_element_input_style}
-                    onChange={onElementImageInputChange}
-                ></input>
-            </Button>
-        );
+    const ShowAddElementButton = (): JSX.Element | undefined => {
+        if (editViewMode !== EEditViewMode.EditElement) {
+            return <AddElementButton changeCallback={onElementImageInputChange} />
+        }
     }
 
     return(<>
@@ -235,7 +223,7 @@ const TemplateEditor = (
             <div className={editor_title_style}>Elements :</div>
             <div className={elements_container_style}>
                 {CreatedElements()}
-                {AddElementButton()}
+                {ShowAddElementButton()}
             </div>
 
             <ElementEditView
@@ -253,6 +241,7 @@ const TemplateEditor = (
 };
 
 export default TemplateEditor;
+
 const TIER_HEIGHT:  string = '50px';
 const TIER_MARGIN_TOP:  string = '5px !important';
 /**
@@ -304,14 +293,4 @@ const add_tier_btn_style = css({
     marginTop: TIER_MARGIN_TOP,
     width: '100%',
     height: TIER_HEIGHT
-});
-
-const add_elt_btn_style = css({
-    margin: '0 !important',
-    width: 'auto'
-});
-
-const add_element_input_style = css({
-    opacity: 0,
-    zIndex: -9999,
 });

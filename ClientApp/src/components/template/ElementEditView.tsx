@@ -7,6 +7,7 @@ import { generateRandomId } from '../../services/Util';
 import { EEditViewMode } from '../../models/Template';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ElementPreview from '../shared/ElementPreview';
+import AddElementButton from '../shared/AddElementButton';
 
 /**
  * View displayed when the user wants to create a new element or edit an existing one
@@ -25,13 +26,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
      * Set the current elements with thanks to default images data
      */
     useEffect(() => {
-        const elements: Element[] = defaultImages.map(imgFile => {
-            return {
-                id: generateRandomId(),
-                image: imgFile,
-                name: imgFile.name
-            };
-        });
+        const elements: Element[] = _convertFilesToElements(defaultImages);
         setCurrentElements(elements);
     }, [defaultImages]);
 
@@ -75,6 +70,13 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
         cancelCallback();
     };
 
+    // Called when the user has selected one or many images for its elements
+    const onElementImageInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        if (e.target.files) {
+            const newElements = _convertFilesToElements(Array.from(e.target.files));
+            setCurrentElements(currentElements.concat(newElements));
+        }
+    };
 
     // The content of the upload button
     // It can be the element's image if it exists, and the upload icon if hovered
@@ -98,7 +100,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
                         component="label"
                         className={upload_btn_style}
                         onMouseEnter={() => setUploadBtnHover(elt.id)}
-                        onMouseLeave={() => setUploadBtnHover(elt.id)}
+                        onMouseLeave={() => setUploadBtnHover(-1)}
                     >
                         {UploadButtonContent(elt)}
                         <input
@@ -128,15 +130,48 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
 
             {ElementsEdition()}
 
-            <div className={footer_buttons_style}>
+            <div className={footer_style}>
+                <AddElementButton changeCallback={onElementImageInputChange} />
                 <div className="app_spacer"></div>
-                <Button variant="outlined" onClick={onCancelButtonClick}>Cancel</Button>
-                <Button variant="contained" onClick={createElements} style={{ marginLeft: '10px' }}>Create</Button>
+                <Button
+                    variant="outlined"
+                    onClick={onCancelButtonClick}
+                    className={footer_btn_style}
+                >
+                        Cancel
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={createElements}
+                    className={footer_btn_style}
+                    style={{ marginLeft: '10px' }}
+                >
+                    Create
+                </Button>
             </div>
         </div>);
     }
     return <></>;
 };
+
+
+/**
+ * Convert images files into elements
+ * @param {File} imagesFile the files to convert
+ * @returns {Element[]} element array with a random id and the image's name as name
+ */
+const _convertFilesToElements = (imagesFile: File[]): Element[] => {
+    const elements: Element[] = imagesFile.map(imgFile => {
+        return {
+            id: generateRandomId(),
+            image: imgFile,
+            name: imgFile.name
+        };
+    });
+
+    return elements;
+}
+
 
 export default ElementEditView;
 
@@ -157,8 +192,13 @@ const element_edit_view_content_style = css({
     marginBottom: '15px'
 });
 
-const footer_buttons_style = css({
+const footer_style = css({
     display: 'flex'
+});
+
+const footer_btn_style = css({
+    marginTop: '10px !important',
+    marginBottom: '10px !important'
 });
 
 const element_image_style = css({
@@ -189,10 +229,5 @@ const upload_icon_style = css({
 
 const image_input_style = css({
     opacity: 0,
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
     zIndex: -9999,
-    top: 0,
-    left: 0
 });
