@@ -15,13 +15,14 @@ import { useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
 import { uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
+import { ResizedImage, resizeImage } from '../../services/Util';
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
 ) => {
     const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
     const [elementsToCreate, setElementsToCreate] = useState<Element[]>([]);
-    const [elementsImages, setElementsImages] = useState<File[]>([]);
+    const [elementsImages, setElementsImages] = useState<ResizedImage[]>([]);
     const [templateName, setTemplateName] = useState<string>('');
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [tierHovering, setTierHovering] = useState<number>();
@@ -104,13 +105,21 @@ const TemplateEditor = (
     };
 
     // Called when the user has selected one or many images for its elements
-    const onElementImageInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const onElementImageInputChange = async (
+        e: React.ChangeEvent<HTMLInputElement>
+    ): Promise<void> => {
         if (e.target.files) {
-            const files: File[] = [];
+            const resizeFilePromises: Promise<ResizedImage>[] = [];
+
+            // Resize all images selectionned by the user
             Array.from(e.target.files).forEach(file => {
-                files.push(file);
+                resizeFilePromises.push(resizeImage(file));
             });
-            setElementsImages(files);
+
+            // Once all images have been resized
+            const resizedImages: ResizedImage[] = await Promise.all(resizeFilePromises);
+
+            setElementsImages(resizedImages);
             setEditViewMode(EEditViewMode.EditElement);
         }
     };

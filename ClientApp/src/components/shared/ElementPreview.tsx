@@ -23,11 +23,11 @@ const ElementPreview = ({
     // Called when the component is initialized and when the element prop has changed
     useEffect(() => {
         if (element.image) {
-            const elementImage: string = typeof element.image === 'string'
-                // If type is string, it means the image has already been uploaded to Cloudinary
+            const elementImage: string = !element.image.startsWith('data:image/png')
+                // If file don't start with data:image/png, it means the image has already been uploaded to Cloudinary
                 ? getElementImageUrl(element.image)
-                // Otherwise, it means the element is not created yet, so use the source of the file
-                : URL.createObjectURL(element.image);
+                // Otherwise, it means the element is not created yet, so use the data URI of the resized image
+                : element.image;
             setElementImage(elementImage);
         }
     }, [element]);

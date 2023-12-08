@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { css } from '@emotion/css';
 import { Element } from '../../models/Element';
-import { generateRandomId } from '../../services/Util';
+import { ResizedImage, generateRandomId, resizeImage } from '../../services/Util';
 import { EEditViewMode } from '../../models/Template';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ElementPreview from '../shared/ElementPreview';
@@ -16,7 +16,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
     createCallback: (elements: Element[]) => void,
     cancelCallback: () => void,
     editViewMode: EEditViewMode,
-    defaultImages: File[]
+    defaultImages: ResizedImage[]
 }) => {
     const [currentElements, setCurrentElements] = useState<Element[]>([]);
     const [uploadBtnHover, setUploadBtnHover] = useState<number>();
@@ -26,7 +26,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
      * Set the current elements with thanks to default images data
      */
     useEffect(() => {
-        const elements: Element[] = _convertFilesToElements(defaultImages);
+        const elements: Element[] = _convertImagesToElements(defaultImages);
         setCurrentElements(elements);
     }, [defaultImages]);
 
@@ -45,16 +45,20 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
     };
 
     // Called when the user has chosen an image with the file input
-    const onImageFieldChange = (e: React.ChangeEvent<HTMLInputElement>, elementId: number): void => {
+    const onImageFieldChange = async (
+        e: React.ChangeEvent<HTMLInputElement>,
+        elementId: number
+    ): Promise<void> => {
         const eltToUpdateIndex: number = currentElements.findIndex(e => e.id === elementId);
         if (eltToUpdateIndex > -1) {
             if (e.target.files) {
+                const resizedImage = await resizeImage(e.target.files[0]);
                 // Be sure to create a new object so ElementPreview can detect the change
                 // Otherwise the useEffect for the element props is not called
                 // So we need to create a new reference (for objects AND arrays)
                 currentElements[eltToUpdateIndex] = {
                     ...currentElements[eltToUpdateIndex],
-                    image: e.target.files[0]
+                    image: resizedImage.source
                 };
                 setCurrentElements([...currentElements]);
             }
@@ -71,9 +75,21 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
     };
 
     // Called when the user has selected one or many images for its elements
-    const onElementImageInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const onElementImageInputChange = async (
+        e: React.ChangeEvent<HTMLInputElement>
+    ): Promise<void> => {
         if (e.target.files) {
-            const newElements = _convertFilesToElements(Array.from(e.target.files));
+            const resizeFilePromises: Promise<ResizedImage>[] = [];
+
+            // Resize all images selectionned by the user
+            Array.from(e.target.files).forEach(file => {
+                resizeFilePromises.push(resizeImage(file));
+            });
+
+            // Once all images have been resized
+            const resizedImages: ResizedImage[] = await Promise.all(resizeFilePromises);
+
+            const newElements = _convertImagesToElements(resizedImages);
             setCurrentElements(currentElements.concat(newElements));
         }
     };
@@ -157,15 +173,15 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
 
 /**
  * Convert images files into elements
- * @param {File} imagesFile the files to convert
+ * @param {string[]} imagesFile the images (as DataURI) to convert
  * @returns {Element[]} element array with a random id and the image's name as name
  */
-const _convertFilesToElements = (imagesFile: File[]): Element[] => {
-    const elements: Element[] = imagesFile.map(imgFile => {
+const _convertImagesToElements = (images: ResizedImage[]): Element[] => {
+    const elements: Element[] = images.map(img => {
         return {
             id: generateRandomId(),
-            image: imgFile,
-            name: imgFile.name
+            image: img.source,
+            name: img.name
         };
     });
 

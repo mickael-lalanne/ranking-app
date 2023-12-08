@@ -18,3 +18,48 @@ export const generateRandomId = (): number => {
 export const isTemporaryId = (id: number): boolean => {
     return String(id).startsWith(TMP_ID_IDENTIFIER);
 }
+
+export interface ResizedImage {
+    source: string; // the data URL of the image
+    name: string;
+}
+
+/**
+ * Resize an image while keeping its ratio
+ * This function is called in the "onChange" event of input file
+ * So we use the FileReader api to get the base image dimensions
+ * @param {File} imageFile the image file to resize
+ * @returns {Promise<ResizedImage>} an object containing the resized image as data URL and its name
+ */
+export const resizeImage = (imageFile: File): Promise<ResizedImage> => {
+    const MAX_SIZE: number = 150;
+    const reader = new FileReader();
+
+    return new Promise ((resolve) => {
+        reader.onload = () => {
+            const tmpImg: HTMLImageElement = new Image();
+    
+            tmpImg.onload = () => {
+                const resizeRatio = Math.min(MAX_SIZE / tmpImg.width, MAX_SIZE / tmpImg.height);
+
+                // Initialize the canvas
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext('2d');
+    
+                // Set width and height
+                canvas.width = tmpImg.width * resizeRatio;
+                canvas.height = tmpImg.height * resizeRatio;
+    
+                // Draw image and export to a data-uri
+                ctx!.drawImage(tmpImg, 0, 0, canvas.width, canvas.height);
+    
+                const dataURI = canvas.toDataURL();
+                resolve({ source: dataURI, name: imageFile.name });
+            };
+
+            tmpImg.src = URL.createObjectURL(imageFile);
+        }
+        reader.readAsDataURL(imageFile);
+    });
+
+};
