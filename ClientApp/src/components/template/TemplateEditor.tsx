@@ -201,7 +201,9 @@ const TemplateEditor = (
      */
     const ShowAddElementButton = (): JSX.Element | undefined => {
         if (editViewMode !== EEditViewMode.EditElement) {
-            return <AddElementButton changeCallback={onElementImageInputChange} />
+            return <div style={{ marginLeft: '5px'}}> 
+                <AddElementButton changeCallback={onElementImageInputChange} />
+            </div>;
         }
     }
 
@@ -267,7 +269,7 @@ const tier_container_style = css({
 const elements_container_style = css({
     display: 'flex',
     alignItems: 'center',
-    height: '75px'
+    flexWrap: 'wrap'
 });
 
 const tier_rank_style = css({

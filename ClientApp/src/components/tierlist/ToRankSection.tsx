@@ -30,13 +30,11 @@ const ToRankSection = ({ template, rankedElements, dragStartHandler, dragEndHand
 
         notRankedElements.forEach(element => {
             list.push(
-                <div className={element_preview_style}>
-                    <ElementPreview
-                        element={element}
-                        dragStartHandler={dragStartHandler}
-                        dragEndHandler={dragEndHandler}
-                    />
-                </div>
+                <ElementPreview
+                    element={element}
+                    dragStartHandler={dragStartHandler}
+                    dragEndHandler={dragEndHandler}
+                />
             );
         });
 
@@ -57,12 +55,7 @@ export default ToRankSection;
  */
 const section_container_style = css({
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     margin: '20px 0',
-    height: '75px'
-});
-
-const element_preview_style = css({
-    margin: '0 20px',
-    aspectRatio: '1 / 1'
+    flexWrap: 'wrap'
 });

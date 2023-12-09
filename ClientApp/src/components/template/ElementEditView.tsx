@@ -9,6 +9,7 @@ import { EEditViewMode } from '../../models/Template';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ElementPreview from '../shared/ElementPreview';
 import AddElementButton from '../shared/AddElementButton';
+import { ELEMENT_SIZE } from '../../utils/css-utils';
 
 /**
  * View displayed when the user wants to create a new element or edit an existing one
@@ -101,7 +102,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
         const uploadIcon: React.JSX.Element = <UploadFileIcon className={upload_icon_style} />;
 
         return (<>
-            <ElementPreview element={elt} readonly padding="0" />
+            <ElementPreview element={elt} readonly />
             {/* Show the upload icon only on hover */}
             { uploadBtnHover === elt.id ? uploadIcon : null }
         </>);
@@ -226,8 +227,8 @@ const element_image_style = css({
     display: 'flex',
     alignItems: 'center',
     marginRight: '10px',
-    width: '60px',
-    height: '60px'
+    width: ELEMENT_SIZE,
+    height: ELEMENT_SIZE
 });
 
 const upload_btn_style = css({

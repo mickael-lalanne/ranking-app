@@ -112,5 +112,8 @@ const tier_line_style = css({
 const tier_cell_style = css({
     width: '20%',
     aspectRatio: '1 / 1',
-    padding: '5px'
+    padding: '5px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
 });

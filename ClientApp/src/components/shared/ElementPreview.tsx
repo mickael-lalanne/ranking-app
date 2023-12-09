@@ -3,19 +3,18 @@ import { css } from '@emotion/css';
 import { Element } from '../../models/Element';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { getElementImageUrl } from '../../services/CloudinaryService';
+import { ELEMENT_SIZE } from '../../utils/css-utils';
 
 const ElementPreview = ({
     element,
     deleteElementHandler, dragStartHandler, dragEndHandler,
-    readonly = false,
-    padding = '5px'
+    readonly = false
 }: {
     element: Element,
     deleteElementHandler?: (elementId: number) => void,
     dragStartHandler?: (element: Element) => void,
     dragEndHandler?: () => void,
-    readonly?: boolean,
-    padding?: string
+    readonly?: boolean
 }) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const [elementImage, setElementImage] = useState<string>();
@@ -50,7 +49,6 @@ const ElementPreview = ({
     return(<>
         <div
             className={element_container_style}
-            style={{ padding: padding }}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
             onDragStart={e => dragStartHandler ? dragStartHandler(element) : undefined}
@@ -75,11 +73,11 @@ export const element_container_style = css({
     position: 'relative',
     border: '1px solid',
     flexDirection: 'column',
-    height: '100% !important',
+    height: ELEMENT_SIZE,
     justifyContent: 'center',
     textAlign: 'center',
     aspectRatio: 1,
-    width: 'fit-content'
+    width: ELEMENT_SIZE
 });
 
 const element_delete_container_style = css({

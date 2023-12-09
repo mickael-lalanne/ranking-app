@@ -3,6 +3,7 @@ import { css } from '@emotion/css';
 import { element_container_style } from '../shared/ElementPreview';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Button from '@mui/material/Button';
+import { ELEMENT_SIZE } from '../../utils/css-utils';
 
 const AddElementButton = (
     { changeCallback } : {
@@ -18,6 +19,7 @@ const AddElementButton = (
             <AddCircleOutlineIcon style={{ width: '40px', height: '40px' }} />
             <input
                 type="file"
+                accept="image/*"
                 multiple
                 className={add_element_input_style}
                 onChange={changeCallback}
@@ -33,9 +35,9 @@ export default AddElementButton;
  */
 const add_elt_btn_style = css({
     margin: '0 !important',
-    width: '60px',
-    height: '60px !important',
-    minWidth: 0
+    width: ELEMENT_SIZE,
+    height: ELEMENT_SIZE,
+    minWidth: '0 !important'
 });
 
 const add_element_input_style = css({
