@@ -1,27 +1,14 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 import { NavMenu } from './NavMenu';
 import { css } from '@emotion/css';
-import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
+import { createTheme, ThemeProvider, Theme } from '@mui/material/styles';
+import { useLocation } from 'react-router-dom';
+import { RANKING_APP_THEME } from '../utils/css-utils';
 
 const NAV_HEADER_HEIGHT = '60px';
-const PRIMARY_COLOR = '#BB2525';
 
-const theme = createTheme({
-    defaultRankingTheme: {
-        primary: PRIMARY_COLOR,
-        primaryLight: '#FF6969',
-        light: '#FFF5E0',
-        dark: '#141E46',
-    },
-    palette: {
-        primary: {
-            main: alpha(PRIMARY_COLOR, 0.7),
-            light: alpha(PRIMARY_COLOR, 0.5),
-            dark: alpha(PRIMARY_COLOR, 0.9),
-        }
-    }
-});
+const theme: Theme = createTheme({ ...RANKING_APP_THEME });
 
 declare module '@mui/material/styles' {
     interface Theme {
@@ -43,28 +30,38 @@ declare module '@mui/material/styles' {
     }
 }
 
-interface IRecipeProps {
-    children?: any;
+const Layout = ({ children }: { children: React.JSX.Element[] }) => {
+    const [navHeader, setNavHeader] = useState<boolean>(false);
+
+    const location = useLocation();
+
+    // Called when the url has changed
+    useEffect(() => {
+        // Don't show the nav menu in Home component
+        setNavHeader(window.location.pathname !== '/');
+    }, [location]);
+
+    const ShowNavMenu = (): React.JSX.Element | undefined => {
+        if (navHeader) {
+            return <NavMenu height={NAV_HEADER_HEIGHT} />;
+        }
+    };
+
+    return (
+        <ThemeProvider theme={theme}>
+            {ShowNavMenu()}
+            <Container
+                tag="main"
+                className={container_style}
+                style={{ height: `calc(100vh - ${NAV_HEADER_HEIGHT})` }}
+            >
+                {children}
+            </Container>
+        </ThemeProvider>
+    );
 }
 
-export class Layout extends Component<IRecipeProps> {
-    static displayName = Layout.name;
-
-    render() {
-        return (
-            <ThemeProvider theme={theme}>
-                <NavMenu height={NAV_HEADER_HEIGHT} />
-                <Container
-                    tag="main"
-                    className={container_style}
-                    style={{ height: `calc(100vh - ${NAV_HEADER_HEIGHT})` }}
-                >
-                    {this.props.children}
-                </Container>
-            </ThemeProvider>
-        );
-    }
-}
+export default Layout;
 
 /**
  * CSS STYLES

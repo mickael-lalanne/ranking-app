@@ -1,7 +1,11 @@
-import { Counter } from './components/Counter';
-import { Home } from './components/Home';
+import Home from './components/Home';
 import RankingLayout from './components/RankingLayout';
 import { TEMPLATE_LAYOUT_PROPS, TIERLIST_LAYOUT_PROPS } from './models/RankingLayout';
+
+export enum ERankingAppRoutes {
+    templates = '/templates',
+    tierlists = '/tierlists',
+};
 
 const AppRoutes = [
     {
@@ -9,15 +13,11 @@ const AppRoutes = [
         element: <Home />,
     },
     {
-        path: '/counter',
-        element: <Counter />,
-    },
-    {
-        path: '/templates',
+        path: ERankingAppRoutes.templates,
         element: <RankingLayout {...TEMPLATE_LAYOUT_PROPS} />,
     },
     {
-        path: '/tierlists',
+        path: ERankingAppRoutes.tierlists,
         element: <RankingLayout {...TIERLIST_LAYOUT_PROPS} />,
     }
 ];

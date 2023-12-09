@@ -9,6 +9,8 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
+import { css } from '@emotion/css';
+import { RANKING_APP_THEME } from '../utils/css-utils';
 
 interface IRecipeProps {
     height: string;
@@ -43,7 +45,7 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
                     light
                 >
                     <NavbarBrand tag={Link} to="/">
-                        ranking_app
+                        Ranking App
                     </NavbarBrand>
                     <NavbarToggler
                         onClick={this.toggleNavbar}
@@ -58,7 +60,7 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
                             <NavItem>
                                 <NavLink
                                     tag={Link}
-                                    className="text-dark"
+                                    className={navlink_style}
                                     to="/"
                                 >
                                     Home
@@ -67,16 +69,7 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
                             <NavItem>
                                 <NavLink
                                     tag={Link}
-                                    className="text-dark"
-                                    to="/counter"
-                                >
-                                    Counter
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    tag={Link}
-                                    className="text-dark"
+                                    className={navlink_style}
                                     to="/templates"
                                 >
                                     Templates
@@ -85,7 +78,7 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
                             <NavItem>
                                 <NavLink
                                     tag={Link}
-                                    className="text-dark"
+                                    className={navlink_style}
                                     to="/tierlists"
                                 >
                                     Tierlists
@@ -98,3 +91,14 @@ export class NavMenu extends Component<IRecipeProps, IRecipeState> {
         );
     }
 }
+
+/**
+ * CSS STYLES
+ */
+const navlink_style = css({
+    color: 'black',
+    '&:hover': {
+        color: RANKING_APP_THEME.defaultRankingTheme?.primary,
+        textDecoration: 'underline'
+    }
+});
