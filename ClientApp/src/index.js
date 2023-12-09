@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import store from './app/store';
+import { setupStore } from './app/store';
 import { Provider } from 'react-redux';
 
 import '@fontsource/roboto/300.css';
@@ -18,7 +18,7 @@ const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(
-  <Provider store={store}>
+  <Provider store={setupStore()}>
     <BrowserRouter basename={baseUrl}>
       <App />
     </BrowserRouter>
