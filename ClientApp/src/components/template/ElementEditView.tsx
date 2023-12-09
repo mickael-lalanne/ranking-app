@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import { css } from '@emotion/css';
 import { Element } from '../../models/Element';
 import { ResizedImage, generateRandomId, resizeImage } from '../../services/Util';
@@ -143,6 +144,9 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
 
     if (editViewMode === EEditViewMode.EditElement) {
         return (<div className={element_edit_view_container_style}>
+            <Alert severity="info" className={warning_message_style}>
+                FYI : all your images are automatically resized to have a maximum size of 150x150.
+            </Alert>
 
             {ElementsEdition()}
 
@@ -246,4 +250,8 @@ const upload_icon_style = css({
 const image_input_style = css({
     opacity: 0,
     zIndex: -9999,
+});
+
+const warning_message_style = css({
+    marginBottom: '25px'    
 });
