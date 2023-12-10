@@ -2,7 +2,7 @@ namespace ranking_app;
 
 public class Tier
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public required string Name { get; set; }
 
@@ -11,5 +11,5 @@ public class Tier
 
 public class TierPayload : Tier
 {
-    new public int? Id { get; set; }
+    new public Guid? Id { get; set; }
 }

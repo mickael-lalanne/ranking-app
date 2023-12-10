@@ -2,7 +2,7 @@ namespace ranking_app.Models;
 
 public class TemplateModel
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public required string Name { get; set; }
     public required string UserId { get; set; }
     public ICollection<Tier> Tiers { get; set; }

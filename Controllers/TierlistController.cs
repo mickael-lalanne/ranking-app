@@ -26,7 +26,7 @@ public class TierlistController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TierlistModel>> GetTierlist(int id)
+    public async Task<ActionResult<TierlistModel>> GetTierlist(Guid id)
     {
         var tierlist = await _context.Tierlists
             .Where(tierlist => tierlist.Id == id)
@@ -52,7 +52,7 @@ public class TierlistController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTierlist(int id, TierlistModel tierlist)
+    public async Task<IActionResult> PutTierlist(Guid id, TierlistModel tierlist)
     {
         if (id != tierlist.Id)
         {
@@ -86,7 +86,7 @@ public class TierlistController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTierlist(int id)
+    public async Task<IActionResult> DeleteTierlist(Guid id)
     {
         var tierlist = await _context.Tierlists
             .Where(tierlist => tierlist.Id == id)
@@ -104,7 +104,7 @@ public class TierlistController : ControllerBase
         return NoContent();
     }
 
-    private bool TierlistExists(int id)
+    private bool TierlistExists(Guid id)
     {
         return _context.Tierlists.Any(e => e.Id == id);
     }

@@ -12,8 +12,8 @@ using ranking_app.Data;
 namespace ranking_app.Migrations
 {
     [DbContext(typeof(RankingAppDbContext))]
-    [Migration("20231202131725_change_userId_type")]
-    partial class change_userId_type
+    [Migration("20231210014346_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,9 @@ namespace ranking_app.Migrations
 
             modelBuilder.Entity("ranking_app.Element", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Image")
                         .HasColumnType("text");
@@ -39,8 +37,8 @@ namespace ranking_app.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("TemplateModelId")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("TemplateModelId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
@@ -54,11 +52,9 @@ namespace ranking_app.Migrations
 
             modelBuilder.Entity("ranking_app.Models.TemplateModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -78,11 +74,9 @@ namespace ranking_app.Migrations
 
             modelBuilder.Entity("ranking_app.Models.TierlistModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -105,20 +99,18 @@ namespace ranking_app.Migrations
 
             modelBuilder.Entity("ranking_app.RankedElement", b =>
                 {
-                    b.Property<int>("ElementId")
+                    b.Property<Guid>("ElementId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ElementId"));
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Position")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TierId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("TierId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int?>("TierlistModelId")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("TierlistModelId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("ElementId");
 
@@ -129,11 +121,9 @@ namespace ranking_app.Migrations
 
             modelBuilder.Entity("ranking_app.Tier", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -142,8 +132,8 @@ namespace ranking_app.Migrations
                     b.Property<int>("Rank")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TemplateModelId")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("TemplateModelId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

@@ -30,7 +30,7 @@ public class TemplateController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TemplateModel>> GetTemplate(int id)
+    public async Task<ActionResult<TemplateModel>> GetTemplate(Guid id)
     {
         string userId = HttpContext.Request.Query["userId"].ToString();
 
@@ -60,7 +60,7 @@ public class TemplateController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTemplate(int id, TemplatePutPayload template)
+    public async Task<IActionResult> PutTemplate(Guid id, TemplatePutPayload template)
     {
         if (id != template.Id)
         {
@@ -133,7 +133,7 @@ public class TemplateController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTemplate(int id)
+    public async Task<IActionResult> DeleteTemplate(Guid id)
     {
         var template = await _context.Templates
             .Where(template => template.Id == id)
@@ -152,7 +152,7 @@ public class TemplateController : ControllerBase
         return NoContent();
     }
 
-    private bool TemplateExists(int id)
+    private bool TemplateExists(Guid id)
     {
         return _context.Templates.Any(e => e.Id == id);
     }
