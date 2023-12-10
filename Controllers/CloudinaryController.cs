@@ -22,8 +22,9 @@ public class CloudinaryController : ControllerBase
 
     }
 
+    [Route("uploadSignature", Name="uploadSignature")]
     [HttpPost]
-    public async Task<ActionResult<SignResponse>> AskSignature(SignPayload payload)
+    public async Task<ActionResult<UploadSignResponse>> UploadSignature(UploadSignPayload payload)
     {
         long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
         string folder = payload.UserId + "/elements";
@@ -34,7 +35,7 @@ public class CloudinaryController : ControllerBase
             { "timestamp", timestamp },
         };
         
-        SignResponse signData = new SignResponse
+        UploadSignResponse signData = new UploadSignResponse
         {
             Apikey = _config["Cloudinary:ApiKey"],
             Timestamp = timestamp,
@@ -44,5 +45,35 @@ public class CloudinaryController : ControllerBase
         };
     
         return signData;
+    }
+
+    [Route("deleteSignature", Name="deleteSignature")]
+    [HttpPost]
+    public async Task<ActionResult<ICollection<DeleteSignResponse>>> DeleteSignature([FromBody] List<string> publicIds)
+    {
+        List<DeleteSignResponse> response = new List<DeleteSignResponse>();
+        long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+    
+        foreach (var publicId in publicIds)
+        {    
+            IDictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "public_id", publicId },
+                { "timestamp", timestamp },
+            };
+
+            DeleteSignResponse signData = new DeleteSignResponse
+            {
+                Apikey = _config["Cloudinary:ApiKey"],
+                Timestamp = timestamp,
+                Signature = cloudinary.Api.SignParameters(parameters),
+                Cloudname = _config["Cloudinary:CloudName"],
+                PublicId = publicId
+            };
+
+            response.Add(signData);
+        }
+    
+        return response;
     }
 }
