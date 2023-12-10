@@ -13,9 +13,9 @@ import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLa
 import ElementPreview from '../shared/ElementPreview';
 import { useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
-import { uploadElementsImages } from '../../services/CloudinaryService';
+import { deleteElementsImages, uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
-import { ResizedImage, resizeImage } from '../../services/Util';
+import { ResizedImage, isTemporaryId, resizeImage } from '../../services/Util';
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
@@ -75,10 +75,27 @@ const TemplateEditor = (
     const onSaveButtonClick = async (): Promise<void> => {
         let elementsWithUploadedImages: Element[] = [];
 
-        // First, upload the elements images to cloudinary
+        // For CREATION, upload ALL the elements images to cloudinary
         if (mode === ERankingLayoutMode.Builder) {
             elementsWithUploadedImages =
                 await uploadElementsImages(elementsToCreate, userId!);
+        }
+        // For EDITION
+        else if (mode === ERankingLayoutMode.Editor) {
+            // Upload ONLY images that have not already been uploaded
+            const elementsAlreadyCreated: Element[] = elementsToCreate.filter(elt => !isTemporaryId(elt.id!));
+            const elementsNotYetCreated: Element[] = elementsToCreate.filter(elt => isTemporaryId(elt.id!));
+
+            const newElementsWithImages: Element[] = await uploadElementsImages(elementsNotYetCreated, userId!);
+
+            elementsWithUploadedImages = elementsAlreadyCreated.concat(newElementsWithImages);
+
+            // AND
+            // Delete from cloudinary the images that have been removed
+            const elementsToDelete: Element[] = (itemToEdit as Template).elements.filter(
+                elt => !elementsToCreate.includes(elt)
+            );
+            await deleteElementsImages(elementsToDelete);
         }
 
         // Then, save the template in database
