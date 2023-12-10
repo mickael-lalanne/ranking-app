@@ -39,12 +39,12 @@ export const createTierlist = async (
 
 // DELETE
 export const deleteTierlist = async (
-    tierlistId: string,
+    tierlistToDelete: Tierlist,
     dispatch: AppDispatch
 ): Promise<void> => {
-    await fetch(`${TIERLIST_ENDPOINT}/${tierlistId}`, { method: 'DELETE' });
+    await fetch(`${TIERLIST_ENDPOINT}/${tierlistToDelete.id}`, { method: 'DELETE' });
     // Once tierlist is deleted in base, remove it from the store
-    dispatch(removeTierlistInStore(tierlistId));
+    dispatch(removeTierlistInStore(tierlistToDelete.id));
 };
 
 // PUT

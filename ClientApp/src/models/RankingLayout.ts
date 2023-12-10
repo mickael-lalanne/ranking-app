@@ -43,9 +43,8 @@ export interface RankingLayoutProps {
     EditorComponent: EditorComponent;
     createFunction: (itemToCreate: RankingType, dispatch: AppDispatch) => Promise<any>;
     updateFunction: (itemToUpdate: RankingType, dispatch: AppDispatch) => Promise<any>;
-    deleteFunction: (itemIdToDelete: string, dispatch: AppDispatch) => Promise<any>;
+    deleteFunction: (itemToDelete: RankingType, dispatch: AppDispatch) => Promise<any>;
 }
-
 
 export const TEMPLATE_LAYOUT_PROPS: RankingLayoutProps = {
     viewerTitle: 'My templates',
@@ -61,7 +60,7 @@ export const TEMPLATE_LAYOUT_PROPS: RankingLayoutProps = {
     EditorComponent: TemplateEditor,
     createFunction: createTemplate as (templateToCreate: RankingType, dispatch: AppDispatch) => Promise<Template>,
     updateFunction: updateTemplate as (templateToUpdate: RankingType, dispatch: AppDispatch) => Promise<void>,
-    deleteFunction: deleteTemplate
+    deleteFunction: deleteTemplate as (templateToDelete: RankingType, dispatch: AppDispatch) => Promise<void>
 };
 
 export const TIERLIST_LAYOUT_PROPS: RankingLayoutProps = {
@@ -78,5 +77,5 @@ export const TIERLIST_LAYOUT_PROPS: RankingLayoutProps = {
     EditorComponent: TierlistsEditor,
     createFunction: createTierlist as (tierlistToCreate: RankingType) => Promise<Tierlist>,
     updateFunction: updateTierlist as (tierlistToUpdate: RankingType) => Promise<void>,
-    deleteFunction: deleteTierlist
+    deleteFunction: deleteTierlist as (tierlistToDelete: RankingType) => Promise<void>
 };

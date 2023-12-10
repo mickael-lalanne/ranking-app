@@ -6,6 +6,7 @@ import {
     removeTemplate as removeTemplateInStore,
     updateTemplate as updateTemplateInStore
 } from "../store/TemplateStore";
+import { deleteElementsImages } from "./CloudinaryService";
 import { isTemporaryId } from "./Util";
 
 const TEMPLATE_ENDPOINT: string = 'template';
@@ -43,12 +44,17 @@ export const createTemplate = async (
 
 // DELETE
 export const deleteTemplate = async (
-    templateId: string,
+    templateToDelete: Template,
     dispatch: AppDispatch
 ): Promise<void> => {
-    await fetch(`${TEMPLATE_ENDPOINT}/${templateId}`, { method: 'DELETE' });
+    // First, delete all elements images on Cloudinary
+    await deleteElementsImages(templateToDelete.elements);
+
+    // Then, call the server to delete the template in base
+    await fetch(`${TEMPLATE_ENDPOINT}/${templateToDelete.id}`, { method: 'DELETE' });
+
     // Once template is deleted in base, remove it from the store
-    dispatch(removeTemplateInStore(templateId));
+    dispatch(removeTemplateInStore(templateToDelete.id!));
 };
 
 // PUT

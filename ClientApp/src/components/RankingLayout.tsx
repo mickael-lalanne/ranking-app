@@ -153,7 +153,7 @@ const RankingLayout = (
     const onDeleteItemButtonClick = async (): Promise<void> => {
         // Todo : show a loading indicator while the item is deleting
         if (itemToEdit && itemToEdit.id) {
-            await deleteFunction(itemToEdit.id, dispatch)
+            await deleteFunction(itemToEdit, dispatch)
         }
         _switchMode(ERankingLayoutMode.Viewer);
     };

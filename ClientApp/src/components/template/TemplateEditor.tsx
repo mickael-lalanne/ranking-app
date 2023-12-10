@@ -73,9 +73,13 @@ const TemplateEditor = (
      * Called when the save button has been clicked
      */
     const onSaveButtonClick = async (): Promise<void> => {
+        let elementsWithUploadedImages: Element[] = [];
+
         // First, upload the elements images to cloudinary
-        const elementsWithUploadedImages: Element[] =
-            await uploadElementsImages(elementsToCreate, userId!);
+        if (mode === ERankingLayoutMode.Builder) {
+            elementsWithUploadedImages =
+                await uploadElementsImages(elementsToCreate, userId!);
+        }
 
         // Then, save the template in database
         const templateToSave: Template = {
