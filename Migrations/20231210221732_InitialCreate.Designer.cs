@@ -12,7 +12,7 @@ using ranking_app.Data;
 namespace ranking_app.Migrations
 {
     [DbContext(typeof(RankingAppDbContext))]
-    [Migration("20231210014346_InitialCreate")]
+    [Migration("20231210221732_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -85,8 +85,8 @@ namespace ranking_app.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TemplateId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("TemplateId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
                         .IsRequired()

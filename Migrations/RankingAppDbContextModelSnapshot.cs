@@ -82,8 +82,8 @@ namespace ranking_app.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TemplateId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("TemplateId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
                         .IsRequired()

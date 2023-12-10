@@ -31,7 +31,7 @@ namespace ranking_app.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    TemplateId = table.Column<int>(type: "integer", nullable: false),
+                    TemplateId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
