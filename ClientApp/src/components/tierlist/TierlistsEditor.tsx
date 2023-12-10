@@ -17,7 +17,7 @@ import { UserId } from '../../models/User';
 // That's because when you pass a value to TextField component with undefined,
 // the TextField component will assume that is an uncontrolled component.
 // Cf https://stackoverflow.com/questions/63567876/react-hooks-not-setting-the-select-value-after-fetching-options
-const emptyTemplate: Template = { id: -1, name: '', tiers: [], elements: []};
+const emptyTemplate: Template = { id: '', name: '', tiers: [], elements: []};
 
 const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template | undefined>(emptyTemplate);
@@ -48,8 +48,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
      * @param {React.ChangeEvent<HTMLInputElement>} event select change event
      */
     const handleTemplateSelectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const templateIdToSelect: number = parseInt(event.target.value);
-        setSelectedTemplate(allUserTemplates.find(template => template.id === templateIdToSelect));
+        setSelectedTemplate(allUserTemplates.find(template => template.id === event.target.value));
     };
 
     /**
@@ -70,10 +69,10 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     /**
      * Called when an element has been dropped in a cell
      * Update the rankedElement array to includes the new ranked element
-     * @param {number} tierId tier where the element has been dropped 
+     * @param {string} tierId tier where the element has been dropped 
      * @param {number} position position where the element has been dropped
      */
-    const onElementDrop = (tierId: number, position: number): void => {
+    const onElementDrop = (tierId: string, position: number): void => {
         if (draggedElement && draggedElement.id) {
             const newRankedElement: RankedElement = { elementId: draggedElement.id, tierId, position};
 

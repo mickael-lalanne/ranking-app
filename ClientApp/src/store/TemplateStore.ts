@@ -22,7 +22,7 @@ export const templateSlice = createSlice({
         addTemplate: (state, action: PayloadAction<Template>) => {
             state.templates = state.templates.concat(action.payload);
         },
-        removeTemplate: (state, action: PayloadAction<number>) => {
+        removeTemplate: (state, action: PayloadAction<string>) => {
             const templatesCopy: Template[] = state.templates.slice();
             state.templates = templatesCopy.filter(template => template.id !== action.payload);
         },

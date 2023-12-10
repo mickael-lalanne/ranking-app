@@ -43,7 +43,7 @@ export const createTemplate = async (
 
 // DELETE
 export const deleteTemplate = async (
-    templateId: number,
+    templateId: string,
     dispatch: AppDispatch
 ): Promise<void> => {
     await fetch(`${TEMPLATE_ENDPOINT}/${templateId}`, { method: 'DELETE' });

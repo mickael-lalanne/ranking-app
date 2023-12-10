@@ -12,7 +12,7 @@ interface SignatureResponse {
 };
 
 type uploadPromiseResponse = {
-    elementId: number,
+    elementId: string,
     publicId: string
 };
 

@@ -11,7 +11,7 @@ const ElementPreview = ({
     readonly = false
 }: {
     element: Element,
-    deleteElementHandler?: (elementId: number) => void,
+    deleteElementHandler?: (elementId: string) => void,
     dragStartHandler?: (element: Element) => void,
     dragEndHandler?: () => void,
     readonly?: boolean
@@ -32,7 +32,7 @@ const ElementPreview = ({
     }, [element]);
 
     // Show the delete tier button only on hover
-    const DeleteElementButton = (elementId: number): React.JSX.Element | undefined => {
+    const DeleteElementButton = (elementId: string): React.JSX.Element | undefined => {
         if (isHovering && deleteElementHandler) {
             return (
                 <div className={element_delete_container_style}>

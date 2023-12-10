@@ -2,7 +2,7 @@ import { Element } from './Element';
 import { UserId } from './User';
 
 export interface Template {
-    id?: number;
+    id?: string;
     name: string;
     userId?: UserId;
     tiers: Tier[];
@@ -11,7 +11,7 @@ export interface Template {
 }
 
 export interface Tier {
-    id?: number;
+    id?: string;
     name: string;
     rank: number;
 }

@@ -43,7 +43,7 @@ export interface RankingLayoutProps {
     EditorComponent: EditorComponent;
     createFunction: (itemToCreate: RankingType, dispatch: AppDispatch) => Promise<any>;
     updateFunction: (itemToUpdate: RankingType, dispatch: AppDispatch) => Promise<any>;
-    deleteFunction: (itemIdToDelete: number, dispatch: AppDispatch) => Promise<any>;
+    deleteFunction: (itemIdToDelete: string, dispatch: AppDispatch) => Promise<any>;
 }
 
 

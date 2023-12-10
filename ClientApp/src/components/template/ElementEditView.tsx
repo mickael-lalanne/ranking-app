@@ -21,7 +21,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
     defaultImages: ResizedImage[]
 }) => {
     const [currentElements, setCurrentElements] = useState<Element[]>([]);
-    const [uploadBtnHover, setUploadBtnHover] = useState<number>();
+    const [uploadBtnHover, setUploadBtnHover] = useState<string>();
 
     /**
      * Called when the defaultImages props has changed
@@ -38,7 +38,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
     };
 
     // Called when the element name has changed
-    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, elementId: number) => {
+    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, elementId: string) => {
         const eltToUpdateIndex: number = currentElements.findIndex(e => e.id === elementId);
         if (eltToUpdateIndex > -1) {
             currentElements[eltToUpdateIndex].name = e.target.value;
@@ -49,7 +49,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
     // Called when the user has chosen an image with the file input
     const onImageFieldChange = async (
         e: React.ChangeEvent<HTMLInputElement>,
-        elementId: number
+        elementId: string
     ): Promise<void> => {
         const eltToUpdateIndex: number = currentElements.findIndex(e => e.id === elementId);
         if (eltToUpdateIndex > -1) {
@@ -118,7 +118,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
                         component="label"
                         className={upload_btn_style}
                         onMouseEnter={() => setUploadBtnHover(elt.id)}
-                        onMouseLeave={() => setUploadBtnHover(-1)}
+                        onMouseLeave={() => setUploadBtnHover('')}
                     >
                         {UploadButtonContent(elt)}
                         <input

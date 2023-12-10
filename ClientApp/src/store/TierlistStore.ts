@@ -23,7 +23,7 @@ export const tierlistSlice = createSlice({
         addTierlist: (state, action: PayloadAction<Tierlist>) => {
             state.tierlists = state.tierlists.concat(action.payload);
         },
-        removeTierlist: (state, action: PayloadAction<number>) => {
+        removeTierlist: (state, action: PayloadAction<string>) => {
             const tierlistsCopy: Tierlist[] = state.tierlists.slice();
             state.tierlists = tierlistsCopy.filter(tierlist => tierlist.id !== action.payload);
         },

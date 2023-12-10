@@ -25,7 +25,7 @@ const TemplateEditor = (
     const [elementsImages, setElementsImages] = useState<ResizedImage[]>([]);
     const [templateName, setTemplateName] = useState<string>('');
     const [saveButtonText, setSaveButtonText] = useState<string>('');
-    const [tierHovering, setTierHovering] = useState<number>();
+    const [tierHovering, setTierHovering] = useState<string>();
     const [editViewMode, setEditViewMode] = useState<EEditViewMode>(EEditViewMode.Hide);
 
     /**
@@ -95,12 +95,12 @@ const TemplateEditor = (
     };
 
     // Called when the delete button of a tier has been clicked
-    const onTierDeleteButtonClick = (tierId: number) => {
+    const onTierDeleteButtonClick = (tierId: string) => {
         setTiersToCreate(tiersToCreate.filter(t => t.id !== tierId));
     };
 
     // Called when the delete button of an element has been clicked
-    const onElementDeleteButtonClick = (elementId: number) => {
+    const onElementDeleteButtonClick = (elementId: string) => {
         setElementsToCreate(elementsToCreate.filter(e => e.id !== elementId));
     };
 
@@ -134,7 +134,7 @@ const TemplateEditor = (
         const sortedTiers: Tier[] = tiersToCreate.slice().sort((a, b) => a.rank - b.rank);
 
         // Show the delete tier button only on hover
-        const DeleteTierButton = (tierId: number): React.JSX.Element | undefined => {
+        const DeleteTierButton = (tierId: string): React.JSX.Element | undefined => {
             if (tierHovering === tierId) {
                 return (
                     <IconButton edge="end" onClick={() => onTierDeleteButtonClick(tierId)} className={delete_btn_style}>

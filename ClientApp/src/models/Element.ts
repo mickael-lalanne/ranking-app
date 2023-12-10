@@ -1,12 +1,12 @@
 export interface Element {
-    id?: number;
+    id?: string;
     name: string;
     image: string;
     type?: number;
 }
 
 export interface RankedElement {
-    elementId: number;
-    tierId: number;
+    elementId: string;
+    tierId: string;
     position: number;
 }

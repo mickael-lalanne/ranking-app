@@ -39,7 +39,7 @@ export const createTierlist = async (
 
 // DELETE
 export const deleteTierlist = async (
-    tierlistId: number,
+    tierlistId: string,
     dispatch: AppDispatch
 ): Promise<void> => {
     await fetch(`${TIERLIST_ENDPOINT}/${tierlistId}`, { method: 'DELETE' });

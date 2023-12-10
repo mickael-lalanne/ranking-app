@@ -7,16 +7,16 @@ import ElementPreview from '../shared/ElementPreview';
 const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler, readonly = false }: {
     template?: Template,
     rankedElements: RankedElement[],
-    dropHandler?: (tierId: number, rank: number) => void,
+    dropHandler?: (tierId: string, rank: number) => void,
     dragStartHandler?: (element: Element) => void,
     dragEndHandler?: () => void,
     readonly?: boolean
 }) => {
     /**
-     * @param {number} tierId necessary for the drop handler
+     * @param {string} tierId necessary for the drop handler
      * @returns {React.JSX.Element[]} the 5 cells contained in a tier
      */
-    const TierCells = (tierId: number): React.JSX.Element[] => {
+    const TierCells = (tierId: string): React.JSX.Element[] => {
         const cells: React.JSX.Element[] = [];
 
         /**
