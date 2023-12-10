@@ -4,17 +4,21 @@ import { element_container_style } from '../shared/ElementPreview';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Button from '@mui/material/Button';
 import { ELEMENT_SIZE } from '../../utils/css-utils';
+import { useAppSelector } from '../../app/hooks';
 
 const AddElementButton = (
     { changeCallback } : {
         changeCallback: (e: React.ChangeEvent<HTMLInputElement>) => void;
     }
 ) => {
+    const loading: boolean = useAppSelector(state => state.application.loading);
+
     return(
         <Button
             variant="contained"
             component="label"
             className={element_container_style + ' ' + add_elt_btn_style}
+            disabled={loading}
         >
             <AddCircleOutlineIcon style={{ width: '40px', height: '40px' }} />
             <input

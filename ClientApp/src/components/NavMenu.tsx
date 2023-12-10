@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
     Collapse,
     Navbar,
@@ -11,86 +11,85 @@ import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import { css } from '@emotion/css';
 import { RANKING_APP_THEME } from '../utils/css-utils';
+import LinearProgress from '@mui/material/LinearProgress';
+import { useAppSelector } from '../app/hooks';
 
-interface IRecipeProps {
-    height: string;
-}
-interface IRecipeState {
-    collapsed?: boolean;
-}
-export class NavMenu extends Component<IRecipeProps, IRecipeState> {
-    static displayName = NavMenu.name;
+const NavMenu = (
+    { height }: { height: string}
+) => {
+    const [collapsed, setCollapsed] = useState<boolean>(true);
 
-    constructor(props: IRecipeProps) {
-        super(props);
+    const loading: boolean = useAppSelector(state => state.application.loading);
 
-        this.toggleNavbar = this.toggleNavbar.bind(this);
-        this.state = {
-            collapsed: true,
-        };
+    const toggleNavbar = () =>  {
+        setCollapsed(!collapsed);
     }
 
-    toggleNavbar() {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    }
+    const ShowLoading = (): React.JSX.Element | undefined => {
+        if (loading) {
+            return <LinearProgress
+                color="primary"
+                className={loading_indicator_style}
+                style={{ position: 'absolute' }}
+            />;
+        }
+    };
 
-    render() {
-        return (
-            <header style={{ height: this.props.height }}>
-                <Navbar
-                    className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-                    container
-                    light
+    return (
+        <header style={{ minHeight: height }} className={ loading ? nav_disabled_style : '' }>
+            <Navbar
+                className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
+                container
+                light
+            >
+                <NavbarBrand tag={Link} to="/">
+                    Ranking App
+                </NavbarBrand>
+                <NavbarToggler
+                    onClick={toggleNavbar}
+                    className="mr-2"
+                />
+                <Collapse
+                    className="d-sm-inline-flex flex-sm-row-reverse"
+                    isOpen={!collapsed}
+                    navbar
                 >
-                    <NavbarBrand tag={Link} to="/">
-                        Ranking App
-                    </NavbarBrand>
-                    <NavbarToggler
-                        onClick={this.toggleNavbar}
-                        className="mr-2"
-                    />
-                    <Collapse
-                        className="d-sm-inline-flex flex-sm-row-reverse"
-                        isOpen={!this.state.collapsed}
-                        navbar
-                    >
-                        <ul className="navbar-nav flex-grow">
-                            <NavItem>
-                                <NavLink
-                                    tag={Link}
-                                    className={navlink_style}
-                                    to="/"
-                                >
-                                    Home
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    tag={Link}
-                                    className={navlink_style}
-                                    to="/templates"
-                                >
-                                    Templates
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    tag={Link}
-                                    className={navlink_style}
-                                    to="/tierlists"
-                                >
-                                    Tierlists
-                                </NavLink>
-                            </NavItem>
-                        </ul>
-                    </Collapse>
-                </Navbar>
-            </header>
-        );
-    }
+                    <ul className="navbar-nav flex-grow">
+                        <NavItem>
+                            <NavLink
+                                tag={Link}
+                                className={navlink_style}
+                                to="/"
+                            >
+                                Home
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                tag={Link}
+                                className={navlink_style}
+                                to="/templates"
+                            >
+                                Templates
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                tag={Link}
+                                className={navlink_style}
+                                to="/tierlists"
+                            >
+                                Tierlists
+                            </NavLink>
+                        </NavItem>
+                    </ul>
+                </Collapse>
+            {ShowLoading()}
+            </Navbar>
+        </header>
+    );
 }
+export default NavMenu;
 
 /**
  * CSS STYLES
@@ -101,4 +100,16 @@ const navlink_style = css({
         color: RANKING_APP_THEME.defaultRankingTheme?.primary,
         textDecoration: 'underline'
     }
+});
+
+const loading_indicator_style = css({
+    bottom: '0',
+    left: 0,
+    width: '100%'
+});
+
+const nav_disabled_style = css({
+    pointerEvents: 'none',
+    userSelect: 'none',
+    opacity: 0.5
 });

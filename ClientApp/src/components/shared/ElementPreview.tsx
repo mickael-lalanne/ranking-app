@@ -4,6 +4,7 @@ import { Element } from '../../models/Element';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { getElementImageUrl } from '../../services/CloudinaryService';
 import { ELEMENT_SIZE } from '../../utils/css-utils';
+import { useAppSelector } from '../../app/hooks';
 
 const ElementPreview = ({
     element,
@@ -31,9 +32,11 @@ const ElementPreview = ({
         }
     }, [element]);
 
+    const loading: boolean = useAppSelector(state => state.application.loading);
+
     // Show the delete tier button only on hover
     const DeleteElementButton = (elementId: string): React.JSX.Element | undefined => {
-        if (isHovering && deleteElementHandler) {
+        if (isHovering && deleteElementHandler && !loading) {
             return (
                 <div className={element_delete_container_style}>
                     <RemoveCircleOutlineIcon

@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { css } from '@emotion/css';
 import { EEditViewMode, TIERS_COLORS, Tier } from '../../models/Template';
 import { generateRandomId } from '../../services/Util';
+import { useAppSelector } from '../../app/hooks';
 
 /**
  * View displayed when the user wants to create a new tier or edit an existing one
@@ -17,7 +18,7 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
     const [tierRank, setTierRank] = useState<number>();
     const [tierName, setTierName] = useState<string>();
     const [availableRanks, setAvailableRanks] = useState<number[]>([0, 1, 2, 3, 4]);
-    
+
     /**
      * Called when the existingTiers props has changed
      * Update the availableRanks array
@@ -25,6 +26,8 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
     useEffect(() => {
         setAvailableRanks(availableRanks.filter(r => existingTiers.find(tier => tier.rank === r) === undefined));
     }, [existingTiers]);
+
+    const loading: boolean = useAppSelector(state => state.application.loading);
 
     // Called when the "Create" button of the edit view has been clicked
     const createTier = () => {
@@ -63,7 +66,7 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
         return(<div style={{ display: 'flex' }}>{rankCells}</div>)
     };
 
-    if (editViewMode === EEditViewMode.EditTier) {
+    if (editViewMode === EEditViewMode.EditTier && !loading) {
         return (<div className={tiers_edit_view_container_style}>
             <TextField
                 label="Tier name"

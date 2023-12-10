@@ -11,11 +11,12 @@ import AppButton from '../shared/AppButton';
 import Button from '@mui/material/Button';
 import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLayout';
 import ElementPreview from '../shared/ElementPreview';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
 import { deleteElementsImages, uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
 import { ResizedImage, isTemporaryId, resizeImage } from '../../services/Util';
+import { updateLoading } from '../../store/ApplicationStore';
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
@@ -44,7 +45,9 @@ const TemplateEditor = (
         }
     }, [mode]);
 
-    const userId: UserId = useAppSelector(state => state.user.user?.id);
+    const dispatch = useAppDispatch();
+    const userId: UserId = useAppSelector(state => state.application.user?.id);
+    const loading: boolean = useAppSelector(state => state.application.loading);
 
     /**
      * Called when a new tier has been created from the Edit view
@@ -73,6 +76,9 @@ const TemplateEditor = (
      * Called when the save button has been clicked
      */
     const onSaveButtonClick = async (): Promise<void> => {
+        // Show loading indicator
+        dispatch(updateLoading(true));
+
         let elementsWithUploadedImages: Element[] = [];
 
         // For CREATION, upload ALL the elements images to cloudinary
@@ -156,7 +162,7 @@ const TemplateEditor = (
 
         // Show the delete tier button only on hover
         const DeleteTierButton = (tierId: string): React.JSX.Element | undefined => {
-            if (tierHovering === tierId) {
+            if (tierHovering === tierId && !loading) {
                 return (
                     <IconButton edge="end" onClick={() => onTierDeleteButtonClick(tierId)} className={delete_btn_style}>
                         <DeleteIcon />
@@ -209,6 +215,7 @@ const TemplateEditor = (
                     variant="contained"
                     className={add_tier_btn_style}
                     onClick={() => setEditViewMode(EEditViewMode.EditTier)}
+                    disabled={loading}
                 >
                     Add Tier
                 </Button>
@@ -237,6 +244,7 @@ const TemplateEditor = (
                 onChange={onNameFieldChange}
                 value={templateName}
                 fullWidth={true}
+                disabled={loading}
             />
 
             <div className={editor_title_style}>Tiers :</div>
@@ -267,7 +275,7 @@ const TemplateEditor = (
         </div>
         <div className={footer_style}>
             <div className="app_spacer"></div>
-            <AppButton text={saveButtonText} onClickHandler={onSaveButtonClick} />
+            <AppButton text={saveButtonText} onClickHandler={onSaveButtonClick} disabled={loading} />
         </div>
     </>);
 };

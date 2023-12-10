@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
-import { NavMenu } from './NavMenu';
+import NavMenu from './NavMenu';
 import { css } from '@emotion/css';
 import { createTheme, ThemeProvider, Theme } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';

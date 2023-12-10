@@ -7,12 +7,12 @@ import { Button } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { ERankingLayoutMode, RankingLayoutProps, RankingType } from '../models/RankingLayout';
 import { getTemplates } from '../services/TemplateServices';
-import { useAppDispatch } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
 import TierlistsViewer from './tierlist/TierlistsViewer';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from "@clerk/clerk-react";
-import { updateUser } from '../store/UserStore';
+import { updateLoading, updateUser } from '../store/ApplicationStore';
 
 const RankingLayout = (
     {
@@ -70,6 +70,7 @@ const RankingLayout = (
     }, [location]);
 
     const theme = useTheme();
+    const loading: boolean = useAppSelector(state => state.application.loading);
 
     /**
      * Change the mode and the header texts depending on the mode parameter
@@ -133,8 +134,6 @@ const RankingLayout = (
      * @param {Template} newItem template to create or update depending on the mode
      */
     const saveHandler = async (newItem: RankingType): Promise<void> => {
-        // Todo: show a loading indicator while the server is updating
-
         if (rankingLayoutMode === ERankingLayoutMode.Builder) {
             await createFunction(newItem, dispatch);
         }
@@ -144,6 +143,9 @@ const RankingLayout = (
         }
 
         _switchMode(ERankingLayoutMode.Viewer);
+
+        // Hide loading indicator
+        dispatch(updateLoading(false));
     };
 
     /**
@@ -151,9 +153,14 @@ const RankingLayout = (
      * Call the server to delete the template or the tierlist in the database
      */
     const onDeleteItemButtonClick = async (): Promise<void> => {
-        // Todo : show a loading indicator while the item is deleting
         if (itemToEdit && itemToEdit.id) {
-            await deleteFunction(itemToEdit, dispatch)
+            // Show loading indicator
+            dispatch(updateLoading(true));
+
+            await deleteFunction(itemToEdit, dispatch);
+
+            // Hide loading indicator
+            dispatch(updateLoading(false));
         }
         _switchMode(ERankingLayoutMode.Viewer);
     };
@@ -185,7 +192,7 @@ const RankingLayout = (
         // Todo : display a confirmation popup when the delete button has been clicked
         if (rankingLayoutMode === ERankingLayoutMode.Editor) {
             return (
-                <Button onClick={onDeleteItemButtonClick} className={delete_btn_style}>
+                <Button onClick={onDeleteItemButtonClick} className={delete_btn_style} disabled={loading}>
                     <DeleteForeverIcon style={{ height: '32px', width: '32px' }} />
                 </Button>
             );
@@ -202,6 +209,7 @@ const RankingLayout = (
                 text={headerButtonText}
                 onClickHandler={onHeaderButtonClick}
                 color={headerButtonColor}
+                disabled={loading}
             />
         </div>
 

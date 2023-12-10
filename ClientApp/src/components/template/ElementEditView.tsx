@@ -10,6 +10,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ElementPreview from '../shared/ElementPreview';
 import AddElementButton from '../shared/AddElementButton';
 import { ELEMENT_SIZE } from '../../utils/css-utils';
+import { useAppSelector } from '../../app/hooks';
 
 /**
  * View displayed when the user wants to create a new element or edit an existing one
@@ -31,6 +32,8 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
         const elements: Element[] = _convertImagesToElements(defaultImages);
         setCurrentElements(elements);
     }, [defaultImages]);
+
+    const loading: boolean = useAppSelector(state => state.application.loading);
 
     // Called when the "Create" button of the edit view has been clicked
     const createElements = () => {
@@ -143,7 +146,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
         return editionsView;
     };
 
-    if (editViewMode === EEditViewMode.EditElement) {
+    if (editViewMode === EEditViewMode.EditElement && !loading) {
         return (<div className={element_edit_view_container_style}>
             <Alert severity="info" className={warning_message_style}>
                 FYI : all your images are automatically resized to have a maximum size of 150x150.
