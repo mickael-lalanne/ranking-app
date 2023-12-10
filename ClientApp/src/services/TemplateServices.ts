@@ -74,10 +74,14 @@ export const updateTemplate = async (
  * @param {Template} template the template where tmp ids needs to be removed
  */
 const _removeTmpIds = (template: Template) => {
-    template.tiers.forEach(tier => {
-        tier.id = isTemporaryId(tier.id!) ? undefined : tier.id;
+    // We can't set the id directly because the template object came from the store and is readonly
+    // So use map(), otherwise we got the "Cannot assign to read only property 'id' of object" TypeError
+
+    template.tiers = template.tiers.map((tier) => {
+        return { ...tier, id: isTemporaryId(tier.id!) ? undefined : tier.id };
     });
-    template.elements.forEach(element => {
-        element.id = isTemporaryId(element.id!) ? undefined : element.id;
+
+    template.elements = template.elements.map((element) => {
+        return { ...element, id: isTemporaryId(element.id!) ? undefined : element.id };
     });
 };
