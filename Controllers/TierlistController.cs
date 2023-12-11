@@ -59,12 +59,27 @@ public class TierlistController : ControllerBase
             return BadRequest();
         }
 
-        _context.Entry(tierlist).State = EntityState.Modified;
+        TierlistModel baseTierlist = await _context.Tierlists
+            .Where(tierlist => tierlist.Id == id)
+            .Include(tierlist => tierlist.RankedElements)
+            .FirstAsync();
 
-        // Update the ranked elements
-        tierlist.RankedElements.ToList().ForEach(rankedElement =>
-            _context.Entry(rankedElement).State = EntityState.Modified
-        );
+        baseTierlist.Name = tierlist.Name;
+        baseTierlist.TemplateId = tierlist.TemplateId;
+
+        // TO UPDATE RANKED ELEMENTS
+        // cf https://stackoverflow.com/a/39838558/22930358
+        // First, remove all existing elements
+        if (baseTierlist.RankedElements.Any())
+        {
+            _context.RankedElements.RemoveRange(baseTierlist.RankedElements);
+            await _context.SaveChangesAsync();
+        }
+        // Then, add all elements presents in the tierlist parameter
+        foreach (RankedElement rankedElt in tierlist.RankedElements)
+        {
+            baseTierlist.RankedElements.Add(rankedElt);
+        }
 
         try
         {
