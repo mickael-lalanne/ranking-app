@@ -44,6 +44,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     // Retrieve user templates from the store
     const allUserTemplates: Template[] = useAppSelector((state) => state.templates.templates);
     const userId: UserId= useAppSelector(state => state.application.user?.id);
+    const loading: boolean = useAppSelector(state => state.application.loading);
 
     /**
      * Called when a template has been selected
@@ -166,7 +167,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
             <AppButton
                 text={saveButtonText}
                 onClickHandler={onSaveButtonClick}
-                disabled={!selectedTemplate}
+                disabled={!selectedTemplate || loading}
             />
         </div>
     </>);

@@ -275,7 +275,11 @@ const TemplateEditor = (
         </div>
         <div className={footer_style}>
             <div className="app_spacer"></div>
-            <AppButton text={saveButtonText} onClickHandler={onSaveButtonClick} disabled={loading} />
+            <AppButton
+                text={saveButtonText}
+                onClickHandler={onSaveButtonClick}
+                disabled={loading}
+            />
         </div>
     </>);
 };
