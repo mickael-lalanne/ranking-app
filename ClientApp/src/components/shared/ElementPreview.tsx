@@ -9,13 +9,15 @@ import { useAppSelector } from '../../app/hooks';
 const ElementPreview = ({
     element,
     deleteElementHandler, dragStartHandler, dragEndHandler,
-    readonly = false
+    readonly = false,
+    fitToContainer = false
 }: {
     element: Element,
     deleteElementHandler?: (elementId: string) => void,
     dragStartHandler?: (element: Element) => void,
     dragEndHandler?: () => void,
-    readonly?: boolean
+    readonly?: boolean,
+    fitToContainer?: boolean
 }) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const [elementImage, setElementImage] = useState<string>();
@@ -52,6 +54,10 @@ const ElementPreview = ({
     return(<>
         <div
             className={element_container_style}
+            style={{
+                height: fitToContainer ? 'unset' : ELEMENT_SIZE,
+                width: fitToContainer ? 'unset' : ELEMENT_SIZE
+            }}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
             onDragStart={e => dragStartHandler ? dragStartHandler(element) : undefined}
@@ -76,11 +82,9 @@ export const element_container_style = css({
     position: 'relative',
     border: '1px solid',
     flexDirection: 'column',
-    height: ELEMENT_SIZE,
     justifyContent: 'center',
     textAlign: 'center',
     aspectRatio: 1,
-    width: ELEMENT_SIZE
 });
 
 const element_delete_container_style = css({

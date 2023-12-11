@@ -68,6 +68,7 @@ const tierlist_element_style = css({
     cursor: 'pointer',
     transitionDuration: '500ms',
     maxWidth: '350px',
+    aspectRatio: '1 / 1',
     ":hover": {
         transform: 'scale(1.08)'
     }

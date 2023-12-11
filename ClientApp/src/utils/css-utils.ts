@@ -17,4 +17,4 @@ export const RANKING_APP_THEME: ThemeOptions = {
     }
 };
 
-export const ELEMENT_SIZE: string = '75px !important';
+export const ELEMENT_SIZE: string = '75px';

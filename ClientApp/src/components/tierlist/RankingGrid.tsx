@@ -40,6 +40,7 @@ const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, 
                         dragStartHandler={dragStartHandler}
                         dragEndHandler={dragEndHandler}
                         readonly={readonly}
+                        fitToContainer
                     />
                 );
             }
