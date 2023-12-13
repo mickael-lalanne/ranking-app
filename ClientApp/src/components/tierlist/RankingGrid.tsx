@@ -4,12 +4,13 @@ import { TIERS_COLORS, Template } from '../../models/Template';
 import { RankedElement, Element } from '../../models/Element';
 import ElementPreview from '../shared/ElementPreview';
 
-const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler, readonly = false }: {
+const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler, unrankHandler, readonly = false }: {
     template?: Template,
     rankedElements: RankedElement[],
     dropHandler?: (tierId: string, rank: number) => void,
     dragStartHandler?: (element: Element) => void,
     dragEndHandler?: () => void,
+    unrankHandler?: (elementId: string) => void,
     readonly?: boolean
 }) => {
     /**
@@ -39,6 +40,7 @@ const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, 
                         element={elementObject}
                         dragStartHandler={dragStartHandler}
                         dragEndHandler={dragEndHandler}
+                        deleteElementHandler={unrankHandler}
                         readonly={readonly}
                         fitToContainer
                     />

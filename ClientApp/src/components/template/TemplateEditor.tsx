@@ -199,7 +199,7 @@ const TemplateEditor = (
 
         elementsToCreate.forEach(element => {
             createdElementsList.push(
-                <ElementPreview element={element} key={element.id} deleteElementHandler={onElementDeleteButtonClick} />
+                <ElementPreview element={element} key={element.id} deleteElementHandler={onElementDeleteButtonClick} readonly />
             );
         });
         return createdElementsList;

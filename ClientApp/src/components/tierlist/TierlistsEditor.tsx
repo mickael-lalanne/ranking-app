@@ -122,6 +122,14 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     };
 
     /**
+     * Called when the delete icon of a ranked element has been click
+     * @param {string} elementId id of the element to unrank
+     */
+    const onElementUnrank = (elementId: string) => {
+        setRankedElements(rankedElements.filter(elt => elt.elementId !== elementId));
+    };
+
+    /**
      * Called when the save button has been clicked
      */
     const onSaveButtonClick = (): void => {
@@ -175,6 +183,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 dropHandler={onElementDrop}
                 dragStartHandler={onElementDragStart}
                 dragEndHandler={onElementDragEnd}
+                unrankHandler={onElementUnrank}
             />
 
             <ToRankSection

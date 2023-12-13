@@ -31,6 +31,7 @@ const ToRankSection = ({ template, rankedElements, dragStartHandler, dragEndHand
         notRankedElements.forEach(element => {
             list.push(
                 <ElementPreview
+                    key={element.id}
                     element={element}
                     dragStartHandler={dragStartHandler}
                     dragEndHandler={dragEndHandler}
