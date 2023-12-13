@@ -78,19 +78,42 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     const onElementDrop = (tierId: string, position: number): void => {
         if (draggedElement && draggedElement.id) {
             const newRankedElement: RankedElement = { elementId: draggedElement.id, tierId, position};
+            let rankedElementCopy: RankedElement[] = rankedElements.slice();
 
-            const rankedEltIndex: number = rankedElements.findIndex(
+            // Index to find out if the dragged element has already been ranked
+            const movedEltIndex: number = rankedElements.findIndex(
                 elt => elt.elementId === newRankedElement.elementId
             );
+            // Index to find out if the cell already contains an element
+            const elementOnTargetPositionIndex: number = rankedElements.findIndex(
+                elt => elt.tierId === tierId && elt.position === position
+            );
 
-            // If element has been dropped for the not ranked list, add it to the rankedElements array
-            if (rankedEltIndex === -1) {
-                setRankedElements(rankedElements.concat(newRankedElement));
+            // The dragged element isn't ranked yet => it means it has been dragged from outside the grid
+            if (movedEltIndex === -1) {
+                // Check if we have to swap the element with an other
+                if (elementOnTargetPositionIndex !== -1) {
+                    // In this case, we have to unrank the previous element
+                    rankedElementCopy = rankedElementCopy.filter(
+                        elt => elt.elementId !== rankedElementCopy[elementOnTargetPositionIndex].elementId
+                    );
+                }
+                // Add the dragged element in the ranked array
+                setRankedElements(rankedElementCopy.concat(newRankedElement));
             }
-            //  If the element has already been ranked, when its position has been changed, update the rankedElements array
+            // The dragged element is already ranked => it means it has been moved inside the grid
             else {
-                const rankedElementCopy: RankedElement[] = rankedElements.slice();
-                rankedElementCopy[rankedEltIndex] = newRankedElement;
+                // Check if we have to swap the element with an other
+                if (elementOnTargetPositionIndex !== -1) {
+                    // In this case, we have to update the position of the previous element
+                    rankedElementCopy[elementOnTargetPositionIndex] = {
+                        ... rankedElementCopy[elementOnTargetPositionIndex],
+                        position: rankedElementCopy[movedEltIndex].position,
+                        tierId: rankedElementCopy[movedEltIndex].tierId
+                    };
+                }
+                // Update the dragged element position in the ranked array
+                rankedElementCopy[movedEltIndex] = newRankedElement;
                 setRankedElements(rankedElementCopy);
             }
         }
