@@ -11,6 +11,7 @@ namespace ranking_app.Data
 
         public DbSet<TemplateModel> Templates { get; set; }
         public DbSet<TierlistModel> Tierlists { get; set; }
+        public DbSet<Tier> Tiers { get; set; }
         public DbSet<RankedElement> RankedElements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

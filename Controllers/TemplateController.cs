@@ -77,14 +77,17 @@ public class TemplateController : ControllerBase
             
             baseTemplate.Name = template.Name;
 
-            // Check for tiers to delete
-            foreach (var baseTier in baseTemplate.Tiers)
+            // TO UPDATE TIERS
+            // First, remove all existing tiers
+            if (baseTemplate.Tiers.Any())
             {
-                // If the base tier is not present in the template to update
-                if (template.Tiers.Any(tier => tier.Id == baseTier.Id) == false) {
-                    // We have to remove it from the database
-                    baseTemplate.Tiers.Remove(baseTier);
-                }
+                _context.Tiers.RemoveRange(baseTemplate.Tiers);
+                await _context.SaveChangesAsync();
+            }
+            // Then, add all tiers presents in the tierlist parameter
+            foreach (Tier tier in template.Tiers)
+            {
+                baseTemplate.Tiers.Add(tier);
             }
 
             // Check for deleted elements
@@ -94,15 +97,6 @@ public class TemplateController : ControllerBase
                 if (template.Elements.Any(element => element.Id == baseElement.Id) == false) {
                     // We have to remove it from the database
                     baseTemplate.Elements.Remove(baseElement);
-                }
-            }
-
-            // Check for tiers to add
-            foreach (var tier in template.Tiers)
-            {
-                // If a tier has no id, we have to create it
-                if (tier.Id == null) {
-                    baseTemplate.Tiers.Add(tier);
                 }
             }
 
