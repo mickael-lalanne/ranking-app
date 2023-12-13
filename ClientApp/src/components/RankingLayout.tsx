@@ -59,8 +59,16 @@ const RankingLayout = (
                 .catch(err => {
                     // TODO: handle errors
                 });
-            }
+        }
     }, [ViewerComponent]);
+
+    // Called when the layout mode has changed (for ex: from Viewer to Builder)
+    useEffect(() => {
+        // Reset the itemToEdit property when leaving the builder / editor mode
+        if (rankingLayoutMode === ERankingLayoutMode.Viewer) {
+            setItemToEdit(undefined);
+        }
+    }, [rankingLayoutMode]);
 
     // Called when the url has changed
     // For example, user goes from Templates page to Tierlists page
@@ -125,7 +133,7 @@ const RankingLayout = (
      * @param {RankingType} itemToEdit the template or tierlist to edit
      */
     const editHandler = (itemToEdit: RankingType): void => {
-        setItemToEdit(itemToEdit)
+        setItemToEdit(itemToEdit);
         _switchMode(ERankingLayoutMode.Editor);
     };
 
