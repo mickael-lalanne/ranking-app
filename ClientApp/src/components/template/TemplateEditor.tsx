@@ -15,13 +15,21 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
 import { deleteElementsImages, uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
-import { ResizedImage, isTemporaryId, resizeImage } from '../../services/Util';
+import { ResizedImage, generateRandomId, isTemporaryId, resizeImage } from '../../services/Util';
 import { updateLoading } from '../../store/ApplicationStore';
+
+const DEFAULT_TIERS: Tier[] = [
+    { id: generateRandomId(), name: 'Tier 1', rank: 0 },
+    { id: generateRandomId(), name: 'Tier 2', rank: 1 },
+    { id: generateRandomId(), name: 'Tier 2', rank: 2 },
+    { id: generateRandomId(), name: 'Tier 4', rank: 3 },
+    { id: generateRandomId(), name: 'Tier 5', rank: 4 },
+];
 
 const TemplateEditor = (
     { saveHandler, itemToEdit, mode }: EditorComponentProps
 ) => {
-    const [tiersToCreate, setTiersToCreate] = useState<Tier[]>([]);
+    const [tiersToCreate, setTiersToCreate] = useState<Tier[]>(DEFAULT_TIERS);
     const [elementsToCreate, setElementsToCreate] = useState<Element[]>([]);
     const [elementsImages, setElementsImages] = useState<ResizedImage[]>([]);
     const [templateName, setTemplateName] = useState<string>('');
@@ -117,8 +125,23 @@ const TemplateEditor = (
     };
 
     // Called when the template name has changed
-    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setTemplateName(e.target.value);
+    };
+
+    // Called when a tier name has been changed
+    const onTierNameFieldChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        tierId: string
+    ): void => {
+        // Create copy to avoid "Cannot assign to read only property 'name' of object" error
+        // It's because tiers have a reference to the redux store
+        const tiersCopy: Tier[] = JSON.parse(JSON.stringify(tiersToCreate)); 
+        const tierToEditIndex: number = tiersCopy.findIndex(t => t.id === tierId);
+        if (tierToEditIndex !== -1) {
+            tiersCopy[tierToEditIndex].name = e.target.value;
+            setTiersToCreate(tiersCopy);
+        }
     };
 
     // Called when the delete button of a tier has been clicked
@@ -181,7 +204,14 @@ const TemplateEditor = (
                     onMouseLeave={() => setTierHovering(undefined)}
                 >
                     <div className={tier_rank_style}>{tier.rank + 1}</div>
-                    <div className={tier_name_style}>{tier.name}</div>
+                    <TextField
+                        className={tier_name_style}
+                        variant="standard"
+                        onChange={e => onTierNameFieldChange(e, tier.id!)}
+                        value={tier.name}
+                        fullWidth
+                        disabled={loading}
+                    />
                     <div className="app_spacer"></div>
                     {DeleteTierButton(tier.id!)}
                 </div>
@@ -314,7 +344,13 @@ const tier_rank_style = css({
 });
 
 const tier_name_style = css({
-    padding: '0 20px'
+    padding: '0 20px !important',
+    ".MuiInputBase-root:hover:before": {
+        borderBottom: '1.5px solid black !important'
+    },
+    ".MuiInputBase-root:after": {
+        borderBottom: '1.5px solid black'
+    }
 });
 
 const editor_title_style = css({
