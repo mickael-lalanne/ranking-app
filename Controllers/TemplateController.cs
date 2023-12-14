@@ -129,7 +129,19 @@ public class TemplateController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTemplate(Guid id)
     {
-        var template = await _context.Templates
+        // First, delete all tierlists linked to the template
+        IEnumerable<TierlistModel> tierlists = await _context.Tierlists
+            .Where(tierlist => tierlist.TemplateId == id)
+            .Include(tierlist => tierlist.RankedElements)
+            .ToListAsync();
+        
+        foreach (TierlistModel tierlist in tierlists)
+        {
+            _context.Tierlists.Remove(tierlist);
+        }
+
+        // Then, we can delete the template
+        TemplateModel template = await _context.Templates
             .Where(template => template.Id == id)
             .Include(template => template.Tiers)
             .Include(template => template.Elements)
