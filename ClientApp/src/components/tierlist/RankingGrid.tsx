@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { css } from '@emotion/css';
 import { TIERS_COLORS, Template } from '../../models/Template';
 import { RankedElement, Element } from '../../models/Element';
 import ElementPreview from '../shared/ElementPreview';
 
-const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler, unrankHandler, readonly = false }: {
+const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler, unrankHandler, readonly = false, innerRef }: {
     template?: Template,
     rankedElements: RankedElement[],
     dropHandler?: (tierId: string, rank: number) => void,
     dragStartHandler?: (element: Element) => void,
     dragEndHandler?: () => void,
     unrankHandler?: (elementId: string) => void,
-    readonly?: boolean
+    readonly?: boolean,
+    innerRef?: React.MutableRefObject<null>
 }) => {
     /**
      * @param {string} tierId necessary for the drop handler
@@ -87,7 +88,7 @@ const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, 
     };
 
     return(<>
-        <div className={tiers_grid_style}>
+        <div className={tiers_grid_style} ref={innerRef}>
             {TiersLines()}
         </div>
     </>);

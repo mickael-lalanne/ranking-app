@@ -48,6 +48,7 @@ export default AppButton;
  * CSS STYLES
  */
 const add_btn_pushable = css`
+    height: fit-content;
     position: relative;
     border: none;
     background: transparent;

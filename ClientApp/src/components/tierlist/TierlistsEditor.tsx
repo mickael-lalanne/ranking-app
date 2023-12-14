@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/css';
 import { Template } from '../../models/Template';
 import { Element, RankedElement } from '../../models/Element';
@@ -12,6 +12,10 @@ import AppButton from '../shared/AppButton';
 import { Tierlist } from '../../models/Tierlist';
 import { UserId } from '../../models/User';
 import { updateLoading } from '../../store/ApplicationStore';
+import html2canvas from 'html2canvas';
+import { Button } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import Tooltip from '@mui/material/Tooltip';
 
 // Hack : without an empty template used in the useState default value,
 // mui select won't display the value when a tierlist is edited
@@ -25,6 +29,8 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     const [draggedElement, setDraggedElement] = useState<Element>();
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
+    
+    const gridRef: React.MutableRefObject<null> = useRef(null);
 
     useEffect(() => {
         setSaveButtonText(itemToEdit ? 'Save changes' : 'Create tierlist');
@@ -149,6 +155,20 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     };
 
     /**
+     * Called when the download button has been clicked
+     * Convert the grid to a canvas using the html2canvas library and download it as png
+     */
+    const downloadTierlist = async (): Promise<void> => {
+        if (gridRef.current) {
+            const gridCanvas: HTMLCanvasElement = await html2canvas(gridRef.current, { useCORS: true });
+            const link: HTMLAnchorElement = document.createElement('a');
+            link.download = itemToEdit?.name + '.png';
+            link.href = gridCanvas.toDataURL();
+            link.click();
+        }
+    };
+
+    /**
      * @returns {React.JSX.Element} a Select HTML Element to choose the template used for the tierlist
      */
     const TemplateSelector = (): React.JSX.Element => {
@@ -178,6 +198,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
             {TemplateSelector()}
 
             <RankingGrid
+                innerRef={gridRef}
                 template={selectedTemplate}
                 rankedElements={rankedElements}
                 dropHandler={onElementDrop}
@@ -201,6 +222,11 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 onClickHandler={onSaveButtonClick}
                 disabled={!selectedTemplate || loading}
             />
+            <Tooltip title="Download as PNG">
+                <Button onClick={downloadTierlist} className={download_btn_style}>
+                    <DownloadIcon style={{ height: '32px', width: '32px' }} />
+                </Button>
+            </Tooltip>
         </div>
     </>);
 };
@@ -218,5 +244,11 @@ const template_select_style = css({
 
 const footer_style = css({
     display: 'flex',
+    alignItems: 'center',
     margin: '20px 0'
+});
+
+const download_btn_style = css({
+    marginLeft: '10px !important',
+    aspectRatio: 1
 });
