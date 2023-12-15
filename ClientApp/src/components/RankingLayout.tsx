@@ -5,7 +5,7 @@ import AppTitle from './shared/AppTitle';
 import { useTheme } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { ERankingLayoutMode, RankingLayoutProps, RankingType } from '../models/RankingLayout';
+import { DELETE_CONFIRM_TEMPLATE_CONTENT, DELETE_CONFIRM_TEMPLATE_TITLE, DELETE_CONFIRM_TIERLIST_TITLE, ERankingLayoutMode, ERankingLayoutType, RankingLayoutProps, RankingType } from '../models/RankingLayout';
 import { getTemplates } from '../services/TemplateServices';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
@@ -13,12 +13,14 @@ import TierlistsViewer from './tierlist/TierlistsViewer';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from "@clerk/clerk-react";
 import { updateLoading, updateUser } from '../store/ApplicationStore';
+import ConfirmDialog from './shared/ConfirmDialog';
 
 const RankingLayout = (
     {
         viewerTitle, viewerSubtitle, viewerBtnText,
         builderTitle, builderSubtitle, builderBtnText,
         editorTitle, editorSubtitle, editorBtnText,
+        type,
         ViewerComponent,
         EditorComponent,
         createFunction,
@@ -32,6 +34,9 @@ const RankingLayout = (
     const [headerButtonText, setHeaderButtonText] = useState<string>(viewerBtnText);
     const [headerButtonColor, setHeaderButtonColor] = useState<string>();
     const [itemToEdit, setItemToEdit] = useState<RankingType>();
+    const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const [confirmTitle, setConfirmTitle] = useState<string>('');
+    const [confirmContent, setConfirmContent] = useState<string>('');
 
     const dispatch = useAppDispatch();
     const location = useLocation();
@@ -52,7 +57,7 @@ const RankingLayout = (
 
     // Called when the user come to the Tierlists page
     useEffect(() => {
-        if (ViewerComponent && ViewerComponent.name === TierlistsViewer.name) {
+        if (type === ERankingLayoutType.Tierlist) {
             // Get all user tierlists from the database
             const fetchTierlists: () => Promise<void> = async () => await getTierlists(dispatch);
             fetchTierlists()
@@ -158,12 +163,34 @@ const RankingLayout = (
 
     /**
      * Called when the delete button has been clicked
-     * Call the server to delete the template or the tierlist in the database
+     * Display a confirmation popup before deleting the item in base
      */
     const onDeleteItemButtonClick = async (): Promise<void> => {
         if (itemToEdit && itemToEdit.id) {
+            setConfirmTitle(type === ERankingLayoutType.Template
+                ? DELETE_CONFIRM_TEMPLATE_TITLE
+                : DELETE_CONFIRM_TIERLIST_TITLE
+            );
+            setConfirmContent(type === ERankingLayoutType.Template
+                ? DELETE_CONFIRM_TEMPLATE_CONTENT
+                : ''
+            );
+            setShowConfirmation(true);
+        } else {
+            _switchMode(ERankingLayoutMode.Viewer);
+        }
+    };
+
+    /**
+     * Called when the confirm button of the dialog has been clicked
+     * Call the server to delete the template or the tierlist in the database
+     */
+    const deleteConfirmHandler = async (): Promise<void> => {
+        if (itemToEdit && itemToEdit.id) {
             // Show loading indicator
             dispatch(updateLoading(true));
+
+            setShowConfirmation(false);
 
             await deleteFunction(itemToEdit, dispatch);
 
@@ -197,7 +224,6 @@ const RankingLayout = (
      * @returns {JSX.Element} a delete button only if we are in edit mode
      */
     const DeleteItemButton = (): JSX.Element => {
-        // Todo : display a confirmation popup when the delete button has been clicked
         if (rankingLayoutMode === ERankingLayoutMode.Editor) {
             return (
                 <Button onClick={onDeleteItemButtonClick} className={delete_btn_style} disabled={loading}>
@@ -209,7 +235,7 @@ const RankingLayout = (
     };
 
     return(<>
-        <div className={viewer_header_style}>
+        <div className={header_style}>
             <AppTitle title={headerTitle} subtitle={headerSubtitle} />
             <div className="app_spacer"></div>
             {DeleteItemButton()}
@@ -222,6 +248,15 @@ const RankingLayout = (
         </div>
 
         {showRightMode()}
+
+        <ConfirmDialog
+            open={showConfirmation}
+            title={confirmTitle}
+            content={confirmContent}
+            confirmHandler={deleteConfirmHandler}
+            cancelHandler={() => setShowConfirmation(false)}
+            textValidation={type === ERankingLayoutType.Template ? itemToEdit?.name : undefined}
+        />
     </>);
 };
 
@@ -230,7 +265,7 @@ export default RankingLayout;
 /**
  * CSS STYLES
  */
-const viewer_header_style = css({
+const header_style = css({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
