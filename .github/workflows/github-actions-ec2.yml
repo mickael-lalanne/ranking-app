@@ -36,6 +36,12 @@ jobs:
       - name: Generate deployment package 
         run: cd site; zip ../site.zip *; cd ..; zip ranking-app.zip site.zip aws-windows-deployment-manifest.json
 
+      - name: Archive zip folder as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ranking-app
+          path: ranking-app.zip
+
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v16
         with:
