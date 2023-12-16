@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ranking_app.Data;
-using ranking_app.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
