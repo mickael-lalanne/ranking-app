@@ -30,6 +30,8 @@ jobs:
       
       - name: Publish prod
         run: dotnet restore; dotnet publish -r win10-x64 --configuration "Release" --self-contained "true" -o ../site;
+        env:
+          CI: "" # To ignore warning messages, otherwise the build will fail
 
       - name: Generate deployment package 
         run: cd site; zip ../site.zip *; cd ..; zip ranking-app.zip site.zip aws-windows-deployment-manifest.json
