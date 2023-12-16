@@ -29,7 +29,7 @@ jobs:
           dotnet-version: '7.0' # SDK Version to use; x will use the latest version of the 3.1 channel
       
       - name: Publish prod
-        run: dotnet restore; dotnet publish -r win10-x64 --configuration "Release" --self-contained "true" -o ../site;
+        run: dotnet restore; dotnet publish -r win10-x64 --configuration "Release" --self-contained "true" -o ./site;
         env:
           CI: "" # To ignore warning messages, otherwise the build will fail
 
