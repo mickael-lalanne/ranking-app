@@ -63,3 +63,14 @@ export const resizeImage = (imageFile: File): Promise<ResizedImage> => {
     });
 
 };
+
+/**
+ * @param array an array containing a createdAt field
+ * @returns {Partial<{ createdAt: string }>[]} the same array but sorted by creation date
+ */
+export const sortByCreationDate = (array: Partial<{ createdAt: string }>[]) => {
+    // Use slice() to avoid reference errors
+    return array.slice().sort((a, b) => 
+        new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime()
+    );
+};

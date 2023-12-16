@@ -3,10 +3,12 @@ import { TIERS_COLORS, Template, Tier } from '../../models/Template';
 import { css } from '@emotion/css';
 import { useAppSelector } from '../../app/hooks';
 import { ViewerComponentProps } from '../../models/RankingLayout';
+import { sortedTemplatesSelector } from '../../store/TemplateStore';
 
 const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user templates from the store
-    const userTemplates: Template[] = useAppSelector((state) => state.templates.templates);
+    const userTemplates: Template[] =
+        useAppSelector(state => sortedTemplatesSelector(state.templates));
 
     /**
      * Some design to display tiers colors in the template preview

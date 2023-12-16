@@ -5,11 +5,13 @@ import { useAppSelector } from '../../app/hooks';
 import { Template } from '../../models/Template';
 import RankingGrid from './RankingGrid';
 import { ViewerComponentProps } from '../../models/RankingLayout';
+import { sortedTierlistsSelector } from '../../store/TierlistStore';
+import { sortedTemplatesSelector } from '../../store/TemplateStore';
 
 const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user tierlists from the store
-    const userTierlists: Tierlist[] = useAppSelector((state) => state.tierlists.tierlists);
-    const userTemplates: Template[] = useAppSelector((state) => state.templates.templates);
+    const userTierlists: Tierlist[] = useAppSelector(state => sortedTierlistsSelector(state.tierlists));
+    const userTemplates: Template[] = useAppSelector(state => sortedTemplatesSelector(state.templates));
 
     const TierlistPreview = (tierlist: Tierlist): React.JSX.Element => {
         const tierlistTemplate: Template | undefined = userTemplates.find(t => t.id === tierlist.templateId);
