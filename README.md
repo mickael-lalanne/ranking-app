@@ -144,6 +144,7 @@ Mickaël Lalanne - mickael.lalanne03@gmail.com
 * [Create a React App with .NET 5 API Backend in VSCode (Entity Framework Core & Postgres)](https://www.youtube.com/watch?v=2Ayfi7OJhBI)
 * [Tutorial: How to Use C# with React and TypeScript](https://kenny-designs.github.io/articles/2022-06-05-csharp-react-typescript-tutorial.html)
 * [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows)
+* [Using GitHub Actions For CI/CD with .NET Core 5 and AWS Elastic Beanstalk)](https://medium.com/geekculture/using-github-actions-for-ci-cd-with-net-core-5-and-aws-elastic-beanstalk-5141228b61bd)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
