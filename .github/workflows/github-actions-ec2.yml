@@ -26,15 +26,15 @@ jobs:
       - name: Dotnet run
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '7.0' # SDK Version to use; x will use the latest version of the 3.1 channel
-      
+          dotnet-version: '7.0.x' # SDK Version to use; x will use the latest version of the 3.1 channel
+
       - name: Publish prod
-        run: dotnet restore; dotnet publish -r win10-x64 --configuration "Release" --self-contained "true" -o ./site;
+        run: dotnet restore; dotnet publish --configuration "Release" -r win-x64  --self-contained -o ./site;
         env:
           CI: "" # To ignore warning messages, otherwise the build will fail
 
       - name: Generate deployment package 
-        run: cd site; zip ../site.zip *; cd ..; zip ranking-app.zip site.zip aws-windows-deployment-manifest.json
+        run: cd site; zip -r ../site.zip *; cd ..; zip ranking-app.zip site.zip aws-windows-deployment-manifest.json
 
       - name: Archive zip folder as artifacts
         uses: actions/upload-artifact@v3
@@ -43,7 +43,7 @@ jobs:
           path: ranking-app.zip
 
       - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v16
+        uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -230,3 +230,9 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# Publishing
+ranking-app/
+site/
+site.zip
+ranking-app.zip
