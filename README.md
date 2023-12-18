@@ -58,7 +58,8 @@ Description coming soon...
 
 * [Nodejs](https://nodejs.org/en)
 * [.NET](https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet)
-* [PostgreSQL](https://www.postgresql.org/)
+* [PostgreSQL](https://www.postgresql.org/) <br>
+With a ranking_app_DB database, use the `setupDB.sql` script to initialize the database schema
 * [Entity Framework](https://learn.microsoft.com/en-us/aspnet/entity-framework/)
    ```sh
    dotnet tool install --global dotnet-ef --version 7.*
@@ -83,6 +84,8 @@ Description coming soon...
    dotnet user-secrets set "Cloudinary:ApiKey" "<api_key>"
    dotnet user-secrets set "Cloudinary:ApiSecret" "<api_secret>"
    ```
+   *<ins>FYI</ins> : in production, those values should be stored in Environment variables with the following syntax : "Cloudinary__CloudName"* <br>
+   *Cf [Configuration keys and values](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0#configuration-keys-and-values)*
 4. Run the app locally
    ```sh
    dotnet run
