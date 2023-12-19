@@ -349,7 +349,10 @@ const tier_name_style = css({
         borderBottom: '1.5px solid black !important'
     },
     ".MuiInputBase-root:after": {
-        borderBottom: '1.5px solid black'
+        borderBottom: '2.2px solid black'
+    },
+    ".MuiInputBase-root:before": {
+        borderBottom: 0
     }
 });
 
