@@ -4,6 +4,7 @@ import { css } from '@emotion/css';
 import { useAppSelector } from '../../app/hooks';
 import { ViewerComponentProps } from '../../models/RankingLayout';
 import { sortedTemplatesSelector } from '../../store/TemplateStore';
+import InfoBox from '../shared/InfoBox';
 
 const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user templates from the store
@@ -48,7 +49,15 @@ const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
         return litsItems;
     };
 
+    const EmptyMessage = (): React.JSX.Element | undefined => {
+        // NO TEMPLATE MESSAGE
+        if (userTemplates.length === 0) {
+            return <InfoBox content="It seems you don't have any template yet. <br>Click on the button above to start your creation !" />;
+        }
+    };
+
     return (<>
+        {EmptyMessage()}
         <div className={templates_container_style}>
             {generateTemplatesPreviewItems()}
         </div>

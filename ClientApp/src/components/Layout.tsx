@@ -2,33 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 import NavMenu from './NavMenu';
 import { css } from '@emotion/css';
-import { createTheme, ThemeProvider, Theme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
-import { RANKING_APP_THEME } from '../utils/css-utils';
+import { RANKING_APP_THEME } from '../utils/theme';
 
 const NAV_HEADER_HEIGHT = '60px';
-
-const theme: Theme = createTheme({ ...RANKING_APP_THEME });
-
-declare module '@mui/material/styles' {
-    interface Theme {
-        defaultRankingTheme: {
-            primary: string;
-            primaryLight: string;
-            light: string;
-            dark: string;
-        };
-    }
-    // allow configuration using `createTheme`
-    interface ThemeOptions {
-        defaultRankingTheme?: {
-            primary: string;
-            primaryLight: string;
-            light: string;
-            dark: string;
-        };
-    }
-}
 
 const Layout = ({ children }: { children: React.JSX.Element[] }) => {
     const [navHeader, setNavHeader] = useState<boolean>(false);
@@ -48,7 +26,7 @@ const Layout = ({ children }: { children: React.JSX.Element[] }) => {
     };
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={RANKING_APP_THEME}>
             {ShowNavMenu()}
             <Container
                 tag="main"

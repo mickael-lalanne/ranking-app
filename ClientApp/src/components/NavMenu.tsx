@@ -10,9 +10,9 @@ import {
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import { css } from '@emotion/css';
-import { RANKING_APP_THEME } from '../utils/css-utils';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useAppSelector } from '../app/hooks';
+import { THEMES_COLORS } from '../utils/theme';
 
 const NavMenu = (
     { height }: { height: string}
@@ -97,7 +97,7 @@ export default NavMenu;
 const navlink_style = css({
     color: 'black',
     '&:hover': {
-        color: RANKING_APP_THEME.defaultRankingTheme?.primary,
+        color: THEMES_COLORS?.primary,
         textDecoration: 'underline'
     }
 });

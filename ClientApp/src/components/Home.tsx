@@ -6,7 +6,7 @@ import { ERankingAppRoutes } from '../AppRoutes';
 import { useUser } from '@clerk/clerk-react';
 import { SignOutButton } from '@clerk/clerk-react';
 import AppTitle from './shared/AppTitle';
-import { RANKING_APP_THEME } from '../utils/css-utils';
+import { THEMES_COLORS } from '../utils/theme';
 
 const Home = () => {
     const [userName, setUserName] = useState<string>();
@@ -116,7 +116,7 @@ const footer_style = css({
 const logout_btn_style = css({
     cursor: 'pointer',
     '&:hover': {
-        color: RANKING_APP_THEME.defaultRankingTheme?.primary,
+        color: THEMES_COLORS?.primary,
         textDecoration: 'underline'
     }
 });

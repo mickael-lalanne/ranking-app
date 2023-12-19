@@ -7,6 +7,7 @@ import RankingGrid from './RankingGrid';
 import { ViewerComponentProps } from '../../models/RankingLayout';
 import { sortedTierlistsSelector } from '../../store/TierlistStore';
 import { sortedTemplatesSelector } from '../../store/TemplateStore';
+import InfoBox from '../shared/InfoBox';
 
 const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user tierlists from the store
@@ -39,8 +40,23 @@ const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
         return tierlists;
     };
 
+    const EmptyMessage = (): React.JSX.Element | undefined => {
+        // NO TEMPLATE MESSAGE
+        if (userTemplates.length === 0) {
+            return <InfoBox content="It seems you don't have any template yet. <br>Start by going to the templates page !" />;
+        }
+
+        // NO TIERLIST MESSAGE
+        else if (userTierlists.length === 0) {
+            return <InfoBox
+                content="It seems you don't have any tierlist yet. <br>Click on the button above to start your ranking !"
+            />;
+        }
+    };
+
     return(<div>
         <div className={viewer_container_style}>
+            {EmptyMessage()}
             {TierlistsList()}
         </div>
         <div></div>

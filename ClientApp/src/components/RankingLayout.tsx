@@ -9,11 +9,11 @@ import { DELETE_CONFIRM_TEMPLATE_CONTENT, DELETE_CONFIRM_TEMPLATE_TITLE, DELETE_
 import { getTemplates } from '../services/TemplateServices';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
-import TierlistsViewer from './tierlist/TierlistsViewer';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from "@clerk/clerk-react";
 import { updateLoading, updateUser } from '../store/ApplicationStore';
 import ConfirmDialog from './shared/ConfirmDialog';
+import { Template } from '../models/Template';
 
 const RankingLayout = (
     {
@@ -33,6 +33,7 @@ const RankingLayout = (
     const [headerSubtitle, setHeaderSubtitle] = useState<string>(viewerSubtitle);
     const [headerButtonText, setHeaderButtonText] = useState<string>(viewerBtnText);
     const [headerButtonColor, setHeaderButtonColor] = useState<string>();
+    const [headerButtonDisable, setHeaderButtonDisable] = useState<boolean>(false);
     const [itemToEdit, setItemToEdit] = useState<RankingType>();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const [confirmTitle, setConfirmTitle] = useState<string>('');
@@ -41,6 +42,8 @@ const RankingLayout = (
     const dispatch = useAppDispatch();
     const location = useLocation();
     const { userId } = useAuth();
+
+    const templates: Template[] = useAppSelector(state => state.templates.templates);
 
     // Called when the component is initialized
     useEffect(() => {
@@ -66,6 +69,16 @@ const RankingLayout = (
                 });
         }
     }, [ViewerComponent]);
+
+    // Called when the templates value has changed
+    useEffect(() => {
+        if (type === ERankingLayoutType.Tierlist) {
+            // Dsiable the "Add tierlist" button if there is no templates"
+            setHeaderButtonDisable(templates.length === 0);
+        } else {
+            setHeaderButtonDisable(false);
+        }
+    }, [templates, type]);
 
     // Called when the layout mode has changed (for ex: from Viewer to Builder)
     useEffect(() => {
@@ -243,7 +256,7 @@ const RankingLayout = (
                 text={headerButtonText}
                 onClickHandler={onHeaderButtonClick}
                 color={headerButtonColor}
-                disabled={loading}
+                disabled={loading || headerButtonDisable}
             />
         </div>
 
