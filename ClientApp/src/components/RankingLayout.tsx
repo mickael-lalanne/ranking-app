@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from "@clerk/clerk-react";
-import { updateLoading, updateUser } from '../store/ApplicationStore';
+import { updateFetchingTemplates, updateLoading, updateUser } from '../store/ApplicationStore';
 import ConfirmDialog from './shared/ConfirmDialog';
 import { Template } from '../models/Template';
 
@@ -53,6 +53,7 @@ const RankingLayout = (
         // Then, get all user templates from the database
         const fetchTemplates: () => Promise<void> = async () => await getTemplates(dispatch, userId!);
         fetchTemplates()
+            .then(() => dispatch(updateFetchingTemplates(false)))
             .catch(err => {
                 // TODO: handle errors
             });

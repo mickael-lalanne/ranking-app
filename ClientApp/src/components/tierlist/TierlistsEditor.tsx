@@ -49,7 +49,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     const dispatch = useAppDispatch();
     // Retrieve user templates from the store
     const allUserTemplates: Template[] = useAppSelector((state) => state.templates.templates);
-    const userId: UserId= useAppSelector(state => state.application.user?.id);
+    const userId: UserId = useAppSelector(state => state.application.user?.id);
     const loading: boolean = useAppSelector(state => state.application.loading);
 
     /**

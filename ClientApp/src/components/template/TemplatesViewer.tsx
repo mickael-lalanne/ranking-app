@@ -5,10 +5,12 @@ import { useAppSelector } from '../../app/hooks';
 import { ViewerComponentProps } from '../../models/RankingLayout';
 import { sortedTemplatesSelector } from '../../store/TemplateStore';
 import InfoBox from '../shared/InfoBox';
+import AppLoading from '../shared/AppLoading';
 
 const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user templates from the store
     const userTemplates: Template[] = useAppSelector(sortedTemplatesSelector);
+    const fetchingTemplates: boolean = useAppSelector(state => state.application.fetchingTemplates);
 
     /**
      * Some design to display tiers colors in the template preview
@@ -54,6 +56,11 @@ const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
             return <InfoBox content="It seems you don't have any template yet. <br>Click on the button above to start your creation !" />;
         }
     };
+
+    // Show a loading if the templates have not yet been fetch from database
+    if (fetchingTemplates) {
+        return <AppLoading text='Fetching templates' />;
+    }
 
     return (<>
         {EmptyMessage()}
