@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from "@clerk/clerk-react";
-import { updateFetchingTemplates, updateLoading, updateUser } from '../store/ApplicationStore';
+import { updateFetchingTemplates, updateFetchingTierlists, updateLoading, updateUser } from '../store/ApplicationStore';
 import ConfirmDialog from './shared/ConfirmDialog';
 import { Template } from '../models/Template';
 
@@ -65,6 +65,7 @@ const RankingLayout = (
             // Get all user tierlists from the database
             const fetchTierlists: () => Promise<void> = async () => await getTierlists(dispatch);
             fetchTierlists()
+                .then(() => dispatch(updateFetchingTierlists(false)))
                 .catch(err => {
                     // TODO: handle errors
                 });

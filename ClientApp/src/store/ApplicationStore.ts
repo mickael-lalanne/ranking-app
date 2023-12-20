@@ -6,12 +6,14 @@ interface ApplicationState {
     user?: User;
     loading: boolean;
     fetchingTemplates: boolean;
+    fetchingTierlists: boolean;
 }
 
 // Define the initial state using that type
 const initialState: ApplicationState = {
     loading: false,
-    fetchingTemplates: true
+    fetchingTemplates: true,
+    fetchingTierlists: true
 };
 
 export const applicationSlice = createSlice({
@@ -27,10 +29,13 @@ export const applicationSlice = createSlice({
         },
         updateFetchingTemplates: (state, action: PayloadAction<boolean>) => {
             state.fetchingTemplates = action.payload;
+        },
+        updateFetchingTierlists: (state, action: PayloadAction<boolean>) => {
+            state.fetchingTierlists = action.payload;
         }
     },
 });
 
-export const { updateUser, updateLoading, updateFetchingTemplates } = applicationSlice.actions;
+export const { updateUser, updateLoading, updateFetchingTemplates, updateFetchingTierlists } = applicationSlice.actions;
 
 export default applicationSlice.reducer;

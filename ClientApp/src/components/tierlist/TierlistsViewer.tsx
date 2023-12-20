@@ -8,11 +8,13 @@ import { ViewerComponentProps } from '../../models/RankingLayout';
 import { sortedTierlistsSelector } from '../../store/TierlistStore';
 import { sortedTemplatesSelector } from '../../store/TemplateStore';
 import InfoBox from '../shared/InfoBox';
+import AppLoading from '../shared/AppLoading';
 
 const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user tierlists from the store
     const userTierlists: Tierlist[] = useAppSelector(sortedTierlistsSelector);
     const userTemplates: Template[] = useAppSelector(sortedTemplatesSelector);
+    const fetchingTierlists: boolean = useAppSelector(state => state.application.fetchingTierlists);
 
     const TierlistPreview = (tierlist: Tierlist): React.JSX.Element => {
         const tierlistTemplate: Template | undefined = userTemplates.find(t => t.id === tierlist.templateId);
@@ -53,6 +55,11 @@ const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
             />;
         }
     };
+
+    // Show a loading if the tierlists have not yet been fetch from database
+    if (fetchingTierlists) {
+        return <AppLoading text='Fetching tierlists' />;
+    }
 
     return(<div>
         <div className={viewer_container_style}>
