@@ -11,8 +11,8 @@ import InfoBox from '../shared/InfoBox';
 
 const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user tierlists from the store
-    const userTierlists: Tierlist[] = useAppSelector(state => sortedTierlistsSelector(state.tierlists));
-    const userTemplates: Template[] = useAppSelector(state => sortedTemplatesSelector(state.templates));
+    const userTierlists: Tierlist[] = useAppSelector(sortedTierlistsSelector);
+    const userTemplates: Template[] = useAppSelector(sortedTemplatesSelector);
 
     const TierlistPreview = (tierlist: Tierlist): React.JSX.Element => {
         const tierlistTemplate: Template | undefined = userTemplates.find(t => t.id === tierlist.templateId);

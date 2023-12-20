@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Tierlist } from '../models/Tierlist';
 import { sortByCreationDate } from '../services/Util';
+import { RootState } from '../app/store';
 
 // Define a type for the slice state
 interface TierlistState {
@@ -49,6 +50,7 @@ export default tierlistSlice.reducer;
 // SELECTORS
 
 // Return templates sorted by creation date
-export const sortedTierlistsSelector = (state: TierlistState): Tierlist[] => {
-    return sortByCreationDate(state.tierlists) as Tierlist[];
-};
+export const sortedTierlistsSelector = createSelector(
+    [(state: RootState) => state.tierlists],
+    tierlists => sortByCreationDate(tierlists.tierlists) as Tierlist[]
+);

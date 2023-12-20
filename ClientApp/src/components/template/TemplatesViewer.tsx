@@ -8,8 +8,7 @@ import InfoBox from '../shared/InfoBox';
 
 const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user templates from the store
-    const userTemplates: Template[] =
-        useAppSelector(state => sortedTemplatesSelector(state.templates));
+    const userTemplates: Template[] = useAppSelector(sortedTemplatesSelector);
 
     /**
      * Some design to display tiers colors in the template preview
