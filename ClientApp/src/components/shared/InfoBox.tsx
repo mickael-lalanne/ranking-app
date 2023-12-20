@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import { THEMES_COLORS } from '../../utils/theme';
 
@@ -19,6 +19,14 @@ export default InfoBox;
 /**
  * CSS STYLES
  */
+const scale = keyframes`
+    0% { transform: scale(1); }
+
+    10% { transform: scale(1.15); }
+
+    20% { transform: scale(1); }
+`;
+
 const message_box_style = css({
     position: 'relative',
     boxShadow:' rgba(149, 157, 165, 0.2) 0px 8px 24px',
@@ -40,5 +48,6 @@ const box_icon_style = css({
     backgroundColor: 'white',
     width: '50px !important',
     height: '50px !important',
-    boxShadow:' rgba(149, 157, 165, 0.2) 0px 8px 24px'
+    boxShadow:' rgba(149, 157, 165, 0.2) 0px 8px 24px',
+    animation: `${scale} 5s infinite`,
 });
