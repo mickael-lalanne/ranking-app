@@ -17,6 +17,7 @@ import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Tooltip from '@mui/material/Tooltip';
 import { getTooltipTitleForSaveButtons } from '../../services/Util';
+import InfoBox from '../shared/InfoBox';
 
 // Hack : without an empty template used in the useState default value,
 // mui select won't display the value when a tierlist is edited
@@ -27,6 +28,7 @@ const emptyTemplate: Template = { id: '', name: '', tiers: [], elements: []};
 
 const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template | undefined>(emptyTemplate);
+    const [tierlistName, setTierlistName] = useState<string>('');
     const [draggedElement, setDraggedElement] = useState<Element>();
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
@@ -45,6 +47,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 setSelectedTemplate(templateToSelect);
             }
             setRankedElements((itemToEdit as Tierlist).rankedElements);
+            setTierlistName(itemToEdit.name);
         }
     }, [mode]);
 
@@ -59,14 +62,16 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
             disableMessage += '- Have a template selected \n';
         }
 
-        // TODO : name field
+        if (!tierlistName) {
+            disableMessage += '- Have a name \n';
+        }
 
         if (disableMessage.length) {
             disableMessage = 'To be able to save, your tierlist must meet the following requirement(s) : \n' + disableMessage;
         }
 
         setDisableSave(disableMessage);
-    }, [selectedTemplate]);
+    }, [selectedTemplate, tierlistName]);
 
     const dispatch = useAppDispatch();
     // Retrieve user templates from the store
@@ -80,6 +85,14 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
      */
     const handleTemplateSelectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedTemplate(allUserTemplates.find(template => template.id === event.target.value));
+    };
+
+    /**
+     * Called when the tierlist name has changed
+     * @param {React.ChangeEvent<HTMLInputElement>} event text field change event
+     */
+    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setTierlistName(e.target.value);
     };
 
     /**
@@ -167,7 +180,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
 
             const tierlistToSave: Tierlist = {
                 ...itemToEdit as Tierlist,
-                name: 'Todo',
+                name: tierlistName,
                 rankedElements: rankedElements,
                 templateId: selectedTemplate.id,
                 userId
@@ -215,9 +228,35 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
         )
     };
 
+    /**
+     * @returns {React.JSX.Element} the name field if a template is selected, otherwise a custom message
+     */
+    const NameField = () => {
+        // Show the name field only if a template is selected
+        if (selectedTemplate && selectedTemplate.id) {
+            return <TextField
+                label="Name"
+                variant="outlined"
+                color="primary"
+                onChange={onNameFieldChange}
+                style={{ marginBottom: '40px' }}
+                value={tierlistName}
+                fullWidth={true}
+                disabled={loading}
+            />;
+        }
+        // Otherwise, display a custom message to encourage the user to select a template
+        else {
+            return <InfoBox
+                content="🡹 To be able to create a tierlist, you must first select a template in the list above."
+            />
+        }
+    };
+
     return(<>
         <div>
             {TemplateSelector()}
+            {NameField()}
 
             <RankingGrid
                 innerRef={gridRef}
