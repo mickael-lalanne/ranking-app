@@ -288,13 +288,15 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 </div>
             </Tooltip>
             <Tooltip title="Download as PNG">
-                <Button
-                    onClick={downloadTierlist}
-                    className={download_btn_style}
-                    disabled={!selectedTemplate || !selectedTemplate.id}
-                >
-                    <DownloadIcon style={{ height: '32px', width: '32px' }} />
-                </Button>
+                <div>
+                    <Button
+                        onClick={downloadTierlist}
+                        className={download_btn_style}
+                        disabled={!selectedTemplate || !selectedTemplate.id}
+                    >
+                        <DownloadIcon style={{ height: '32px', width: '32px' }} />
+                    </Button>
+                </div>
             </Tooltip>
         </div>
     </>);
