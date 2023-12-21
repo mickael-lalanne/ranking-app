@@ -47,5 +47,14 @@ export const RANKING_APP_THEME: Theme = createTheme({
             light: alpha(PRIMARY_COLOR, 0.5),
             dark: alpha(PRIMARY_COLOR, 0.9),
         }
+    },
+    components: {
+        MuiTooltip: {
+            styleOverrides: {
+               tooltip: {
+                    whiteSpace: 'break-spaces'
+               }
+            }
+        }
     }
 });

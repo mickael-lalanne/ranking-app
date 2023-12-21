@@ -16,6 +16,7 @@ import html2canvas from 'html2canvas';
 import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Tooltip from '@mui/material/Tooltip';
+import { getTooltipTitleForSaveButtons } from '../../services/Util';
 
 // Hack : without an empty template used in the useState default value,
 // mui select won't display the value when a tierlist is edited
@@ -29,6 +30,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     const [draggedElement, setDraggedElement] = useState<Element>();
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
+    const [disableSave, setDisableSave] = useState<string>('');
     
     const gridRef: React.MutableRefObject<null> = useRef(null);
 
@@ -45,6 +47,26 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
             setRankedElements((itemToEdit as Tierlist).rankedElements);
         }
     }, [mode]);
+
+    /**
+     * Called when a required field value has changed
+     * Check if we have to disable the save button or not
+     */
+    useEffect(() => {
+        let disableMessage: string = '';
+
+        if (!selectedTemplate || !selectedTemplate.id) {
+            disableMessage += '- Have a template selected \n';
+        }
+
+        // TODO : name field
+
+        if (disableMessage.length) {
+            disableMessage = 'To be able to save, your tierlist must meet the following requirement(s) : \n' + disableMessage;
+        }
+
+        setDisableSave(disableMessage);
+    }, [selectedTemplate]);
 
     const dispatch = useAppDispatch();
     // Retrieve user templates from the store
@@ -217,13 +239,21 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
         
         <div className={footer_style}>
             <div className="app_spacer"></div>
-            <AppButton
-                text={saveButtonText}
-                onClickHandler={onSaveButtonClick}
-                disabled={!selectedTemplate || loading}
-            />
+            <Tooltip title={getTooltipTitleForSaveButtons(disableSave)}>
+                <div>
+                    <AppButton
+                        text={saveButtonText}
+                        onClickHandler={onSaveButtonClick}
+                        disabled={loading || !!disableSave}
+                    />
+                </div>
+            </Tooltip>
             <Tooltip title="Download as PNG">
-                <Button onClick={downloadTierlist} className={download_btn_style}>
+                <Button
+                    onClick={downloadTierlist}
+                    className={download_btn_style}
+                    disabled={!selectedTemplate || !selectedTemplate.id}
+                >
                     <DownloadIcon style={{ height: '32px', width: '32px' }} />
                 </Button>
             </Tooltip>

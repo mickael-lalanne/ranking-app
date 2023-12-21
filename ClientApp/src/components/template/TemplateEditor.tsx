@@ -15,8 +15,9 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
 import { deleteElementsImages, uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
-import { ResizedImage, generateRandomId, isTemporaryId, resizeImage } from '../../services/Util';
+import { ResizedImage, generateRandomId, getTooltipTitleForSaveButtons, isTemporaryId, resizeImage } from '../../services/Util';
 import { updateLoading } from '../../store/ApplicationStore';
+import { Tooltip } from '@mui/material';
 
 const DEFAULT_TIERS: Tier[] = [
     { id: generateRandomId(), name: 'Tier 1', rank: 0 },
@@ -36,6 +37,7 @@ const TemplateEditor = (
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [tierHovering, setTierHovering] = useState<string>();
     const [editViewMode, setEditViewMode] = useState<EEditViewMode>(EEditViewMode.Hide);
+    const [disableSave, setDisableSave] = useState<string>('');
 
     /**
      * Called when in Edit mode to set the existing template informations
@@ -52,6 +54,32 @@ const TemplateEditor = (
             setSaveButtonText('Create template');
         }
     }, [mode]);
+
+    /**
+     * Called when a required field value has changed
+     * Check if we have to disable the save button or not
+     */
+    useEffect(() => {
+        let disableMessage: string = '';
+
+        if (templateName.length === 0) {
+            disableMessage += '- Have a name \n';
+        }
+
+        if (tiersToCreate.length === 0) {
+            disableMessage += '- Have at least 1 tier \n';
+        }
+
+        if (elementsToCreate.length === 0) {
+            disableMessage += '- Have at least 1 element \n';
+        }
+
+        if (disableMessage.length) {
+            disableMessage = 'To be able to save, your template must meet the following requirement(s) : \n' + disableMessage;
+        }
+
+        setDisableSave(disableMessage);
+    }, [templateName, tiersToCreate, elementsToCreate]);
 
     const dispatch = useAppDispatch();
     const userId: UserId = useAppSelector(state => state.application.user?.id);
@@ -305,11 +333,15 @@ const TemplateEditor = (
         </div>
         <div className={footer_style}>
             <div className="app_spacer"></div>
-            <AppButton
-                text={saveButtonText}
-                onClickHandler={onSaveButtonClick}
-                disabled={loading}
-            />
+            <Tooltip title={getTooltipTitleForSaveButtons(disableSave)}>
+                <div>
+                    <AppButton
+                        text={saveButtonText}
+                        onClickHandler={onSaveButtonClick}
+                        disabled={loading || !!disableSave}
+                    />
+                </div>
+            </Tooltip>
         </div>
     </>);
 };
