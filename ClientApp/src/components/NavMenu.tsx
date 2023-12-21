@@ -13,6 +13,7 @@ import { css } from '@emotion/css';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useAppSelector } from '../app/hooks';
 import { THEMES_COLORS } from '../utils/theme';
+import { SignOutButton } from '@clerk/clerk-react';
 
 const NavMenu = (
     { height }: { height: string}
@@ -82,6 +83,13 @@ const NavMenu = (
                                 Tierlists
                             </NavLink>
                         </NavItem>
+                        <NavItem>
+                            <NavLink className={navlink_style}>
+                                <SignOutButton>
+                                    <span>Logout</span>
+                                </SignOutButton>
+                            </NavLink>
+                        </NavItem>
                     </ul>
                 </Collapse>
             {ShowLoading()}
@@ -96,6 +104,7 @@ export default NavMenu;
  */
 const navlink_style = css({
     color: 'black',
+    cursor: 'pointer',
     '&:hover': {
         color: THEMES_COLORS?.primary,
         textDecoration: 'underline'
