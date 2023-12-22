@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/css';
 import { useTheme } from '@mui/material/styles';
+import { EResponsiveBreakpoints } from '../../utils/css-utils';
+import { useWindowSize } from '../../hooks/useWindowsSize';
 
 const AppButton = (
-    { text, onClickHandler, color, disabled = false } : {
+    { text, icon, onClickHandler, color, disabled = false } : {
         text: string;
+        icon?: React.JSX.Element;
         onClickHandler: () => void,
         color?: string,
         disabled?: boolean
@@ -12,6 +15,7 @@ const AppButton = (
 ) => {
     const theme = useTheme();
     const [btnColor, setBtnColor] = useState<string>(theme.defaultRankingTheme.primary);
+    const windowSize = useWindowSize();
 
     // Change the default button color if a color is provided
     useEffect(() => {
@@ -19,6 +23,15 @@ const AppButton = (
             setBtnColor(color);
         }
     }, [color]);
+
+    /**
+     * @returns {React.JSX.Element | string} the icon if the window size is too smal, otherwise returns the text
+     */
+    const ButtonContent = (): React.JSX.Element | string => {
+        return icon && windowSize.width! < parseFloat(EResponsiveBreakpoints.md)
+            ? icon
+            : text;
+    };
 
     return(
         <button
@@ -33,10 +46,14 @@ const AppButton = (
             <span className={add_btn_shadow + ' add_btn_shadow'}></span>
             <span className={app_add_btn_edge} style={{ background: btnColor }}></span>
             <span
-                className={app_add_btn_front + ' add_btn_front'}
+                className={`
+                    ${app_add_btn_front}
+                    add_btn_front
+                    ${icon ? add_btn_front_icon : ''}
+                `}
                 style={{ background: btnColor, color: btnColor === 'white' ? 'black' : 'white' }}
             >
-                {text}
+                {ButtonContent()}
             </span>
         </button>
     );
@@ -132,6 +149,10 @@ const app_add_btn_front = css`
         cubic-bezier(.3, .7, .4, 1);
     border: 1px solid black;
 `;
+
+const add_btn_front_icon = css({
+    padding: '15px 16px'
+});
 
 const add_btn_disable = css({
     filter: 'grayscale(1)',

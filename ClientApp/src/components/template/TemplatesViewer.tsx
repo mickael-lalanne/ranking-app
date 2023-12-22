@@ -77,7 +77,8 @@ export default TemplatesViewer;
  */
 const templates_container_style = css({
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    height: 'fit-content'
 });
 
 const template_container_style = css({
