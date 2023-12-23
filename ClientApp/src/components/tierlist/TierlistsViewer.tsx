@@ -7,11 +7,14 @@ import RankingGrid from './RankingGrid';
 import { ViewerComponentProps } from '../../models/RankingLayout';
 import { sortedTierlistsSelector } from '../../store/TierlistStore';
 import { sortedTemplatesSelector } from '../../store/TemplateStore';
+import InfoBox from '../shared/InfoBox';
+import AppLoading from '../shared/AppLoading';
 
 const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     // Retrieve user tierlists from the store
-    const userTierlists: Tierlist[] = useAppSelector(state => sortedTierlistsSelector(state.tierlists));
-    const userTemplates: Template[] = useAppSelector(state => sortedTemplatesSelector(state.templates));
+    const userTierlists: Tierlist[] = useAppSelector(sortedTierlistsSelector);
+    const userTemplates: Template[] = useAppSelector(sortedTemplatesSelector);
+    const fetchingTierlists: boolean = useAppSelector(state => state.application.fetchingTierlists);
 
     const TierlistPreview = (tierlist: Tierlist): React.JSX.Element => {
         const tierlistTemplate: Template | undefined = userTemplates.find(t => t.id === tierlist.templateId);
@@ -39,8 +42,28 @@ const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
         return tierlists;
     };
 
+    const EmptyMessage = (): React.JSX.Element | undefined => {
+        // NO TEMPLATE MESSAGE
+        if (userTemplates.length === 0) {
+            return <InfoBox content="It seems you don't have any template yet. <br>Start by going to the templates page !" />;
+        }
+
+        // NO TIERLIST MESSAGE
+        else if (userTierlists.length === 0) {
+            return <InfoBox
+                content="It seems you don't have any tierlist yet. <br>Click on the button above to start your ranking !"
+            />;
+        }
+    };
+
+    // Show a loading if the tierlists have not yet been fetch from database
+    if (fetchingTierlists) {
+        return <AppLoading text='Fetching tierlists' />;
+    }
+
     return(<div>
         <div className={viewer_container_style}>
+            {EmptyMessage()}
             {TierlistsList()}
         </div>
         <div></div>
@@ -55,7 +78,9 @@ export default TierlistsViewer;
 const viewer_container_style = css({
     display: 'flex',
     justifyContent: 'flex-start',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    flexWrap: 'wrap',
+    height: 'fit-content'
 });
 
 const tierlist_element_style = css({

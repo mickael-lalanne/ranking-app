@@ -19,7 +19,8 @@ const RANKING_APP_THEME_MOCK: ThemeOptions = {
         primary: '',
         primaryLight: '',
         light: '',
-        dark: ''
+        dark: '',
+        info: ''
     }
 };
 const MockTheme = ({ children }: any) => {

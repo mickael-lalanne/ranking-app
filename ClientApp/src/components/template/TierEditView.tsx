@@ -6,6 +6,8 @@ import { EEditViewMode, TIERS_COLORS, Tier } from '../../models/Template';
 import { generateRandomId } from '../../services/Util';
 import { useAppSelector } from '../../app/hooks';
 
+const POSSIBLE_RANKS: number[] = [0, 1, 2, 3, 4, 5];
+
 /**
  * View displayed when the user wants to create a new tier or edit an existing one
  */
@@ -17,14 +19,16 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
 }) => {
     const [tierRank, setTierRank] = useState<number>();
     const [tierName, setTierName] = useState<string>();
-    const [availableRanks, setAvailableRanks] = useState<number[]>([0, 1, 2, 3, 4]);
+    const [availableRanks, setAvailableRanks] = useState<number[]>(POSSIBLE_RANKS);
 
     /**
      * Called when the existingTiers props has changed
      * Update the availableRanks array
      */
     useEffect(() => {
-        setAvailableRanks(availableRanks.filter(r => existingTiers.find(tier => tier.rank === r) === undefined));
+        const unavailableRanks: number[] = existingTiers.map(tier => tier.rank);
+        setAvailableRanks(POSSIBLE_RANKS.filter(rank => !unavailableRanks.includes(rank)));
+        setTierRank(undefined);
     }, [existingTiers]);
 
     const loading: boolean = useAppSelector(state => state.application.loading);
@@ -50,6 +54,7 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
         for (let i = 0; i < 5; i++) {
             rankCells.push(
                 <div
+                    key={i}
                     style={{backgroundColor: TIERS_COLORS[i]}}
                     className={`
                         ${rank_cell_style}

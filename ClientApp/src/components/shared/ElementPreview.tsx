@@ -5,22 +5,41 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { getElementImageUrl } from '../../services/CloudinaryService';
 import { ELEMENT_SIZE } from '../../utils/css-utils';
 import { useAppSelector } from '../../app/hooks';
+import { useDrag } from 'react-dnd';
+import { ETierlistDragItem } from '../../models/Tierlist';
+import { Preview } from 'react-dnd-preview';
+
+// The preview displayed when an element is dragged
+// For touch device support, we can't use the default preview used by the HTML d&d api
+// Also, we use the react-dnd-preview library because the DragImagePreview doesn't works with TouchBackend
+// Cf https://github.com/react-dnd/react-dnd/issues/2206
+const generatePreview = ({item, style}: { item: Element, style: React.CSSProperties}) => {
+    return <div style={{...style, height: ELEMENT_SIZE, width: ELEMENT_SIZE,}}>
+        <img src={getElementImageUrl(item.image)} className={element_img_style}/>
+    </div>
+};
 
 const ElementPreview = ({
     element,
-    deleteElementHandler, dragStartHandler, dragEndHandler,
+    deleteElementHandler,
     readonly = false,
     fitToContainer = false
 }: {
     element: Element,
     deleteElementHandler?: (elementId: string) => void,
-    dragStartHandler?: (element: Element) => void,
-    dragEndHandler?: () => void,
     readonly?: boolean,
     fitToContainer?: boolean
 }) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const [elementImage, setElementImage] = useState<string>();
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: ETierlistDragItem.Element,
+        item: element,
+        collect: monitor => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+        canDrag: () => !readonly
+    }), [element]);
 
     // Called when the component is initialized and when the element prop has changed
     useEffect(() => {
@@ -52,17 +71,17 @@ const ElementPreview = ({
     };
 
     return(<>
+        <Preview>{generatePreview}</Preview>
         <div
+            ref={drag}
             className={element_container_style}
             style={{
                 height: fitToContainer ? 'unset' : ELEMENT_SIZE,
-                width: fitToContainer ? 'unset' : ELEMENT_SIZE
+                width: fitToContainer ? 'unset' : ELEMENT_SIZE,
+                opacity: isDragging ? 0.5 : 1,
             }}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            onDragStart={e => dragStartHandler ? dragStartHandler(element) : undefined}
-            onDragEnd={() => dragEndHandler ? dragEndHandler() : undefined}
-            onDragOver={e => e.preventDefault()}
             draggable={!readonly}
         >
             <img src={elementImage} className={element_img_style} />

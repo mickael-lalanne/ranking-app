@@ -16,6 +16,8 @@ import html2canvas from 'html2canvas';
 import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Tooltip from '@mui/material/Tooltip';
+import { getTooltipTitleForSaveButtons } from '../../services/Util';
+import InfoBox from '../shared/InfoBox';
 
 // Hack : without an empty template used in the useState default value,
 // mui select won't display the value when a tierlist is edited
@@ -26,9 +28,10 @@ const emptyTemplate: Template = { id: '', name: '', tiers: [], elements: []};
 
 const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template | undefined>(emptyTemplate);
-    const [draggedElement, setDraggedElement] = useState<Element>();
+    const [tierlistName, setTierlistName] = useState<string>('');
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
+    const [disableSave, setDisableSave] = useState<string>('');
     
     const gridRef: React.MutableRefObject<null> = useRef(null);
 
@@ -43,13 +46,36 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 setSelectedTemplate(templateToSelect);
             }
             setRankedElements((itemToEdit as Tierlist).rankedElements);
+            setTierlistName(itemToEdit.name);
         }
     }, [mode]);
+
+    /**
+     * Called when a required field value has changed
+     * Check if we have to disable the save button or not
+     */
+    useEffect(() => {
+        let disableMessage: string = '';
+
+        if (!selectedTemplate || !selectedTemplate.id) {
+            disableMessage += '- Have a template selected \n';
+        }
+
+        if (!tierlistName) {
+            disableMessage += '- Have a name \n';
+        }
+
+        if (disableMessage.length) {
+            disableMessage = 'To be able to save, your tierlist must meet the following requirement(s) : \n' + disableMessage;
+        }
+
+        setDisableSave(disableMessage);
+    }, [selectedTemplate, tierlistName]);
 
     const dispatch = useAppDispatch();
     // Retrieve user templates from the store
     const allUserTemplates: Template[] = useAppSelector((state) => state.templates.templates);
-    const userId: UserId= useAppSelector(state => state.application.user?.id);
+    const userId: UserId = useAppSelector(state => state.application.user?.id);
     const loading: boolean = useAppSelector(state => state.application.loading);
 
     /**
@@ -61,18 +87,11 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     };
 
     /**
-     * Called when en element start to be dragged
-     * @param {Element} element the element being dragged 
+     * Called when the tierlist name has changed
+     * @param {React.ChangeEvent<HTMLInputElement>} event text field change event
      */
-    const onElementDragStart = (element: Element): void => {
-        setDraggedElement(element);
-    };
-
-    /**
-     * Called when an element drag has been stopped
-     */
-    const onElementDragEnd = (): void => {
-        setDraggedElement(undefined);
+    const onNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setTierlistName(e.target.value);
     };
 
     /**
@@ -81,7 +100,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
      * @param {string} tierId tier where the element has been dropped 
      * @param {number} position position where the element has been dropped
      */
-    const onElementDrop = (tierId: string, position: number): void => {
+    const onElementDrop = (draggedElement: Element, tierId: string, position: number): void => {
         if (draggedElement && draggedElement.id) {
             const newRankedElement: RankedElement = { elementId: draggedElement.id, tierId, position};
             let rankedElementCopy: RankedElement[] = rankedElements.slice();
@@ -123,8 +142,6 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 setRankedElements(rankedElementCopy);
             }
         }
-
-        setDraggedElement(undefined);
     };
 
     /**
@@ -145,7 +162,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
 
             const tierlistToSave: Tierlist = {
                 ...itemToEdit as Tierlist,
-                name: 'Todo',
+                name: tierlistName,
                 rankedElements: rankedElements,
                 templateId: selectedTemplate.id,
                 userId
@@ -193,39 +210,71 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
         )
     };
 
+    /**
+     * @returns {React.JSX.Element} the name field if a template is selected, otherwise a custom message
+     */
+    const NameField = () => {
+        // Show the name field only if a template is selected
+        if (selectedTemplate && selectedTemplate.id) {
+            return <TextField
+                label="Name"
+                variant="outlined"
+                color="primary"
+                onChange={onNameFieldChange}
+                style={{ marginBottom: '40px' }}
+                value={tierlistName}
+                fullWidth={true}
+                disabled={loading}
+            />;
+        }
+        // Otherwise, display a custom message to encourage the user to select a template
+        else {
+            return <InfoBox
+                content="🡹 To be able to create a tierlist, you must first select a template in the list above."
+            />
+        }
+    };
+
     return(<>
         <div>
             {TemplateSelector()}
+            {NameField()}
 
             <RankingGrid
                 innerRef={gridRef}
                 template={selectedTemplate}
-                rankedElements={rankedElements}
+                rankedElements={[...rankedElements]}
                 dropHandler={onElementDrop}
-                dragStartHandler={onElementDragStart}
-                dragEndHandler={onElementDragEnd}
-                unrankHandler={onElementUnrank}
             />
 
             <ToRankSection
                 template={selectedTemplate}
-                rankedElements={rankedElements}
-                dragStartHandler={onElementDragStart}
-                dragEndHandler={onElementDragEnd}
+                rankedElements={[...rankedElements]}
+                unrankHandler={onElementUnrank}
             />
         </div>
         
         <div className={footer_style}>
             <div className="app_spacer"></div>
-            <AppButton
-                text={saveButtonText}
-                onClickHandler={onSaveButtonClick}
-                disabled={!selectedTemplate || loading}
-            />
+            <Tooltip title={getTooltipTitleForSaveButtons(disableSave)}>
+                <div>
+                    <AppButton
+                        text={saveButtonText}
+                        onClickHandler={onSaveButtonClick}
+                        disabled={loading || !!disableSave}
+                    />
+                </div>
+            </Tooltip>
             <Tooltip title="Download as PNG">
-                <Button onClick={downloadTierlist} className={download_btn_style}>
-                    <DownloadIcon style={{ height: '32px', width: '32px' }} />
-                </Button>
+                <div>
+                    <Button
+                        onClick={downloadTierlist}
+                        className={download_btn_style}
+                        disabled={!selectedTemplate || !selectedTemplate.id}
+                    >
+                        <DownloadIcon style={{ height: '32px', width: '32px' }} />
+                    </Button>
+                </div>
             </Tooltip>
         </div>
     </>);

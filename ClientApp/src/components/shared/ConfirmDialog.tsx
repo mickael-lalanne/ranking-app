@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/css';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -23,7 +23,12 @@ const ConfirmDialog = ({
     confirmHandler: () => void;
     textValidation?: string;
 }) => {
-    const [disableConfirmButton, setDisableConfirmButton] = useState<boolean>(!textValidation);
+    const [disableConfirmButton, setDisableConfirmButton] = useState<boolean>(!!textValidation);
+
+    // Reset disable state when open and textValidation props changed
+    useEffect(() => {
+        setDisableConfirmButton(!!textValidation);
+    }, [textValidation]);
 
     // Check if the user can click on the Confirm button
     const onTextValidationChange = (

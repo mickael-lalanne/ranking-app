@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Template } from '../models/Template';
 import { sortByCreationDate } from '../services/Util';
+import { RootState } from '../app/store';
 
 // Define a type for the slice state
 interface TemplateState {
@@ -47,8 +48,7 @@ export const { init, addTemplate, removeTemplate, updateTemplate } = templateSli
 export default templateSlice.reducer;
 
 // SELECTORS
-
-// Return templates sorted by creation date
-export const sortedTemplatesSelector = (state: TemplateState): Template[] => {
-    return sortByCreationDate(state.templates) as Template[];
-};
+export const sortedTemplatesSelector = createSelector(
+    [(state: RootState) => state.templates],
+    templates => sortByCreationDate(templates.templates) as Template[]
+);

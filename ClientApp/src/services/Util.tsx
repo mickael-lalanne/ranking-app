@@ -1,3 +1,5 @@
+import React from "react";
+
 // All items that are not yet saved in the database starts with the following identifier
 const TMP_ID_IDENTIFIER = '99999';
 
@@ -74,3 +76,15 @@ export const sortByCreationDate = (array: Partial<{ createdAt: string }>[]) => {
         new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime()
     );
 };
+
+/**
+ * Called in the template and tierlist editors
+ * Returns a value for the MUI Tooltip component
+ * @param {string?} content the text that should be displayed in the tooltip 
+ * @returns {'' | React.JSX.Element | undefined} a span including the text if defined, otherwise undefined
+ */
+export const getTooltipTitleForSaveButtons = (
+    content?: string
+): '' | React.JSX.Element | undefined => {
+    return content && <span style={{ fontSize: '15px'}}>{content}</span>;
+}

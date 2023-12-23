@@ -9,11 +9,14 @@ import { DELETE_CONFIRM_TEMPLATE_CONTENT, DELETE_CONFIRM_TEMPLATE_TITLE, DELETE_
 import { getTemplates } from '../services/TemplateServices';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
-import TierlistsViewer from './tierlist/TierlistsViewer';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from "@clerk/clerk-react";
-import { updateLoading, updateUser } from '../store/ApplicationStore';
+import { updateFetchingTemplates, updateFetchingTierlists, updateLoading, updateUser } from '../store/ApplicationStore';
 import ConfirmDialog from './shared/ConfirmDialog';
+import { Template } from '../models/Template';
+import { EResponsiveBreakpoints } from '../utils/css-utils';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { useWindowSize } from '../hooks/useWindowsSize';
 
 const RankingLayout = (
     {
@@ -32,7 +35,9 @@ const RankingLayout = (
     const [headerTitle, setHeaderTitle] = useState<string>(viewerTitle);
     const [headerSubtitle, setHeaderSubtitle] = useState<string>(viewerSubtitle);
     const [headerButtonText, setHeaderButtonText] = useState<string>(viewerBtnText);
+    const [headerButtonIcon, setHeaderButtonIcon] = useState<React.JSX.Element>();
     const [headerButtonColor, setHeaderButtonColor] = useState<string>();
+    const [headerButtonDisable, setHeaderButtonDisable] = useState<boolean>(false);
     const [itemToEdit, setItemToEdit] = useState<RankingType>();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const [confirmTitle, setConfirmTitle] = useState<string>('');
@@ -41,6 +46,9 @@ const RankingLayout = (
     const dispatch = useAppDispatch();
     const location = useLocation();
     const { userId } = useAuth();
+    const windowSize = useWindowSize();
+
+    const templates: Template[] = useAppSelector(state => state.templates.templates);
 
     // Called when the component is initialized
     useEffect(() => {
@@ -50,6 +58,7 @@ const RankingLayout = (
         // Then, get all user templates from the database
         const fetchTemplates: () => Promise<void> = async () => await getTemplates(dispatch, userId!);
         fetchTemplates()
+            .then(() => dispatch(updateFetchingTemplates(false)))
             .catch(err => {
                 // TODO: handle errors
             });
@@ -61,11 +70,22 @@ const RankingLayout = (
             // Get all user tierlists from the database
             const fetchTierlists: () => Promise<void> = async () => await getTierlists(dispatch);
             fetchTierlists()
+                .then(() => dispatch(updateFetchingTierlists(false)))
                 .catch(err => {
                     // TODO: handle errors
                 });
         }
     }, [ViewerComponent]);
+
+    // Called when the templates value has changed
+    useEffect(() => {
+        if (type === ERankingLayoutType.Tierlist) {
+            // Dsiable the "Add tierlist" button if there is no templates"
+            setHeaderButtonDisable(templates.length === 0);
+        } else {
+            setHeaderButtonDisable(false);
+        }
+    }, [templates, type]);
 
     // Called when the layout mode has changed (for ex: from Viewer to Builder)
     useEffect(() => {
@@ -82,6 +102,11 @@ const RankingLayout = (
        _switchMode(ERankingLayoutMode.Viewer);
     }, [location]);
 
+    // Called when the window size has changed
+    useEffect(() => {
+        _setHeaderViewerBtnText();
+    }, [windowSize]);
+
     const theme = useTheme();
     const loading: boolean = useAppSelector(state => state.application.loading);
 
@@ -96,6 +121,7 @@ const RankingLayout = (
                 setHeaderSubtitle(builderSubtitle);
                 setHeaderButtonText(builderBtnText);
                 setHeaderButtonColor('white');
+                setHeaderButtonIcon(<CancelIcon />);
                 break;
 
             case ERankingLayoutMode.Editor:
@@ -103,16 +129,29 @@ const RankingLayout = (
                 setHeaderSubtitle(editorSubtitle);
                 setHeaderButtonText(editorBtnText);
                 setHeaderButtonColor('white');
+                setHeaderButtonIcon(<CancelIcon />);
                 break;
         
             case ERankingLayoutMode.Viewer:
                 setHeaderTitle(viewerTitle);
                 setHeaderSubtitle(viewerSubtitle);
-                setHeaderButtonText(viewerBtnText);
+                _setHeaderViewerBtnText();
                 setHeaderButtonColor(theme.defaultRankingTheme.primary);
+                setHeaderButtonIcon(undefined);
                 break;
         }
         setRankingLayoutMode(mode);
+    }
+
+    /**
+     * Set the header viewer button text depending on the window size
+     */
+    const _setHeaderViewerBtnText = () => {
+        setHeaderButtonText(
+            windowSize.width! > parseFloat(EResponsiveBreakpoints.sm)
+                ? viewerBtnText
+                : 'New'
+        );
     }
 
     /**
@@ -238,13 +277,16 @@ const RankingLayout = (
         <div className={header_style}>
             <AppTitle title={headerTitle} subtitle={headerSubtitle} />
             <div className="app_spacer"></div>
-            {DeleteItemButton()}
-            <AppButton
-                text={headerButtonText}
-                onClickHandler={onHeaderButtonClick}
-                color={headerButtonColor}
-                disabled={loading}
-            />
+            <div className={header_btn_style}>
+                {DeleteItemButton()}
+                <AppButton
+                    text={headerButtonText}
+                    icon={headerButtonIcon}
+                    onClickHandler={onHeaderButtonClick}
+                    color={headerButtonColor}
+                    disabled={loading || headerButtonDisable}
+                />
+            </div>
         </div>
 
         {showRightMode()}
@@ -271,8 +313,16 @@ const header_style = css({
     alignItems: 'center'
 });
 
+const header_btn_style = css({
+    display: 'flex',
+    alignItems: 'center'
+});
+
 const delete_btn_style = css({
     minWidth: '50px !important',
     height: '50px',
-    margin: '0 15px !important'
+    margin: '0 15px !important',
+    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
+        margin: '0 5px !important',
+    },
 });

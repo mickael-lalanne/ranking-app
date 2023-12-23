@@ -59,7 +59,7 @@ Description coming soon...
 * [Nodejs](https://nodejs.org/en)
 * [.NET](https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet)
 * [PostgreSQL](https://www.postgresql.org/) <br>
-With a ranking_app_DB database, use the `setupDB.sql` script to initialize the database schema
+With a `Ranking_App_DB` database, use the `setupDB.sql` script to initialize the database schema
 * [Entity Framework](https://learn.microsoft.com/en-us/aspnet/entity-framework/)
    ```sh
    dotnet tool install --global dotnet-ef --version 7.*

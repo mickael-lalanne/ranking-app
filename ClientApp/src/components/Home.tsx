@@ -6,7 +6,8 @@ import { ERankingAppRoutes } from '../AppRoutes';
 import { useUser } from '@clerk/clerk-react';
 import { SignOutButton } from '@clerk/clerk-react';
 import AppTitle from './shared/AppTitle';
-import { RANKING_APP_THEME } from '../utils/css-utils';
+import { THEMES_COLORS } from '../utils/theme';
+import { EResponsiveBreakpoints } from '../utils/css-utils';
 
 const Home = () => {
     const [userName, setUserName] = useState<string>();
@@ -79,14 +80,18 @@ const sections_container_style = css({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-evenly',
+    fontSize: '25px',
+    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
+        flexDirection: 'column'
+    },
 });
 
 const home_item_style = css({
     display: 'flex',
     alignItems: 'center',
     maxWidth: '300px',
+    width: '300px',
     justifyContent: 'center',
-    width: '25vw',
     aspectRatio: '1 / 1',
     boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
     margin: '25px',
@@ -96,6 +101,9 @@ const home_item_style = css({
     textTransform: 'capitalize',
     ':hover': {
         transform: 'scale(1.15)',
+    },
+    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
+        width: '65vw'
     }
 });
 
@@ -116,7 +124,7 @@ const footer_style = css({
 const logout_btn_style = css({
     cursor: 'pointer',
     '&:hover': {
-        color: RANKING_APP_THEME.defaultRankingTheme?.primary,
+        color: THEMES_COLORS?.primary,
         textDecoration: 'underline'
     }
 });
