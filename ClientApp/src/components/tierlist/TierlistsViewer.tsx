@@ -78,7 +78,9 @@ export default TierlistsViewer;
 const viewer_container_style = css({
     display: 'flex',
     justifyContent: 'flex-start',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    flexWrap: 'wrap',
+    height: 'fit-content'
 });
 
 const tierlist_element_style = css({

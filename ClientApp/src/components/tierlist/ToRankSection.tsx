@@ -5,6 +5,7 @@ import { Element, RankedElement } from '../../models/Element';
 import ElementPreview from '../shared/ElementPreview';
 import { useDrop } from 'react-dnd';
 import { ETierlistDragItem } from '../../models/Tierlist';
+import { ELEMENT_SIZE } from '../../utils/css-utils';
 
 const ToRankSection = ({ template, rankedElements, unrankHandler }: {
     template?: Template,
@@ -50,10 +51,9 @@ const ToRankSection = ({ template, rankedElements, unrankHandler }: {
 
         notRankedElements.forEach(element => {
             list.push(
-                <ElementPreview
-                    key={element.id}
-                    element={element}
-                />
+                <div key={element.id} style={{ margin: ELEMENTS_MARGIN + 'px' }}>
+                    <ElementPreview element={element}/>
+                </div>
             );
         });
 
@@ -82,12 +82,15 @@ export default ToRankSection;
 /**
  * CSS STYLES
  */
+const ELEMENTS_MARGIN: number = 2;
 const section_container_style = css({
     position: 'relative',
     display: 'flex',
     justifyContent: 'flex-start',
     margin: '20px 0',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    minHeight: parseFloat(ELEMENT_SIZE) + ELEMENTS_MARGIN * 2 + 'px',
+    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px',
 });
 
 const unrank_zone_style = css({
