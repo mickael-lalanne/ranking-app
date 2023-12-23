@@ -29,7 +29,6 @@ const emptyTemplate: Template = { id: '', name: '', tiers: [], elements: []};
 const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template | undefined>(emptyTemplate);
     const [tierlistName, setTierlistName] = useState<string>('');
-    const [draggedElement, setDraggedElement] = useState<Element>();
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [disableSave, setDisableSave] = useState<string>('');
@@ -96,27 +95,12 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     };
 
     /**
-     * Called when en element start to be dragged
-     * @param {Element} element the element being dragged 
-     */
-    const onElementDragStart = (element: Element): void => {
-        setDraggedElement(element);
-    };
-
-    /**
-     * Called when an element drag has been stopped
-     */
-    const onElementDragEnd = (): void => {
-        setDraggedElement(undefined);
-    };
-
-    /**
      * Called when an element has been dropped in a cell
      * Update the rankedElement array to includes the new ranked element
      * @param {string} tierId tier where the element has been dropped 
      * @param {number} position position where the element has been dropped
      */
-    const onElementDrop = (tierId: string, position: number): void => {
+    const onElementDrop = (draggedElement: Element, tierId: string, position: number): void => {
         if (draggedElement && draggedElement.id) {
             const newRankedElement: RankedElement = { elementId: draggedElement.id, tierId, position};
             let rankedElementCopy: RankedElement[] = rankedElements.slice();
@@ -158,8 +142,6 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 setRankedElements(rankedElementCopy);
             }
         }
-
-        setDraggedElement(undefined);
     };
 
     /**
@@ -261,18 +243,13 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
             <RankingGrid
                 innerRef={gridRef}
                 template={selectedTemplate}
-                rankedElements={rankedElements}
+                rankedElements={[...rankedElements]}
                 dropHandler={onElementDrop}
-                dragStartHandler={onElementDragStart}
-                dragEndHandler={onElementDragEnd}
-                unrankHandler={onElementUnrank}
             />
 
             <ToRankSection
                 template={selectedTemplate}
-                rankedElements={rankedElements}
-                dragStartHandler={onElementDragStart}
-                dragEndHandler={onElementDragEnd}
+                rankedElements={[...rankedElements]}
             />
         </div>
         

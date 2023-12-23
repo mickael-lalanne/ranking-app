@@ -4,11 +4,9 @@ import { Template } from '../../models/Template';
 import { Element, RankedElement } from '../../models/Element';
 import ElementPreview from '../shared/ElementPreview';
 
-const ToRankSection = ({ template, rankedElements, dragStartHandler, dragEndHandler }: {
+const ToRankSection = ({ template, rankedElements }: {
     template?: Template,
-    rankedElements: RankedElement[],
-    dragStartHandler: (element: Element) => void,
-    dragEndHandler: () => void,
+    rankedElements: RankedElement[]
 }) => {
     const [notRankedElements, setNotRankedElements] = useState<Element[]>([]);
 
@@ -33,8 +31,6 @@ const ToRankSection = ({ template, rankedElements, dragStartHandler, dragEndHand
                 <ElementPreview
                     key={element.id}
                     element={element}
-                    dragStartHandler={dragStartHandler}
-                    dragEndHandler={dragEndHandler}
                 />
             );
         });

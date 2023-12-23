@@ -2,15 +2,12 @@ import React from 'react';
 import { css } from '@emotion/css';
 import { TIERS_COLORS, Template } from '../../models/Template';
 import { RankedElement, Element } from '../../models/Element';
-import ElementPreview from '../shared/ElementPreview';
+import ElementInCell from './ElementInCell';
 
-const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, dragEndHandler, unrankHandler, readonly = false, innerRef }: {
+const RankingGrid = ({ template, dropHandler, rankedElements, readonly = false, innerRef }: {
     template?: Template,
     rankedElements: RankedElement[],
-    dropHandler?: (tierId: string, rank: number) => void,
-    dragStartHandler?: (element: Element) => void,
-    dragEndHandler?: () => void,
-    unrankHandler?: (elementId: string) => void,
+    dropHandler?: (draggedElement: Element, tierId: string, rank: number) => void,
     readonly?: boolean,
     innerRef?: React.MutableRefObject<null>
 }) => {
@@ -21,47 +18,17 @@ const RankingGrid = ({ template, dropHandler, rankedElements, dragStartHandler, 
     const TierCells = (tierId: string): React.JSX.Element[] => {
         const cells: React.JSX.Element[] = [];
 
-        /**
-         * Check if an element is ranked in the cell
-         * @param {number} position the cell position 
-         * @returns {React.JSX.Element} an element if the cell contains one
-         */
-        const ElementInCell = (position: number): React.JSX.Element => {
-            const elementInCell: RankedElement | undefined = rankedElements.find(
-                rankedElt => rankedElt.tierId === tierId && rankedElt.position === position
-            );
-            
-            const elementObject: Element | undefined = template?.elements.find(
-                elt => elt.id === elementInCell?.elementId
-            );
-
-            if (elementInCell && elementObject) {
-                return (
-                    <ElementPreview
-                        element={elementObject}
-                        dragStartHandler={dragStartHandler}
-                        dragEndHandler={dragEndHandler}
-                        deleteElementHandler={unrankHandler}
-                        readonly={readonly}
-                        fitToContainer
-                    />
-                );
-            }
-            return <></>;
-        };
-
         for (let cell = 0; cell < 5; cell++) {
             cells.push(
-                <div
-                    className={tier_cell_style}
+                <ElementInCell
                     key={cell}
-                    onDrop={() => dropHandler ? dropHandler(tierId, cell) : undefined}
-                    onDragOver={e => e.preventDefault()}
-                    onDragEnter={e => e.preventDefault()}
-                    draggable={!readonly}
-                >
-                    {ElementInCell(cell)}
-                </div>
+                    dropHandler={dropHandler}
+                    rankedElements={rankedElements}
+                    tierId={tierId}
+                    position={cell}
+                    template={template!}
+                    readonly={readonly}
+                />
             );
         }
 
@@ -111,13 +78,4 @@ const tier_line_style = css({
     display: 'flex',
     flexDirection: 'row',
     width: '100%'
-});
-
-const tier_cell_style = css({
-    width: '20%',
-    aspectRatio: '1 / 1',
-    padding: '5px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
 });
