@@ -3,12 +3,34 @@ import { css } from '@emotion/css';
 import { Template } from '../../models/Template';
 import { Element, RankedElement } from '../../models/Element';
 import ElementPreview from '../shared/ElementPreview';
+import { useDrop } from 'react-dnd';
+import { ETierlistDragItem } from '../../models/Tierlist';
 
-const ToRankSection = ({ template, rankedElements }: {
+const ToRankSection = ({ template, rankedElements, unrankHandler }: {
     template?: Template,
-    rankedElements: RankedElement[]
+    rankedElements: RankedElement[],
+    unrankHandler: (elementId: string) => void
 }) => {
     const [notRankedElements, setNotRankedElements] = useState<Element[]>([]);
+
+    // If user drop a ranked element in the "to rank section", unrank it
+    const [{ isOver, canDrop }, drop] = useDrop(
+        () => ({
+            accept: ETierlistDragItem.Element,
+            drop: (item: Element) => {
+                unrankHandler(item.id!);
+            },
+            canDrop: (item: Element) => {
+                // Only the ranked elements can be dropped in the unrank area
+                return !!rankedElements.find(elt => elt.elementId === item.id);
+            },
+            collect: monitor => ({
+                isOver: !!monitor.isOver(),
+                canDrop: monitor.canDrop()
+            }),
+        }),
+        [notRankedElements, rankedElements]
+    );
 
     /**
      * Called when the selected template has changed or when a element has been ranked
@@ -38,8 +60,18 @@ const ToRankSection = ({ template, rankedElements }: {
         return list;
     };
 
+    const UnrankDropZone = (): React.JSX.Element | false => {
+        return canDrop && <div
+            style={{ backgroundColor: isOver ? 'yellow' : 'white'}}
+            className={unrank_zone_style}
+        >
+            Unrank element
+        </div>;
+    };
+
     return(<>
-        <div className={section_container_style}>
+        <div ref={drop} className={section_container_style}>
+            {UnrankDropZone()}
             {ElementsList()}
         </div>
     </>);
@@ -51,8 +83,23 @@ export default ToRankSection;
  * CSS STYLES
  */
 const section_container_style = css({
+    position: 'relative',
     display: 'flex',
     justifyContent: 'flex-start',
     margin: '20px 0',
     flexWrap: 'wrap'
+});
+
+const unrank_zone_style = css({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+    zIndex: 1,
+    opacity: 0.80,
+    border: '2px solid black',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
 });

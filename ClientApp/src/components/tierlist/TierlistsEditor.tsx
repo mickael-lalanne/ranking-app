@@ -250,6 +250,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
             <ToRankSection
                 template={selectedTemplate}
                 rankedElements={[...rankedElements]}
+                unrankHandler={onElementUnrank}
             />
         </div>
         
