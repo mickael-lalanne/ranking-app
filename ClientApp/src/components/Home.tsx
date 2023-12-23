@@ -81,6 +81,7 @@ const sections_container_style = css({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     fontSize: '25px',
+    minHeight: 0,
     [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
         flexDirection: 'column'
     },
@@ -101,9 +102,6 @@ const home_item_style = css({
     textTransform: 'capitalize',
     ':hover': {
         transform: 'scale(1.15)',
-    },
-    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
-        width: '65vw'
     }
 });
 
@@ -111,7 +109,10 @@ const header_style = css({
     marginTop: HOME_PAGE_MARGIN,
     height: HEADER_FOOTER_SIZE,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
+        height: 'fit-content'
+    },
 });
 
 const footer_style = css({
@@ -119,6 +120,9 @@ const footer_style = css({
     height: HEADER_FOOTER_SIZE,
     display: 'flex',
     alignItems: 'flex-end',
+    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
+        height: 'fit-content'
+    },
 });
 
 const logout_btn_style = css({
