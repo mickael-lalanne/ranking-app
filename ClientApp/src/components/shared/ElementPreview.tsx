@@ -7,6 +7,17 @@ import { ELEMENT_SIZE } from '../../utils/css-utils';
 import { useAppSelector } from '../../app/hooks';
 import { useDrag } from 'react-dnd';
 import { ETierlistDragItem } from '../../models/Tierlist';
+import { Preview } from 'react-dnd-preview';
+
+// The preview displayed when an element is dragged
+// For touch device support, we can't use the default preview used by the HTML d&d api
+// Also, we use the react-dnd-preview library because the DragImagePreview doesn't works with TouchBackend
+// Cf https://github.com/react-dnd/react-dnd/issues/2206
+const generatePreview = ({item, style}: { item: Element, style: React.CSSProperties}) => {
+    return <div style={{...style, height: ELEMENT_SIZE, width: ELEMENT_SIZE,}}>
+        <img src={getElementImageUrl(item.image)} className={element_img_style}/>
+    </div>
+};
 
 const ElementPreview = ({
     element,
@@ -60,6 +71,7 @@ const ElementPreview = ({
     };
 
     return(<>
+        <Preview>{generatePreview}</Preview>
         <div
             ref={drag}
             className={element_container_style}

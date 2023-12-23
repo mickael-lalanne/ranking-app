@@ -9,7 +9,6 @@ import { setupStore } from './app/store';
 import { Provider } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -23,7 +22,7 @@ const root = createRoot(rootElement);
 root.render(
     <Provider store={setupStore()}>
         <BrowserRouter basename={baseUrl}>
-            <DndProvider backend={HTML5Backend}>
+            <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
                 <App />
             </DndProvider>
         </BrowserRouter>
