@@ -83,8 +83,11 @@ With a `Ranking_App_DB` database, use the `setupDB.sql` script to initialize the
    dotnet user-secrets set "Cloudinary:CloudName" "<cloud_name>"
    dotnet user-secrets set "Cloudinary:ApiKey" "<api_key>"
    dotnet user-secrets set "Cloudinary:ApiSecret" "<api_secret>"
+
+   dotnet user-secrets set "Clerk:Authority" "<clerk_authority>"
+   dotnet user-secrets set "Clerk:AuthorizedParty" "https://localhost:44412"
    ```
-   *<ins>FYI</ins> : in production, those values should be stored in Environment variables with the following syntax : "Cloudinary__CloudName"* <br>
+   *<ins>FYI</ins> : in production, those values should be stored in Environment variables with the following syntax : "Cloudinary__CloudName" or "Clerk__Authority"* <br>
    *Cf [Configuration keys and values](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0#configuration-keys-and-values)*
 4. Run the app locally
    ```sh
@@ -148,6 +151,7 @@ Mickaël Lalanne - mickael.lalanne03@gmail.com
 * [Tutorial: How to Use C# with React and TypeScript](https://kenny-designs.github.io/articles/2022-06-05-csharp-react-typescript-tutorial.html)
 * [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows)
 * [Using GitHub Actions For CI/CD with .NET Core 5 and AWS Elastic Beanstalk)](https://medium.com/geekculture/using-github-actions-for-ci-cd-with-net-core-5-and-aws-elastic-beanstalk-5141228b61bd)
+* [Clerk SDK for .NET by Hawxy](https://github.com/Hawxy/Clerk.Net?tab=readme-ov-file#what-about-jwt-auth)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

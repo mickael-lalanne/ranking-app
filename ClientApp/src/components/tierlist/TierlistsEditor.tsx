@@ -247,11 +247,11 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 dropHandler={onElementDrop}
             />
 
-            <ToRankSection
+            {selectedTemplate && selectedTemplate.id && <ToRankSection
                 template={selectedTemplate}
                 rankedElements={[...rankedElements]}
                 unrankHandler={onElementUnrank}
-            />
+            />}
         </div>
         
         <div className={footer_style}>
