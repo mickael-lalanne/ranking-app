@@ -1,13 +1,14 @@
-import { AppDispatch } from "../app/store";
-import { Template } from "../models/Template";
+import { AppDispatch } from '../app/store';
+import { Template } from '../models/Template';
 import {
     addTemplate as addTemplateInStore,
     init,
     removeTemplate as removeTemplateInStore,
     updateTemplate as updateTemplateInStore
-} from "../store/TemplateStore";
-import { deleteElementsImages } from "./CloudinaryService";
-import { isTemporaryId } from "./Util";
+} from '../store/TemplateStore';
+import { deleteElementsImages } from './CloudinaryService';
+import { isTemporaryId } from './Util';
+import axios, { AxiosResponse } from 'axios';
 
 const TEMPLATE_ENDPOINT: string = 'template';
 
@@ -15,8 +16,11 @@ const TEMPLATE_ENDPOINT: string = 'template';
 export const getTemplates = async (dispatch: AppDispatch, userId: string): Promise<void> => {
     const queryParams: string = `?userId=${userId}`;
 
-    const templatesResponse: Response = await fetch(TEMPLATE_ENDPOINT + queryParams);
-    const allUserTemplates: Template[] = await templatesResponse.json();
+    const templatesResponse: AxiosResponse<Template[]> = await axios.get(
+        TEMPLATE_ENDPOINT + queryParams
+    );
+
+    const allUserTemplates: Template[] = await templatesResponse.data;
     // Save user templates in the store
     dispatch(init(allUserTemplates));
 };
@@ -28,14 +32,11 @@ export const createTemplate = async (
 ): Promise<Template> => {
     _removeTmpIds(templateToCreate);
 
-    const requestOptions: RequestInit = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(templateToCreate)
-    };
+    const serverResponse: AxiosResponse<Template> =
+        await axios.post(TEMPLATE_ENDPOINT, templateToCreate);
 
-    const serverResponse: Response = await fetch(TEMPLATE_ENDPOINT, requestOptions);
-    const createdTemplated: Template = await serverResponse.json();
+    const createdTemplated: Template = await serverResponse.data;
+
     // Save the created template in the store
     dispatch(addTemplateInStore(createdTemplated));
 
@@ -51,7 +52,7 @@ export const deleteTemplate = async (
     await deleteElementsImages(templateToDelete.elements);
 
     // Then, call the server to delete the template in base
-    await fetch(`${TEMPLATE_ENDPOINT}/${templateToDelete.id}`, { method: 'DELETE' });
+    await axios.delete(`${TEMPLATE_ENDPOINT}/${templateToDelete.id}`);
 
     // Once template is deleted in base, remove it from the store
     dispatch(removeTemplateInStore(templateToDelete.id!));
@@ -64,13 +65,8 @@ export const updateTemplate = async (
 ): Promise<void> => {
     _removeTmpIds(templateToUpdate);
 
-    const requestOptions: RequestInit = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(templateToUpdate)
-    };
+    await axios.put(`${TEMPLATE_ENDPOINT}/${templateToUpdate.id}`,templateToUpdate);
 
-    await fetch(`${TEMPLATE_ENDPOINT}/${templateToUpdate.id}`, requestOptions);
     // Once template is updated in base, update the store
     dispatch(updateTemplateInStore(templateToUpdate)); 
 }

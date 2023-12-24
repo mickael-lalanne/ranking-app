@@ -5,13 +5,26 @@ import { css } from '@emotion/css';
 import { ThemeProvider } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import { RANKING_APP_THEME } from '../utils/theme';
+import { useAuth } from '@clerk/clerk-react';
+import axios from 'axios';
 
 const NAV_HEADER_HEIGHT = '60px';
 
 const Layout = ({ children }: { children: React.JSX.Element[] }) => {
     const [navHeader, setNavHeader] = useState<boolean>(false);
-
+    const { getToken, isSignedIn } = useAuth();
     const location = useLocation();
+
+    // Called when the user has signed in
+    useEffect(() => {
+        isSignedIn && getToken().then(token => {
+            // Add a request interceptor to have the Authorization header on all requests
+            axios.interceptors.request.use(config => {
+                config.headers.Authorization = `Bearer ${token}`;
+                return config;
+            });
+        });
+    }, [isSignedIn]);
 
     // Called when the url has changed
     useEffect(() => {
