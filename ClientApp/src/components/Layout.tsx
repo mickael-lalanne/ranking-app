@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { RANKING_APP_THEME } from '../utils/theme';
 import { useAuth } from '@clerk/clerk-react';
 import axios from 'axios';
+import { CLOUDINARY_API_URL } from '../services/CloudinaryService';
 
 const NAV_HEADER_HEIGHT = '60px';
 
@@ -19,8 +20,11 @@ const Layout = ({ children }: { children: React.JSX.Element[] }) => {
     useEffect(() => {
         // Add a request interceptor to have the Authorization header on all requests
         axios.interceptors.request.use(async config => {
-            const token = await getToken();
-            config.headers.Authorization = `Bearer ${token}`;
+            // Don't add the token when uploading and deleting images in cloudinary
+            if (config.url && !config.url.startsWith(CLOUDINARY_API_URL)) {
+                const token = await getToken();
+                config.headers.Authorization = `Bearer ${token}`;
+            }
             return config;
         });
     }, [isSignedIn]);
