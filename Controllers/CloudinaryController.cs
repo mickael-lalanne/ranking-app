@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CloudinaryDotNet;
-using ranking_app.Models;
 
 namespace ranking_app.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class CloudinaryController : ControllerBase
 {

@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 using ranking_app.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +23,33 @@ builder.Services.AddDbContext<RankingAppDbContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+// AUTHENTICATION
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        // Authority is the URL of your clerk instance
+        options.Authority = builder.Configuration["Clerk:Authority"];
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            // Disable audience validation as we aren't using it
+            ValidateAudience = false,
+            NameClaimType = ClaimTypes.NameIdentifier
+        };
+        options.Events = new JwtBearerEvents()
+        {
+            // Additional validation for AZP claim
+            OnTokenValidated = context =>
+            {
+                var azp = context.Principal?.FindFirstValue("azp");
+                // AuthorizedParty is the base URL of your frontend.
+                if (string.IsNullOrEmpty(azp) || !azp.Equals(builder.Configuration["Clerk:AuthorizedParty"]))
+                    context.Fail("AZP Claim is invalid or missing");
+
+                return Task.CompletedTask;
+            }
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +67,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseAuthentication();
 app.UseAuthorization();
 

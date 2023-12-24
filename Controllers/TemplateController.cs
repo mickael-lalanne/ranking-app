@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ranking_app.Data;
@@ -6,6 +7,7 @@ using ranking_app.Models;
 namespace ranking_app.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class TemplateController : ControllerBase
 {
