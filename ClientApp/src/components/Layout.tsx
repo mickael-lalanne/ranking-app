@@ -17,12 +17,11 @@ const Layout = ({ children }: { children: React.JSX.Element[] }) => {
 
     // Called when the user has signed in
     useEffect(() => {
-        isSignedIn && getToken().then(token => {
-            // Add a request interceptor to have the Authorization header on all requests
-            axios.interceptors.request.use(config => {
-                config.headers.Authorization = `Bearer ${token}`;
-                return config;
-            });
+        // Add a request interceptor to have the Authorization header on all requests
+        axios.interceptors.request.use(async config => {
+            const token = await getToken();
+            config.headers.Authorization = `Bearer ${token}`;
+            return config;
         });
     }, [isSignedIn]);
 
