@@ -53,6 +53,8 @@
     "@testing-library/react": "^14.1.2",
     "ajv": "^8.12.0",
     "babel-jest": "^29.7.0",
+    "cypress": "^13.6.1",
+    "cypress-visual-regression": "^3.0.0",
     "eslint": "^8.39.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
@@ -75,7 +77,9 @@
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "lint": "eslint ./src/",
+    "cypress:open": "cypress open",
+    "cypress:takeBaseScreenshots": "cypress run --env type=base --config specPattern=\"cypress/e2e/*.cy.ts\" --browser chrome"
   },
   "eslintConfig": {
     "extends": [

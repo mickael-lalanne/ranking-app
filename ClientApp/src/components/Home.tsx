@@ -30,7 +30,12 @@ const Home = () => {
     const Footer = () => {
         return <div className={footer_style}>
             <SignOutButton>
-                <div className={logout_btn_style}>Logout</div>
+                <div
+                    className={logout_btn_style}
+                    data-cy="logout-button"
+                >
+                    Logout
+                </div>
             </SignOutButton>
         </div>
     };
@@ -46,7 +51,7 @@ const Home = () => {
             >
                 My templates
             </NavLink>
-            
+
             <NavLink
                 tag={Link}
                 className={home_item_style}
