@@ -160,6 +160,42 @@ public class TemplateController : ControllerBase
         return NoContent();
     }
 
+    // Called only in Cypress e2e tests
+    [HttpDelete]
+    [AllowAnonymous]
+    [Route("deleteE2E")]
+    public async Task<IActionResult> DeleteTemplates()
+    {
+        const string E2E_USER_ID = "user_2a0OKch2BahyWcB5z8IRDVIg65l";
+
+        // First, delete all tierlists linked to the user id
+        IEnumerable<TierlistModel> tierlists = await _context.Tierlists
+            .Where(tierlist => tierlist.UserId == E2E_USER_ID)
+            .Include(tierlist => tierlist.RankedElements)
+            .ToListAsync();
+
+        foreach (TierlistModel tierlist in tierlists)
+        {
+            _context.Tierlists.Remove(tierlist);
+        }
+
+        // Then, we can delete all the templates
+        IEnumerable<TemplateModel> templates = await _context.Templates
+            .Where(template => template.UserId == E2E_USER_ID)
+            .Include(template => template.Tiers)
+            .Include(template => template.Elements)
+            .ToListAsync();
+
+        foreach (TemplateModel template in templates)
+        {
+            _context.Templates.Remove(template);
+        }
+
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
     private bool TemplateExists(Guid id)
     {
         return _context.Templates.Any(e => e.Id == id);
