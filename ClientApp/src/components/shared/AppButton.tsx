@@ -42,6 +42,7 @@ const AppButton = (
             role="button"
             onClick={onClickHandler}
             disabled={disabled}
+            data-cy="app-button"
         >
             <span className={add_btn_shadow + ' add_btn_shadow'}></span>
             <span className={app_add_btn_edge} style={{ background: btnColor }}></span>

@@ -169,6 +169,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
                     onClick={createElements}
                     className={footer_btn_style}
                     style={{ marginLeft: '10px' }}
+                    data-cy="create-element-button"
                 >
                     Create
                 </Button>

@@ -17,8 +17,9 @@ export default defineConfig({
         },
     },
     env: {
-        user_email: 'mickael.lalanne03+clerk_test@gmail.com',
-        user_password: 'clerk_e2e_password',
+        clerk_user_email: 'mickael.lalanne03+clerk_test@gmail.com',
+        clerk_user_password: 'clerk_e2e_password',
+        cler_userId: 'user_2a0OKch2BahyWcB5z8IRDVIg65l',
         clerk_origin: 'https://renewed-bobcat-2.accounts.dev',
         failSilently: false,
         ALWAYS_GENERATE_DIFF: false,

@@ -62,6 +62,7 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
                         ${availableRanks.find(r => r === i) !== undefined ? undefined : rank_cell_disabled_style}
                     `}
                     onClick={() => setTierRank(i)}
+                    data-cy="tier-rank-selector"
                 >
                     { `${i + 1}`}
                 </div>
@@ -77,6 +78,7 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
                 label="Tier name"
                 variant="outlined"
                 onChange={onNameFieldChange}
+                data-cy="tier-edit-view-name-field"
             />
             <div className={tier_position_style}>
                 <div>Rank :</div>
@@ -84,7 +86,7 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
             </div>
             <div className={footer_buttons_style}>
                 <div className="app_spacer"></div>
-                <Button variant="outlined" onClick={cancelCallback}>Cancel</Button>
+                <Button variant="outlined" onClick={cancelCallback} data-cy="cancel-tier-button">Cancel</Button>
                 <Button variant="contained" onClick={createTier} style={{ marginLeft: '10px' }}>Create</Button>
             </div>
         </div>);

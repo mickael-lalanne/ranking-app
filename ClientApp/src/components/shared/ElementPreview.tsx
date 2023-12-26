@@ -84,7 +84,7 @@ const ElementPreview = ({
             onMouseLeave={() => setIsHovering(false)}
             draggable={!readonly}
         >
-            <img src={elementImage} className={element_img_style} />
+            <img src={elementImage} className={element_img_style} data-cy="element-preview-img" />
             {DeleteElementButton(element.id!)}
         </div>
     </>);

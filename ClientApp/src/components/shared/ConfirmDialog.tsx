@@ -48,6 +48,7 @@ const ConfirmDialog = ({
                     fullWidth
                     variant="standard"
                     onChange={onTextValidationChange}
+                    data-cy="confirm-dialog-name-field"
                 />
             );
         }
@@ -55,7 +56,7 @@ const ConfirmDialog = ({
 
     return (
         <Dialog open={open} onClose={cancelHandler} style={{ padding: '5px'}}>
-            <div className={dialog_container_style}>
+            <div className={dialog_container_style} data-cy="confirm-dialog">
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>{content}</DialogContentText>
@@ -66,6 +67,7 @@ const ConfirmDialog = ({
                     <Button
                         disabled={disableConfirmButton && !!textValidation}
                         onClick={confirmHandler}
+                        data-cy="confirm-dialog-button"
                     >
                         Confirm
                     </Button>

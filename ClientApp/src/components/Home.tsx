@@ -48,6 +48,7 @@ const Home = () => {
                 tag={Link}
                 className={home_item_style}
                 to={ERankingAppRoutes.templates}
+                data-cy="template-button"
             >
                 My templates
             </NavLink>
