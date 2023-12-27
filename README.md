@@ -133,6 +133,24 @@ With a `Ranking_App_DB` database, use the `setupDB.sql` script to initialize the
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## 📋 Tests
+
+### Cypress - End To End tests
+* Run a specific test 
+   ```sh
+   npx cypress run --spec cypress/e2e/your_test_name.cy.ts --env type=base --browser chrome
+   ```
+* Run tests in the cypress console
+   ```sh
+   npm run cypress:open
+   ```
+* Change base screenshots used for visual testing 
+   ```sh
+   npm run cypress:takeBaseScreenshots
+   ```
+<br>
+
+
 <!-- CONTACT -->
 ## Contact
 

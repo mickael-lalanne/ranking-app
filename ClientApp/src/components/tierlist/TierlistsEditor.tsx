@@ -192,7 +192,15 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
         const AllTemplatesMenuItem = (): React.JSX.Element[] => {
             const items: React.JSX.Element[] = [];
             allUserTemplates.forEach(template => {
-                items.push(<MenuItem key={template.id} value={template.id}>{template.name}</MenuItem>);
+                items.push(
+                    <MenuItem
+                        key={template.id}
+                        value={template.id}
+                        data-cy="template-selector-item"
+                    >
+                        {template.name}
+                    </MenuItem>
+                );
             });
             return items;
         };
@@ -204,6 +212,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 label="Template"
                 select
                 onChange={handleTemplateSelectChange}
+                data-cy="template-selector"
             >
                 {AllTemplatesMenuItem()}
             </TextField>
@@ -225,6 +234,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 value={tierlistName}
                 fullWidth={true}
                 disabled={loading}
+                data-cy="tierlist-name-field"
             />;
         }
         // Otherwise, display a custom message to encourage the user to select a template
@@ -257,7 +267,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
         <div className={footer_style}>
             <div className="app_spacer"></div>
             <Tooltip title={getTooltipTitleForSaveButtons(disableSave)}>
-                <div>
+                <div data-cy="create-tierlist">
                     <AppButton
                         text={saveButtonText}
                         onClickHandler={onSaveButtonClick}

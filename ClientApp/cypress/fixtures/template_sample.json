@@ -1,0 +1,67 @@
+[
+    {
+        "id": "fe4ddad0-5c36-4d7a-9abf-df062bde447b",
+        "name": "A sample template",
+        "userId": "user_2a0OKch2BahyWcB5z8IRDVIg65l",
+        "tiers": [
+            {
+                "id": "271ce9da-13f7-4b61-9948-b45a56e6940b",
+                "name": "Tier 2",
+                "rank": 1
+            },
+            {
+                "id": "49520563-f816-4647-9100-0c5228684f99",
+                "name": "Tier 4",
+                "rank": 3
+            },
+            {
+                "id": "86d4f14d-b3f2-4943-b956-289f3c709a45",
+                "name": "Tier 5",
+                "rank": 4
+            },
+            {
+                "id": "98d44b2d-befe-4b23-a447-2fcc25e33e92",
+                "name": "Tier 1",
+                "rank": 0
+            },
+            {
+                "id": "b263c141-fc3a-4fa7-99f8-6861fbf0b5ce",
+                "name": "Tier 2",
+                "rank": 2
+            }
+        ],
+        "elements": [
+            {
+                "id": "c6f0e484-f1d9-4178-8091-debc7d8e6b88",
+                "name": "Element 1",
+                "image": "user_2a0OKch2BahyWcB5z8IRDVIg65l/elements/sample-element",
+                "type": 0
+            },
+            {
+                "id": "22614ed8-e34b-4e8a-9e32-4b3771123f4a",
+                "name": "Element 2",
+                "image": "user_2a0OKch2BahyWcB5z8IRDVIg65l/elements/sample-element",
+                "type": 0
+            },
+            {
+                "id": "ebcbc306-2855-4140-81e9-b1942db82030",
+                "name": "Element 3",
+                "image": "user_2a0OKch2BahyWcB5z8IRDVIg65l/elements/sample-element",
+                "type": 0
+            },
+            {
+                "id": "2984d527-618a-43cc-8f64-d60348162657",
+                "name": "Element 4",
+                "image": "user_2a0OKch2BahyWcB5z8IRDVIg65l/elements/sample-element",
+                "type": 0
+            },
+            {
+                "id": "a88301aa-0fde-4355-9908-b2adf236b6aa",
+                "name": "Element 5",
+                "image": "user_2a0OKch2BahyWcB5z8IRDVIg65l/elements/sample-element",
+                "type": 0
+            }
+        ],
+        "createdAt": "2023-12-26T10:38:13.978927Z"
+    }
+]

@@ -1,4 +1,4 @@
-describe('The Home Page', () => {
+describe('Page', () => {
     beforeEach(() => {
         cy.session('signed-in', () => {
             cy.signIn();

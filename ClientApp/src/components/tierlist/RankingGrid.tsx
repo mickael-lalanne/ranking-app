@@ -45,7 +45,12 @@ const RankingGrid = ({ template, dropHandler, rankedElements, readonly = false, 
 
         template.tiers.forEach(tier => {
             lines.push(
-                <div className={tier_line_style} style={{ backgroundColor: TIERS_COLORS[tier.rank]}} key={tier.id}>
+                <div
+                    className={tier_line_style}
+                    style={{ backgroundColor: TIERS_COLORS[tier.rank]}}
+                    key={tier.id}
+                    data-cy="ranking-grid-tier-line"
+                >
                     {TierCells(tier.id!)}
                 </div>
             );
@@ -55,7 +60,7 @@ const RankingGrid = ({ template, dropHandler, rankedElements, readonly = false, 
     };
 
     return(<>
-        <div className={tiers_grid_style} ref={innerRef}>
+        <div className={tiers_grid_style} ref={innerRef} data-cy="ranking-grid">
             {TiersLines()}
         </div>
     </>);

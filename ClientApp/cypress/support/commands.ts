@@ -17,7 +17,7 @@ declare global {
              */
             signOut(): Chainable<null>;
             /**
-             * Custom command to clear all tierlists and templates of the e2e test user 
+             * Custom command to clear all tierlists and templates of the e2e test user
              * @example cy.resetDB()
              */
             resetDB(): Chainable<null>;
@@ -26,6 +26,14 @@ declare global {
              * @example cy.addElement()
              */
             addElement(): Chainable<null>;
+            /**
+             * Custom command to drag and drop
+             * @example cy.dragAndDrop()
+             */
+            dragAndDrop(
+                target: Cypress.Chainable<JQuery<HTMLElement>>,
+                subject: Cypress.Chainable<JQuery<HTMLElement>>
+            ): Chainable<null>;
         }
     }
 }
@@ -96,15 +104,50 @@ Cypress.Commands.add('addElement', () => {
     );
     // Check the image has been resized
     cy.get('[data-cy="element-preview-img"]').should(($img) => {
-        expect(($img[0] as HTMLImageElement).naturalHeight).to.be.lessThan(
-            151
-        );
-        expect(($img[0] as HTMLImageElement).naturalWidth).to.be.lessThan(
-            151
-        );
+        expect(($img[0] as HTMLImageElement).naturalHeight).to.be.lessThan(151);
+        expect(($img[0] as HTMLImageElement).naturalWidth).to.be.lessThan(151);
     });
     // Click on create element button
     cy.get('[data-cy="create-element-button"]').click();
 });
 
 compareSnapshotCommand();
+
+// Based on https://stackoverflow.com/a/71350094/22930358
+Cypress.Commands.add(
+    'dragAndDrop',
+    (
+        target: Cypress.Chainable<JQuery<HTMLElement>>,
+        subject: Cypress.Chainable<JQuery<HTMLElement>>
+    ) => {
+        const BUTTON_INDEX = 0;
+        const SLOPPY_CLICK_THRESHOLD = 10;
+        target.then(($target) => {
+            let coordsDrop = $target[0].getBoundingClientRect();
+            subject.then((subject) => {
+                const coordsDrag = subject[0].getBoundingClientRect();
+                cy.wrap(subject)
+                    .trigger('mousedown', {
+                        button: BUTTON_INDEX,
+                        clientX: coordsDrag.x,
+                        clientY: coordsDrag.y,
+                        force: true,
+                    })
+                    .trigger('mousemove', {
+                        button: BUTTON_INDEX,
+                        clientX: coordsDrag.x + SLOPPY_CLICK_THRESHOLD,
+                        clientY: coordsDrag.y,
+                        force: true,
+                    });
+                cy.get('body')
+                    .trigger('mousemove', {
+                        button: BUTTON_INDEX,
+                        clientX: coordsDrop.x,
+                        clientY: coordsDrop.y,
+                        force: true,
+                    })
+                    .trigger('mouseup');
+            });
+        });
+    }
+);

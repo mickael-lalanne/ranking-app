@@ -52,7 +52,7 @@ const ElementInCell = (
     };
 
     return (
-        <div ref={drop} className={tier_cell_style}>
+        <div ref={drop} className={tier_cell_style} data-cy="element-in-cell">
             {CellContent()}
             {CellDropOver()}
         </div>

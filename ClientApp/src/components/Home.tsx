@@ -57,6 +57,7 @@ const Home = () => {
                 tag={Link}
                 className={home_item_style}
                 to={ERankingAppRoutes.tierlists}
+                data-cy="tierlist-button"
             >
                 My Tierlists
             </NavLink>

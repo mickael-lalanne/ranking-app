@@ -70,7 +70,11 @@ const ToRankSection = ({ template, rankedElements, unrankHandler }: {
     };
 
     return(<>
-        <div ref={drop} className={section_container_style}>
+        <div
+            ref={drop}
+            className={section_container_style}
+            data-cy="to-rank-section"
+        >
             {UnrankDropZone()}
             {ElementsList()}
         </div>
