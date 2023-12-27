@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ranking_app.Data;
 using ranking_app.Models;
 
@@ -191,6 +192,27 @@ public class TemplateController : ControllerBase
             _context.Templates.Remove(template);
         }
 
+        // Some ranked elements are created during the e2e tests with a template which is mocked
+        // So we have to delete them manually
+
+        // Retrieve the ranked elements ids from the .json mock used in e2e tests
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp/cypress/fixtures/template_sample.json");
+        IEnumerable<TemplateModel>? sampleTemplates =
+            JsonConvert.DeserializeObject<IEnumerable<TemplateModel>>(
+                System.IO.File.ReadAllText(path)
+            );
+
+        if (sampleTemplates != null) {
+            IEnumerable<Guid> elementsIdToDelete = sampleTemplates.ToArray()[0].Elements.Select(elt => elt.Id).ToArray();
+
+            IEnumerable<RankedElement> rankedElementsToDelete = await _context.RankedElements
+                .Where(rankedElement => elementsIdToDelete.Contains(rankedElement.ElementId))
+                .ToListAsync();
+
+            foreach (RankedElement rankedElement in rankedElementsToDelete) {
+                _context.RankedElements.Remove(rankedElement);
+            }
+        }
         await _context.SaveChangesAsync();
 
         return NoContent();
