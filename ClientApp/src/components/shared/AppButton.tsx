@@ -4,14 +4,16 @@ import { useTheme } from '@mui/material/styles';
 import { EResponsiveBreakpoints } from '../../utils/css-utils';
 import { useWindowSize } from '../../hooks/useWindowsSize';
 
+export interface AppButtonProps {
+    text: string;
+    icon?: React.JSX.Element;
+    onClickHandler: () => void,
+    color?: string,
+    disabled?: boolean
+};
+
 const AppButton = (
-    { text, icon, onClickHandler, color, disabled = false } : {
-        text: string;
-        icon?: React.JSX.Element;
-        onClickHandler: () => void,
-        color?: string,
-        disabled?: boolean
-    }
+    { text, icon, onClickHandler, color, disabled = false } : AppButtonProps
 ) => {
     const theme = useTheme();
     const [btnColor, setBtnColor] = useState<string>(theme.defaultRankingTheme.primary);
@@ -29,7 +31,7 @@ const AppButton = (
      */
     const ButtonContent = (): React.JSX.Element | string => {
         return icon && windowSize.width! < parseFloat(EResponsiveBreakpoints.md)
-            ? icon
+            ? <span data-testid="app-btn-icon">{icon}</span>
             : text;
     };
 

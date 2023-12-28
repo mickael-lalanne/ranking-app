@@ -135,6 +135,15 @@ With a `Ranking_App_DB` database, use the `setupDB.sql` script to initialize the
 
 ## 📋 Tests
 
+### Jest - Unit tests
+* Run a specific test 
+   ```sh
+   npm test -- your_file_name.tsx
+   ```
+* Run all tests
+   ```sh
+   npm test
+   ```
 ### Cypress - End To End tests
 * Run a specific test 
    ```sh

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { setupStore } from '../app/store';
 import type { AppStore, RootState } from '../app/store';
 import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
+import '@testing-library/jest-dom';
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
