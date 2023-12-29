@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot Takes default screenshot 1`] = `
+<body>
+  <div>
+    <label
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-13ambje css-1t5b4kh css-sghohy-MuiButtonBase-root-MuiButton-root"
+      role="button"
+      tabindex="0"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="AddCircleOutlineIcon"
+        focusable="false"
+        style="width: 40px; height: 40px;"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+        />
+      </svg>
+      <input
+        accept="image/*"
+        class="css-195j79u"
+        data-cy="add-element-input"
+        data-testid="add-element-input"
+        multiple=""
+        type="file"
+      />
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </label>
+  </div>
+</body>
+`;

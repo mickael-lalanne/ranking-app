@@ -28,6 +28,7 @@ const AddElementButton = (
                 className={add_element_input_style}
                 onChange={changeCallback}
                 data-cy="add-element-input"
+                data-testid="add-element-input"
             ></input>
         </Button>
     );

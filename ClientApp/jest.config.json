@@ -1,4 +1,5 @@
 {
     "testEnvironment": "jsdom",
-    "verbose": true
+    "verbose": true,
+    "transformIgnorePatterns": ["node_modules/(?!react-dnd)/"]
 }

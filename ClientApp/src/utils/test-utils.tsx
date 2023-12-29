@@ -6,6 +6,8 @@ import { setupStore } from '../app/store';
 import type { AppStore, RootState } from '../app/store';
 import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
 import '@testing-library/jest-dom';
+import { DndProvider } from 'react-dnd';
+import { TouchBackend } from 'react-dnd-touch-backend';
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -21,8 +23,8 @@ const RANKING_APP_THEME_MOCK: ThemeOptions = {
         primaryLight: '',
         light: '',
         dark: '',
-        info: ''
-    }
+        info: '',
+    },
 };
 const MockTheme = ({ children }: any) => {
     const theme = createTheme(RANKING_APP_THEME_MOCK);
@@ -39,11 +41,18 @@ export function renderWithProviders(
     }: ExtendedRenderOptions = {}
 ) {
     function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
-        return <MockTheme>
-            <Provider store={store}>{
-                children}
-            </Provider>
-        </MockTheme>;
+        return (
+            <MockTheme>
+                <Provider store={store}>
+                    <DndProvider
+                        backend={TouchBackend}
+                        options={{ enableMouseEvents: true }}
+                    >
+                        {children}
+                    </DndProvider>
+                </Provider>
+            </MockTheme>
+        );
     }
 
     // Return an object with the store and all of RTL's query functions
