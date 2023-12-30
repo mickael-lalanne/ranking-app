@@ -11,7 +11,7 @@ const AddElementButtonTest = () => {
 };
 
 describe('Screenshot', () => {
-    it('Takes default screenshot', () => {
+    it('takes default screenshot', () => {
         const component = renderWithProviders(AddElementButtonTest());
 
         expect(component.baseElement).toMatchSnapshot();

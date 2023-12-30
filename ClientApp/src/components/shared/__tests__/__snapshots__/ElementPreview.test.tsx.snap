@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-13ambje"
+      data-cy="element-preview"
+      data-testid="element-preview"
+      draggable="true"
+      style="height: 75px; width: 75px; opacity: 1;"
+    >
+      <img
+        class="css-40zi5q"
+        data-cy="element-preview-img"
+        src="https://res.cloudinary.com/ranking-app/image/upload/element image"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Screenshot takes screenshot with delete button: With delete button 1`] = `
+<body>
+  <div>
+    <div
+      class="css-13ambje"
+      data-cy="element-preview"
+      data-testid="element-preview"
+      draggable="true"
+      style="height: 75px; width: 75px; opacity: 1;"
+    >
+      <img
+        class="css-40zi5q"
+        data-cy="element-preview-img"
+        src="https://res.cloudinary.com/ranking-app/image/upload/element image"
+      />
+      <div
+        class="css-esyjz6"
+        data-testid="delete-element"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-cxyv8p css-i4bv87-MuiSvgIcon-root"
+          data-testid="RemoveCircleOutlineIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </svg>
+        <div
+          class="css-10le4f0"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;

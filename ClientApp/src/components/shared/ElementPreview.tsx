@@ -19,17 +19,19 @@ const generatePreview = ({item, style}: { item: Element, style: React.CSSPropert
     </div>
 };
 
+export interface ElementPreviewProps {  
+    element: Element,
+    deleteElementHandler?: (elementId: string) => void,
+    readonly?: boolean,
+    fitToContainer?: boolean
+};
+
 const ElementPreview = ({
     element,
     deleteElementHandler,
     readonly = false,
     fitToContainer = false
-}: {
-    element: Element,
-    deleteElementHandler?: (elementId: string) => void,
-    readonly?: boolean,
-    fitToContainer?: boolean
-}) => {
+}: ElementPreviewProps) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const [elementImage, setElementImage] = useState<string>();
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -59,7 +61,7 @@ const ElementPreview = ({
     const DeleteElementButton = (elementId: string): React.JSX.Element | undefined => {
         if (isHovering && deleteElementHandler && !loading) {
             return (
-                <div className={element_delete_container_style}>
+                <div className={element_delete_container_style} data-testid="delete-element">
                     <RemoveCircleOutlineIcon
                         onClick={() => deleteElementHandler(elementId)}
                         className={remove_element_icon_style}
@@ -84,6 +86,7 @@ const ElementPreview = ({
             onMouseLeave={() => setIsHovering(false)}
             draggable={!readonly}
             data-cy="element-preview"
+            data-testid="element-preview"
         >
             <img src={elementImage} className={element_img_style} data-cy="element-preview-img" />
             {DeleteElementButton(element.id!)}

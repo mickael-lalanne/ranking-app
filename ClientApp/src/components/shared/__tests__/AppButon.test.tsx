@@ -23,7 +23,7 @@ const AppButtonTest = (props: AppButtonProps) => {
 };
 
 describe('Screenshot', () => {
-    it('Takes default screenshot', () => {
+    it('takes default screenshot', () => {
         const component = renderWithProviders(AppButtonTest(DEFAULT_PROPS));
 
         expect(component.baseElement).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe('Screenshot', () => {
 });
 
 describe('Common', () => {
-    it('Clicks on the button', async () => {
+    it('clicks on the button', async () => {
         renderWithProviders(AppButtonTest(DEFAULT_PROPS));
 
         expect(DEFAULT_PROPS.onClickHandler).toHaveBeenCalledTimes(0);

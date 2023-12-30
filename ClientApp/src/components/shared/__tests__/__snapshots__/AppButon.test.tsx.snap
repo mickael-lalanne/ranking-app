@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Screenshot Takes default screenshot 1`] = `
+exports[`Screenshot takes default screenshot 1`] = `
 <body>
   <div>
     <button

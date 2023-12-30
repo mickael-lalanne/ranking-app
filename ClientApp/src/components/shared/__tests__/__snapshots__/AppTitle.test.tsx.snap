@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1anxslm"
+    >
+      <h1>
+        My title
+        <span>
+          My subtitle
+        </span>
+      </h1>
+    </div>
+  </div>
+</body>
+`;
