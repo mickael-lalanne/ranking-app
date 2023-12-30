@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { css } from '@emotion/css';
 import { Element } from '../../models/Element';
-import { ResizedImage, generateRandomId, resizeImage } from '../../services/Util';
+import { ResizedImage, generateRandomId, resizeImage } from '../../utils/Util';
 import { EEditViewMode } from '../../models/Template';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ElementPreview from '../shared/ElementPreview';

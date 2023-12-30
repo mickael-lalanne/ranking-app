@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
 import { deleteElementsImages, uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
-import { ResizedImage, generateRandomId, getTooltipTitleForSaveButtons, isTemporaryId, resizeImage } from '../../services/Util';
+import { ResizedImage, generateRandomId, getTooltipTitleForSaveButtons, isTemporaryId, resizeImage } from '../../utils/Util';
 import { updateLoading } from '../../store/ApplicationStore';
 import { Tooltip } from '@mui/material';
 

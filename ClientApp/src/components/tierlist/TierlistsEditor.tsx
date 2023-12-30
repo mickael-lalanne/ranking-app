@@ -16,7 +16,7 @@ import html2canvas from 'html2canvas';
 import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Tooltip from '@mui/material/Tooltip';
-import { getTooltipTitleForSaveButtons } from '../../services/Util';
+import { getTooltipTitleForSaveButtons } from '../../utils/Util';
 import InfoBox from '../shared/InfoBox';
 
 // Hack : without an empty template used in the useState default value,

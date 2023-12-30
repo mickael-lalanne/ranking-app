@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Tierlist } from '../models/Tierlist';
-import { sortByCreationDate } from '../services/Util';
+import { sortByCreationDate } from '../utils/Util';
 import { RootState } from '../app/store';
 
 // Define a type for the slice state

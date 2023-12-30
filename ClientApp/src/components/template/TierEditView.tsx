@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { css } from '@emotion/css';
 import { EEditViewMode, TIERS_COLORS, Tier } from '../../models/Template';
-import { generateRandomId } from '../../services/Util';
+import { generateRandomId } from '../../utils/Util';
 import { useAppSelector } from '../../app/hooks';
 
 const POSSIBLE_RANKS: number[] = [0, 1, 2, 3, 4, 5];
