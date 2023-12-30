@@ -26,13 +26,16 @@ import InfoBox from '../shared/InfoBox';
 // Cf https://stackoverflow.com/questions/63567876/react-hooks-not-setting-the-select-value-after-fetching-options
 const emptyTemplate: Template = { id: '', name: '', tiers: [], elements: []};
 
+export const NO_TEMPLATE_SELECTED_MESSAGE: string =
+    '🡹 To be able to create a tierlist, you must first select a template in the list above.';
+
 const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template | undefined>(emptyTemplate);
     const [tierlistName, setTierlistName] = useState<string>('');
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [disableSave, setDisableSave] = useState<string>('');
-    
+
     const gridRef: React.MutableRefObject<null> = useRef(null);
 
     useEffect(() => {
@@ -145,7 +148,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     };
 
     /**
-     * Called when the delete icon of a ranked element has been click
+     * Called when a ranked element has been droped back to the "to rank" section
      * @param {string} elementId id of the element to unrank
      */
     const onElementUnrank = (elementId: string) => {

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes empty section screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1njjqgc"
+      data-cy="to-rank-section"
+      data-testid="to-rank-section"
+    />
+  </div>
+</body>
+`;
+
+exports[`Screenshot takes section with unrank elements screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1njjqgc"
+      data-cy="to-rank-section"
+      data-testid="to-rank-section"
+    >
+      <div
+        style="margin: 2px;"
+      >
+        <div
+          class="css-13ambje"
+          data-cy="element-preview"
+          data-testid="element-preview"
+          draggable="true"
+          style="height: 75px; width: 75px; opacity: 1;"
+        >
+          <img
+            class="css-40zi5q"
+            data-cy="element-preview-img"
+            src="https://res.cloudinary.com/ranking-app/image/upload/elt image"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

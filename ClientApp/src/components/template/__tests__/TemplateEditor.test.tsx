@@ -26,6 +26,7 @@ const TemplatesEditorTest = (
         />
     );
 };
+
 const storeWithoutLoading: ExtendedRenderOptions = {
     preloadedState: {
         application: {
@@ -65,7 +66,7 @@ jest.mock(cloudinaryServicePath, () => ({
 }));
 
 describe('Screenshot', () => {
-    it('Takes builder screenshot', () => {
+    it('takes builder screenshot', () => {
         const component = renderWithProviders(
             TemplatesEditorTest(),
             storeWithoutLoading
@@ -74,7 +75,7 @@ describe('Screenshot', () => {
         expect(component.baseElement).toMatchSnapshot();
     });
 
-    it('Takes editor screenshot', () => {
+    it('takes editor screenshot', () => {
         const templateToEdit: Template = {
             name: 'Template for Editor',
             tiers: [{ name: 'My tier for editor', rank: 3, id: '0' }],
@@ -93,7 +94,7 @@ describe('Screenshot', () => {
     });
 });
 
-describe('Builder', () => {
+describe('Common', () => {
     beforeEach(() => {});
 
     it('saves a template', async () => {

@@ -6,15 +6,18 @@ import ElementPreview from '../shared/ElementPreview';
 import { useDrop } from 'react-dnd';
 import { ETierlistDragItem } from '../../models/Tierlist';
 
+export interface ElementInCellProps {
+    rankedElements: RankedElement[];
+    tierId: string,
+    position: number,
+    template: Template,
+    dropHandler?: (draggedElement: Element, tierId: string, rank: number) => void,
+    readonly: boolean
+}
+
 const ElementInCell = (
-    { rankedElements, tierId, position, template, dropHandler, readonly } : {
-        rankedElements: RankedElement[];
-        tierId: string,
-        position: number,
-        template: Template,
-        dropHandler?: (draggedElement: Element, tierId: string, rank: number) => void,
-        readonly: boolean
-    }
+    { rankedElements, tierId, position, template, dropHandler, readonly } :
+    ElementInCellProps
 ) => {
     const [{ isOver }, drop] = useDrop(
         () => ({

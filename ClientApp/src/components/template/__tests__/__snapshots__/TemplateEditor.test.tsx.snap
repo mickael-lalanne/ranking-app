@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Screenshot Takes builder screenshot 1`] = `
+exports[`Screenshot takes builder screenshot 1`] = `
 <body>
   <div>
     <div>
@@ -288,7 +288,7 @@ exports[`Screenshot Takes builder screenshot 1`] = `
 </body>
 `;
 
-exports[`Screenshot Takes editor screenshot 1`] = `
+exports[`Screenshot takes editor screenshot 1`] = `
 <body>
   <div>
     <div>
