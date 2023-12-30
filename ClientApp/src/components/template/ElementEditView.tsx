@@ -12,15 +12,20 @@ import AddElementButton from '../shared/AddElementButton';
 import { ELEMENT_SIZE } from '../../utils/css-utils';
 import { useAppSelector } from '../../app/hooks';
 
-/**
- * View displayed when the user wants to create a new element or edit an existing one
- */
-const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultImages}: {
+export interface ElementEditViewProps {
     createCallback: (elements: Element[]) => void,
     cancelCallback: () => void,
     editViewMode: EEditViewMode,
     defaultImages: ResizedImage[]
-}) => {
+};
+
+/**
+ * View displayed when the user wants to create a new element or edit an existing one
+ */
+const ElementEditView = (
+    {createCallback, cancelCallback, editViewMode, defaultImages}: 
+    ElementEditViewProps
+) => {
     const [currentElements, setCurrentElements] = useState<Element[]>([]);
     const [uploadBtnHover, setUploadBtnHover] = useState<string>();
 
@@ -161,6 +166,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
                     variant="outlined"
                     onClick={onCancelButtonClick}
                     className={footer_btn_style}
+                    data-testid="cancel-element-button"
                 >
                         Cancel
                 </Button>
@@ -170,6 +176,7 @@ const ElementEditView = ({createCallback, cancelCallback, editViewMode, defaultI
                     className={footer_btn_style}
                     style={{ marginLeft: '10px' }}
                     data-cy="create-element-button"
+                    data-testid="create-element-button"
                 >
                     Create
                 </Button>

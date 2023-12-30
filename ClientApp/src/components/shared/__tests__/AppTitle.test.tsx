@@ -3,8 +3,8 @@ import { renderWithProviders } from '../../../utils/test-utils';
 import { screen } from '@testing-library/react';
 import AppTitle from '../AppTitle';
 
-const title: string = "My title";
-const subtitle: string = "My subtitle";
+const title: string = 'My title';
+const subtitle: string = 'My subtitle';
 
 const AppTitleTest = () => {
     return <AppTitle title={title} subtitle={subtitle} />;

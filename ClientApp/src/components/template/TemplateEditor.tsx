@@ -19,7 +19,7 @@ import { ResizedImage, generateRandomId, getTooltipTitleForSaveButtons, isTempor
 import { updateLoading } from '../../store/ApplicationStore';
 import { Tooltip } from '@mui/material';
 
-const DEFAULT_TIERS: Tier[] = [
+export const DEFAULT_TIERS: Tier[] = [
     { id: generateRandomId(), name: 'Tier 1', rank: 0 },
     { id: generateRandomId(), name: 'Tier 2', rank: 1 },
     { id: generateRandomId(), name: 'Tier 2', rank: 2 },
@@ -236,6 +236,7 @@ const TemplateEditor = (
                     onMouseEnter={() => setTierHovering(tier.id)}
                     onMouseLeave={() => setTierHovering(undefined)}
                     data-cy="template-tier-in-editor"
+                    data-testid="template-tier-in-editor"
                 >
                     <div className={tier_rank_style}>{tier.rank + 1}</div>
                     <TextField
@@ -282,6 +283,7 @@ const TemplateEditor = (
                     onClick={() => setEditViewMode(EEditViewMode.EditTier)}
                     disabled={loading}
                     data-cy="add-tier-button"
+                    data-testid="template-editor-add-tier-button"
                 >
                     Add Tier
                 </Button>

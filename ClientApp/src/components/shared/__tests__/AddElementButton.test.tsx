@@ -34,7 +34,7 @@ describe('Common', () => {
         expect(changeCallback).toHaveBeenCalledTimes(1);
     });
 
-    it('uploads an element with image', async () => {
+    it('uploads an element with video', async () => {
         renderWithProviders(AddElementButtonTest());
 
         const file = new File(['element'], 'elt.mp4', {type: 'video/mp4'})

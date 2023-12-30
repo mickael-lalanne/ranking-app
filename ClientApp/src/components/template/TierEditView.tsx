@@ -8,15 +8,20 @@ import { useAppSelector } from '../../app/hooks';
 
 const POSSIBLE_RANKS: number[] = [0, 1, 2, 3, 4, 5];
 
-/**
- * View displayed when the user wants to create a new tier or edit an existing one
- */
-const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMode}: {
+export interface TierEditViewProps {
     createCallback: (tier: Tier) => void,
     cancelCallback: () => void,
     existingTiers: Tier[],
     editViewMode: EEditViewMode
-}) => {
+};
+
+/**
+ * View displayed when the user wants to create a new tier or edit an existing one
+ */
+const TierEditView = (
+    {createCallback, existingTiers, cancelCallback, editViewMode}:
+    TierEditViewProps
+) => {
     const [tierRank, setTierRank] = useState<number>();
     const [tierName, setTierName] = useState<string>();
     const [availableRanks, setAvailableRanks] = useState<number[]>(POSSIBLE_RANKS);
@@ -63,6 +68,7 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
                     `}
                     onClick={() => setTierRank(i)}
                     data-cy="tier-rank-selector"
+                    data-testid="tier-rank-selector"
                 >
                     { `${i + 1}`}
                 </div>
@@ -86,8 +92,22 @@ const TierEditView = ({createCallback, existingTiers, cancelCallback, editViewMo
             </div>
             <div className={footer_buttons_style}>
                 <div className="app_spacer"></div>
-                <Button variant="outlined" onClick={cancelCallback} data-cy="cancel-tier-button">Cancel</Button>
-                <Button variant="contained" onClick={createTier} style={{ marginLeft: '10px' }}>Create</Button>
+                <Button
+                    variant="outlined"
+                    onClick={cancelCallback}
+                    data-cy="cancel-tier-button"
+                    data-testid="cancel-tier-button"
+                >
+                    Cancel
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={createTier}
+                    style={{ marginLeft: '10px' }}
+                    data-testid="create-tier-button"
+                >
+                    Create
+                </Button>
             </div>
         </div>);
     }

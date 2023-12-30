@@ -11,7 +11,7 @@ import { TouchBackend } from 'react-dnd-touch-backend';
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
-interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+export interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
     preloadedState?: Partial<RootState>;
     store?: AppStore;
 }
