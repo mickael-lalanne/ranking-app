@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <main
+      class="css-irxpyf container"
+      style="height: calc(100vh - 60px);"
+    >
+      <div
+        class="css-jaw5y2"
+      >
+        <div
+          class="css-13258ez"
+        >
+          <div
+            class="css-1anxslm"
+          >
+            <h1>
+              Hey Bruce Wayne
+              <span>
+                Welcome to your ranking app
+              </span>
+            </h1>
+          </div>
+        </div>
+        <div
+          class="css-l1dy4r"
+        >
+          <a
+            class="css-1tq78vo nav-link"
+            data-cy="template-button"
+            href="/templates"
+          >
+            My templates
+          </a>
+          <a
+            class="css-1tq78vo nav-link"
+            data-cy="tierlist-button"
+            href="/tierlists"
+          >
+            My Tierlists
+          </a>
+        </div>
+        <div
+          class="css-sp3apo"
+        />
+      </div>
+    </main>
+  </div>
+  <script
+    crossorigin="anonymous"
+    data-clerk-publishable-key="pk_test_cmVuZXdlZC1ib2JjYXQtMi5jbGVyay5hY2NvdW50cy5kZXYk"
+    src="https://renewed-bobcat-2.clerk.accounts.dev/npm/@clerk/clerk-js@4/dist/clerk.browser.js"
+  />
+</body>
+`;

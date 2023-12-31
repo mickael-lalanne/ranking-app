@@ -67,6 +67,7 @@ exports[`Screenshot takes screenshot with tierlists: With tierlists 1`] = `
     <div>
       <div
         class="css-1yd03il"
+        data-testid="tierlists-viewer"
       >
         <div
           class="css-g3eofm"
@@ -123,6 +124,7 @@ exports[`Screenshot takes screenshot without tierlist: Without template 1`] = `
     <div>
       <div
         class="css-1yd03il"
+        data-testid="tierlists-viewer"
       >
         <div
           class="css-afv6yl"

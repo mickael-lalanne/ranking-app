@@ -1,5 +1,9 @@
 {
     "testEnvironment": "jsdom",
     "verbose": true,
-    "transformIgnorePatterns": ["node_modules/(?!react-dnd)/"]
+    "transformIgnorePatterns": ["node_modules/(?!react-dnd)/"],
+    "moduleNameMapper": {
+        "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.ts"
+    },
+    "setupFiles": ["<rootDir>/src/setupTests.ts"]
 }

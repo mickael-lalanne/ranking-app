@@ -66,6 +66,7 @@ exports[`Screenshot takes screenshot with templates: With templates 1`] = `
   <div>
     <div
       class="css-1h8dwix"
+      data-testid="templates-viewer"
     >
       <div
         class="css-kl4npk"
@@ -119,6 +120,7 @@ exports[`Screenshot takes screenshot without template: Without template 1`] = `
     </div>
     <div
       class="css-1h8dwix"
+      data-testid="templates-viewer"
     />
   </div>
 </body>

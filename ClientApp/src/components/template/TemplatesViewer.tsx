@@ -74,7 +74,7 @@ const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
 
     return (<>
         {EmptyMessage()}
-        <div className={templates_container_style}>
+        <div className={templates_container_style} data-testid="templates-viewer">
             {generateTemplatesPreviewItems()}
         </div>
     </>);

@@ -67,7 +67,7 @@ const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     }
 
     return(<div>
-        <div className={viewer_container_style}>
+        <div className={viewer_container_style} data-testid="tierlists-viewer">
             {EmptyMessage()}
             {TierlistsList()}
         </div>
