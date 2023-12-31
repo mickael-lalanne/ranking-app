@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes template screenshot: template-layout 1`] = `
+<body>
+  <div>
+    <div
+      class="css-69i1ev"
+    >
+      <div
+        class="css-1anxslm"
+      >
+        <h1>
+          My templates
+          <span>
+            Create, Edit or Delete
+          </span>
+        </h1>
+      </div>
+      <div
+        class="app_spacer"
+      />
+      <div
+        class="css-70qvj9"
+        data-cy="header-buttons"
+      >
+        <button
+          class="
+                css-1t5c0s4
+                
+            "
+          data-cy="app-button"
+          role="button"
+        >
+          <span
+            class="css-1uxuv1w add_btn_shadow"
+          />
+          <span
+            class="css-e5grz5"
+          />
+          <span
+            class="
+                    css-1pqqf9o
+                    add_btn_front
+                    
+                "
+            style="color: white;"
+          >
+            Add template
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="css-afv6yl"
+      data-cy="info-box"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1695c0c css-i4bv87-MuiSvgIcon-root"
+        data-testid="TipsAndUpdatesIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7 20h4c0 1.1-.9 2-2 2s-2-.9-2-2zm-2-1h8v-2H5v2zm11.5-9.5c0 3.82-2.66 5.86-3.77 6.5H5.27c-1.11-.64-3.77-2.68-3.77-6.5C1.5 5.36 4.86 2 9 2s7.5 3.36 7.5 7.5zm4.87-2.13L20 8l1.37.63L22 10l.63-1.37L24 8l-1.37-.63L22 6l-.63 1.37zM19 6l.94-2.06L22 3l-2.06-.94L19 0l-.94 2.06L16 3l2.06.94L19 6z"
+        />
+      </svg>
+      <span>
+        It seems you don't have any template yet. 
+        <br />
+        Click on the button above to start your creation !
+      </span>
+    </div>
+    <div
+      class="css-1h8dwix"
+      data-testid="templates-viewer"
+    />
+  </div>
+</body>
+`;
+
+exports[`Screenshot takes tierlist screenshot: tierlist-layout 1`] = `
+<body>
+  <div>
+    <div
+      class="css-69i1ev"
+    >
+      <div
+        class="css-1anxslm"
+      >
+        <h1>
+          My tierlists
+          <span>
+            Create, Edit or Delete
+          </span>
+        </h1>
+      </div>
+      <div
+        class="app_spacer"
+      />
+      <div
+        class="css-70qvj9"
+        data-cy="header-buttons"
+      >
+        <button
+          class="
+                css-1t5c0s4
+                css-av1nc5
+            "
+          data-cy="app-button"
+          disabled=""
+          role="button"
+        >
+          <span
+            class="css-1uxuv1w add_btn_shadow"
+          />
+          <span
+            class="css-e5grz5"
+          />
+          <span
+            class="
+                    css-1pqqf9o
+                    add_btn_front
+                    
+                "
+            style="color: white;"
+          >
+            Add tierlist
+          </span>
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="css-1yd03il"
+        data-testid="tierlists-viewer"
+      >
+        <div
+          class="css-afv6yl"
+          data-cy="info-box"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1695c0c css-i4bv87-MuiSvgIcon-root"
+            data-testid="TipsAndUpdatesIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 20h4c0 1.1-.9 2-2 2s-2-.9-2-2zm-2-1h8v-2H5v2zm11.5-9.5c0 3.82-2.66 5.86-3.77 6.5H5.27c-1.11-.64-3.77-2.68-3.77-6.5C1.5 5.36 4.86 2 9 2s7.5 3.36 7.5 7.5zm4.87-2.13L20 8l1.37.63L22 10l.63-1.37L24 8l-1.37-.63L22 6l-.63 1.37zM19 6l.94-2.06L22 3l-2.06-.94L19 0l-.94 2.06L16 3l2.06.94L19 6z"
+            />
+          </svg>
+          <span>
+            It seems you don't have any template yet. 
+            <br />
+            Start by going to the templates page !
+          </span>
+        </div>
+      </div>
+      <div />
+    </div>
+  </div>
+</body>
+`;

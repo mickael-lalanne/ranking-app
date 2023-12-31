@@ -8,7 +8,6 @@ import {
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ResizedImage } from '../../../utils/Util';
-// import { uploadElementsImages } from '../../../services/CloudinaryService';
 import { Element } from '../../../models/Element';
 import { Template } from '../../../models/Template';
 

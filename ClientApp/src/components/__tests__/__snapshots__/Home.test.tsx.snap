@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-jaw5y2"
+    >
+      <div
+        class="css-13258ez"
+      >
+        <div
+          class="css-1anxslm"
+        >
+          <h1>
+            Hey Bruce Wayne
+            <span>
+              Welcome to your ranking app
+            </span>
+          </h1>
+        </div>
+      </div>
+      <div
+        class="css-l1dy4r"
+      >
+        <a
+          class="css-1tq78vo nav-link"
+          data-cy="template-button"
+          href="/templates"
+        >
+          My templates
+        </a>
+        <a
+          class="css-1tq78vo nav-link"
+          data-cy="tierlist-button"
+          href="/tierlists"
+        >
+          My Tierlists
+        </a>
+      </div>
+      <div
+        class="css-sp3apo"
+      >
+        <div
+          class="css-1ak8ntp"
+          data-cy="logout-button"
+        >
+          Logout
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
