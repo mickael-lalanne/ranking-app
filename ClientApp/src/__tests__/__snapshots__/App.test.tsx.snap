@@ -8,34 +8,38 @@ exports[`Screenshot takes default screenshot 1`] = `
       style="height: calc(100vh - 60px);"
     >
       <div
-        class="css-jaw5y2"
+        class="css-1jwmpum"
       >
         <div
-          class="css-13258ez"
+          class="css-8x3wmk"
         >
+          <img
+            class="css-1kdf91"
+            src="[object Object]"
+          />
           <div
-            class="css-1anxslm"
+            class="css-ggvbf6"
+            style="margin: 15px 0px;"
           >
             <h1>
-              Hey Bruce Wayne
               <span>
-                Welcome to your ranking app
+                Welcome, Bruce Wayne
               </span>
             </h1>
           </div>
         </div>
         <div
-          class="css-l1dy4r"
+          class="css-jodnbo"
         >
           <a
-            class="css-1tq78vo nav-link"
+            class="css-zc2rvs nav-link"
             data-cy="template-button"
             href="/templates"
           >
             My templates
           </a>
           <a
-            class="css-1tq78vo nav-link"
+            class="css-zc2rvs nav-link"
             data-cy="tierlist-button"
             href="/tierlists"
           >
@@ -43,7 +47,7 @@ exports[`Screenshot takes default screenshot 1`] = `
           </a>
         </div>
         <div
-          class="css-sp3apo"
+          class="css-6gxkbp"
         />
       </div>
     </main>

@@ -3,7 +3,7 @@
     "verbose": true,
     "transformIgnorePatterns": ["node_modules/(?!react-dnd)/"],
     "moduleNameMapper": {
-        "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.ts"
+        "\\.(css|less|sass|scss|png)$": "<rootDir>/__mocks__/styleMock.ts"
     },
     "setupFiles": ["<rootDir>/src/setupTests.ts"]
 }

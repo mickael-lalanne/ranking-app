@@ -17,6 +17,10 @@ exports[`Screenshot takes default screenshot 1`] = `
             class="navbar-brand"
             href="/"
           >
+            <img
+              class="css-1qu68v9"
+              src="[object Object]"
+            />
             Ranking App
           </a>
           <button
