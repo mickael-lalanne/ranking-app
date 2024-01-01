@@ -9,7 +9,7 @@ describe('Page', () => {
         cy.visit('/');
 
         // Bruce Wayne is the first and last name of the e2e user
-        cy.contains('Hey Bruce Wayne');
+        cy.contains('Welcome, Bruce Wayne');
 
         cy.wait(1000).then(() => {
             cy.compareSnapshot('home-page');
