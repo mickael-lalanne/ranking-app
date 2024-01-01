@@ -4,12 +4,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="react_icon.png" alt="Logo" width="80" height="80">
+    <img src="README-icon.png" alt="Logo" width="80" height="80">
 
-  <h3 align="center">Mickaël Lalanne</h3>
+  <h3 align="center">Ranking App</h3>
 
   <p align="center">
-    Ranking app with React, .NET and PostgreSQL.
+      With React, .NET and PostgreSQL.
   </p>
 </div>
 

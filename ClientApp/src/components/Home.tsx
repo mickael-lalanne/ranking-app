@@ -7,6 +7,7 @@ import { useUser, SignOutButton } from '@clerk/clerk-react';
 import AppTitle from './shared/AppTitle';
 import { THEMES_COLORS } from '../utils/theme';
 import { EResponsiveBreakpoints } from '../utils/css-utils';
+import logo from '../assets/logo.png';
 
 const Home = () => {
     const [userName, setUserName] = useState<string>();
@@ -22,7 +23,8 @@ const Home = () => {
 
     const Header = () => {
         return <div className={header_style}>
-            <AppTitle title={`Hey ${userName}`} subtitle='Welcome to your ranking app' />
+            <img src={logo} className={logo_style} />
+            <AppTitle title="" subtitle={`Welcome, ${userName}`} margin='15px 0' />
         </div>
     };
 
@@ -71,15 +73,13 @@ export default Home;
 /**
  * CSS STYLES
  */
-const HOME_PAGE_MARGIN = '25px';
-const HEADER_FOOTER_SIZE = '20vh';
-
 const home_container_style = css({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     height: '100vh',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingTop: '10vh'
 });
 
 const sections_container_style = css({
@@ -88,8 +88,13 @@ const sections_container_style = css({
     justifyContent: 'space-evenly',
     fontSize: '25px',
     minHeight: 0,
+    flex: 2,
     [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
         flexDirection: 'column'
+    },
+    [`@media (max-width: ${EResponsiveBreakpoints.sm})`]: {
+        flex: 3,
+        paddingBottom: '10vh'
     },
 });
 
@@ -106,28 +111,40 @@ const home_item_style = css({
     transition: 'transform 250ms ease-in-out',
     fontFamily: '"Raleway", sans-serif',
     textTransform: 'capitalize',
+    minHeight: '100px',
+    maxHeight: '-webkit-fill-available',
     ':hover': {
-        transform: 'scale(1.15)',
+        transform: 'scale(1.10)',
     }
 });
 
 const header_style = css({
-    marginTop: HOME_PAGE_MARGIN,
-    height: HEADER_FOOTER_SIZE,
     display: 'flex',
     alignItems: 'center',
-    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
-        height: 'fit-content'
+    flexDirection: 'column',
+    flex: 1,
+    [`@media (max-width: ${EResponsiveBreakpoints.lg})`]: {
+        justifyContent: 'center',
+    },
+    [`@media (max-width: ${EResponsiveBreakpoints.sm})`]: {
+        flex: 0
+    },
+});
+
+const logo_style = css({
+    maxHeight: '130px',
+    [`@media (max-width: ${EResponsiveBreakpoints.sm})`]: {
+        maxHeight: '90px'
     },
 });
 
 const footer_style = css({
-    marginBottom: HOME_PAGE_MARGIN,
-    height: HEADER_FOOTER_SIZE,
     display: 'flex',
+    flex: 1,
     alignItems: 'flex-end',
-    [`@media (max-width: ${EResponsiveBreakpoints.md})`]: {
-        height: 'fit-content'
+    paddingBottom: '20px',
+    [`@media (max-width: ${EResponsiveBreakpoints.sm})`]: {
+        flex: 0
     },
 });
 

@@ -2,10 +2,10 @@ import React from 'react';
 import { css } from '@emotion/css';
 
 const AppTitle = (
-    { title, subtitle } : { title: string; subtitle: string }
+    { title, subtitle, margin = '25px 0' } : { title: string; subtitle: string; margin?: string; }
 ) => {
     return(
-        <div className={app_title_style}>
+        <div className={app_title_style} style={{ margin }}>
             <h1>
                 {title}
                 <span>{subtitle}</span>
@@ -20,8 +20,6 @@ export default AppTitle;
  * CSS STYLES
  */
 const app_title_style = css`
-    margin: 25px 0;
-
     h1 em {
         font-style: normal;
         font-weight: 600;
