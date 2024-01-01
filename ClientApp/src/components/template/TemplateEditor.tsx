@@ -15,11 +15,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserId } from '../../models/User';
 import { deleteElementsImages, uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
-import { ResizedImage, generateRandomId, getTooltipTitleForSaveButtons, isTemporaryId, resizeImage } from '../../services/Util';
+import { ResizedImage, generateRandomId, getTooltipTitleForSaveButtons, isTemporaryId, resizeImage } from '../../utils/Util';
 import { updateLoading } from '../../store/ApplicationStore';
 import { Tooltip } from '@mui/material';
 
-const DEFAULT_TIERS: Tier[] = [
+export const DEFAULT_TIERS: Tier[] = [
     { id: generateRandomId(), name: 'Tier 1', rank: 0 },
     { id: generateRandomId(), name: 'Tier 2', rank: 1 },
     { id: generateRandomId(), name: 'Tier 2', rank: 2 },
@@ -215,7 +215,12 @@ const TemplateEditor = (
         const DeleteTierButton = (tierId: string): React.JSX.Element | undefined => {
             if (tierHovering === tierId && !loading) {
                 return (
-                    <IconButton edge="end" onClick={() => onTierDeleteButtonClick(tierId)} className={delete_btn_style}>
+                    <IconButton
+                        edge="end"
+                        onClick={() => onTierDeleteButtonClick(tierId)}
+                        className={delete_btn_style}
+                        data-cy="delete-tier-button"
+                    >
                         <DeleteIcon />
                     </IconButton>
                 );
@@ -230,6 +235,8 @@ const TemplateEditor = (
                     style={{backgroundColor: TIERS_COLORS[tier.rank]}}
                     onMouseEnter={() => setTierHovering(tier.id)}
                     onMouseLeave={() => setTierHovering(undefined)}
+                    data-cy="template-tier-in-editor"
+                    data-testid="template-tier-in-editor"
                 >
                     <div className={tier_rank_style}>{tier.rank + 1}</div>
                     <TextField
@@ -239,6 +246,7 @@ const TemplateEditor = (
                         value={tier.name}
                         fullWidth
                         disabled={loading}
+                        data-cy="tier-name-field"
                     />
                     <div className="app_spacer"></div>
                     {DeleteTierButton(tier.id!)}
@@ -274,6 +282,8 @@ const TemplateEditor = (
                     className={add_tier_btn_style}
                     onClick={() => setEditViewMode(EEditViewMode.EditTier)}
                     disabled={loading}
+                    data-cy="add-tier-button"
+                    data-testid="template-editor-add-tier-button"
                 >
                     Add Tier
                 </Button>
@@ -299,6 +309,7 @@ const TemplateEditor = (
                 label="Name"
                 variant="outlined"
                 color="primary"
+                data-cy="template-name"
                 onChange={onNameFieldChange}
                 value={templateName}
                 fullWidth={true}
@@ -334,7 +345,7 @@ const TemplateEditor = (
         <div className={footer_style}>
             <div className="app_spacer"></div>
             <Tooltip title={getTooltipTitleForSaveButtons(disableSave)}>
-                <div>
+                <div data-cy="create-template">
                     <AppButton
                         text={saveButtonText}
                         onClickHandler={onSaveButtonClick}

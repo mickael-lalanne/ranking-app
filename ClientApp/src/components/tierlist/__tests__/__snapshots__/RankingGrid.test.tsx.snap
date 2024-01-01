@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-10cvn1p"
+      data-cy="ranking-grid"
+      data-testid="ranking-grid"
+    >
+      <div
+        class="css-1ik4laa"
+        data-cy="ranking-grid-tier-line"
+        style="background-color: rgb(255, 140, 127);"
+      >
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        >
+          <div
+            class="css-13ambje"
+            data-cy="element-preview"
+            data-testid="element-preview"
+            draggable="true"
+            style="opacity: 1;"
+          >
+            <img
+              class="css-40zi5q"
+              data-cy="element-preview-img"
+              src="https://res.cloudinary.com/ranking-app/image/upload/ranked-img"
+            />
+          </div>
+        </div>
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+      </div>
+      <div
+        class="css-1ik4laa"
+        data-cy="ranking-grid-tier-line"
+        style="background-color: rgb(255, 192, 125);"
+      >
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+      </div>
+      <div
+        class="css-1ik4laa"
+        data-cy="ranking-grid-tier-line"
+        style="background-color: rgb(254, 247, 130);"
+      >
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        />
+        <div
+          class="css-1u0sc0w"
+          data-cy="element-in-cell"
+        >
+          <div
+            class="css-13ambje"
+            data-cy="element-preview"
+            data-testid="element-preview"
+            draggable="true"
+            style="opacity: 1;"
+          >
+            <img
+              class="css-40zi5q"
+              data-cy="element-preview-img"
+              src="https://res.cloudinary.com/ranking-app/image/upload/ranked-img"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

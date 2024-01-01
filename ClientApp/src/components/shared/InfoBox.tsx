@@ -7,7 +7,7 @@ const InfoBox = (
     { content } : { content: string; }
 ) => {
     return(
-        <div className={message_box_style}>
+        <div className={message_box_style} data-cy="info-box">
             <TipsAndUpdatesIcon className={box_icon_style} />
             <span dangerouslySetInnerHTML={{__html: content}}></span>
         </div>

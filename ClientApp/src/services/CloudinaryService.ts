@@ -5,6 +5,7 @@ const CLOUDINARY_ENDPOINT: string = 'cloudinary';
 const UPLOAD_ENDPOINT: string = `${CLOUDINARY_ENDPOINT}/uploadSignature`;
 const DELETE_ENDPOINT: string = `${CLOUDINARY_ENDPOINT}/deleteSignature`;
 const CLOUD_NAME: string = 'ranking-app';
+export const CLOUDINARY_API_URL: string = 'https://api.cloudinary.com/v1_1';
 
 interface SignatureResponse {
     apikey: string,
@@ -51,7 +52,7 @@ export const uploadElementsImages = async (
     
     const signData: UploadSignatureResponse = await signatureResponse.data;
 
-    const url: string = `https://api.cloudinary.com/v1_1/${signData.cloudname}/image/upload`;
+    const url: string = `${CLOUDINARY_API_URL}/${signData.cloudname}/image/upload`;
 
     const uploadPromises: Promise<uploadPromiseResponse>[] = [];
 
@@ -106,7 +107,7 @@ export const deleteElementsImages = async (elements: Element[]): Promise<void> =
         await axios.post(DELETE_ENDPOINT, allPublicIdsToSign);
     const allDeleteSignatures: DeleteSignatureResponse[] = await signatureResponse.data;
 
-    const url: string = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`;
+    const url: string = `${CLOUDINARY_API_URL}/${CLOUD_NAME}/image/destroy`;
     const deletePromises: Promise<void>[] = [];
 
     allDeleteSignatures.forEach(signature => {

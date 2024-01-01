@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-8jos58"
+    >
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        data-cy="tier-edit-view-name-field"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for=":r0:"
+          id=":r0:-label"
+        >
+          Tier name
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+            id=":r0:"
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-yjsfm1"
+            >
+              <span>
+                Tier name
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <div
+        class="css-vprdb1"
+      >
+        <div>
+          Rank :
+        </div>
+        <div
+          style="display: flex;"
+        >
+          <div
+            class="
+                        css-a9i0wm
+                        undefined
+                        css-1vhfoj6
+                    "
+            data-cy="tier-rank-selector"
+            data-testid="tier-rank-selector"
+            style="background-color: rgb(255, 140, 127);"
+          >
+            1
+          </div>
+          <div
+            class="
+                        css-a9i0wm
+                        undefined
+                        undefined
+                    "
+            data-cy="tier-rank-selector"
+            data-testid="tier-rank-selector"
+            style="background-color: rgb(255, 192, 125);"
+          >
+            2
+          </div>
+          <div
+            class="
+                        css-a9i0wm
+                        undefined
+                        undefined
+                    "
+            data-cy="tier-rank-selector"
+            data-testid="tier-rank-selector"
+            style="background-color: rgb(254, 247, 130);"
+          >
+            3
+          </div>
+          <div
+            class="
+                        css-a9i0wm
+                        undefined
+                        undefined
+                    "
+            data-cy="tier-rank-selector"
+            data-testid="tier-rank-selector"
+            style="background-color: rgb(122, 234, 129);"
+          >
+            4
+          </div>
+          <div
+            class="
+                        css-a9i0wm
+                        undefined
+                        undefined
+                    "
+            data-cy="tier-rank-selector"
+            data-testid="tier-rank-selector"
+            style="background-color: rgb(120, 189, 253);"
+          >
+            5
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-k008qs"
+      >
+        <div
+          class="app_spacer"
+        />
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+          data-cy="cancel-tier-button"
+          data-testid="cancel-tier-button"
+          tabindex="0"
+          type="button"
+        >
+          Cancel
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+          data-testid="create-tier-button"
+          style="margin-left: 10px;"
+          tabindex="0"
+          type="button"
+        >
+          Create
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+`;

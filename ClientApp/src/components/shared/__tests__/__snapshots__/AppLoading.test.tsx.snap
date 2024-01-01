@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yhl6zy"
+      data-cy="app-loading"
+    >
+      <div
+        class="css-12lhfml"
+      >
+        <div
+          class="css-fvsue4"
+        >
+          <div
+            class="css-qls6c6"
+          >
+            <div
+              class="css-hthcbb"
+            >
+              <div
+                class="css-1b6vs5j css-8q6na4"
+              />
+              <div
+                class="css-1b6vs5j css-0"
+              />
+              <div
+                class="css-1b6vs5j css-1t5wwna"
+              />
+              <div
+                class="css-1b6vs5j css-1gu2kcg"
+              />
+              <div
+                class="css-1b6vs5j css-17zyqrd"
+              />
+              <div
+                class="css-1b6vs5j css-156lazp"
+              />
+              <div
+                class="css-1b6vs5j css-17i4z6a"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-xyomv4"
+      >
+        <div
+          class="css-ircun"
+        >
+          My loading indicator
+        </div>
+        <div
+          class="css-1lfmw4p"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;

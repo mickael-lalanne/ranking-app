@@ -7,11 +7,15 @@ import { useDrop } from 'react-dnd';
 import { ETierlistDragItem } from '../../models/Tierlist';
 import { ELEMENT_SIZE } from '../../utils/css-utils';
 
-const ToRankSection = ({ template, rankedElements, unrankHandler }: {
+export interface ToRankSectionProps {
     template?: Template,
     rankedElements: RankedElement[],
     unrankHandler: (elementId: string) => void
-}) => {
+}
+
+const ToRankSection = (
+    { template, rankedElements, unrankHandler }: ToRankSectionProps
+) => {
     const [notRankedElements, setNotRankedElements] = useState<Element[]>([]);
 
     // If user drop a ranked element in the "to rank section", unrank it
@@ -70,7 +74,12 @@ const ToRankSection = ({ template, rankedElements, unrankHandler }: {
     };
 
     return(<>
-        <div ref={drop} className={section_container_style}>
+        <div
+            ref={drop}
+            className={section_container_style}
+            data-cy="to-rank-section"
+            data-testid="to-rank-section"
+        >
             {UnrankDropZone()}
             {ElementsList()}
         </div>

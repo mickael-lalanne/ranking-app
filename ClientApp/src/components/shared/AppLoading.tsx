@@ -3,7 +3,7 @@ import { css, keyframes } from '@emotion/css';
 import { THEMES_COLORS } from '../../utils/theme';
 
 const AppLoading = ({ text }: { text: string; }) => {
-    return (<div className={container_style}>
+    return (<div className={container_style} data-cy="app-loading">
         <div className={scene_style}>
             <div className={cube_wrapper_style}>
                 <div className={cube_style}>

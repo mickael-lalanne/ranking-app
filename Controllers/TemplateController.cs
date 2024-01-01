@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ranking_app.Data;
 using ranking_app.Models;
 
@@ -155,6 +156,63 @@ public class TemplateController : ControllerBase
         }
 
         _context.Templates.Remove(template);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    // Called only in Cypress e2e tests
+    [HttpDelete]
+    [AllowAnonymous]
+    [Route("deleteE2E")]
+    public async Task<IActionResult> DeleteTemplates()
+    {
+        const string E2E_USER_ID = "user_2a0OKch2BahyWcB5z8IRDVIg65l";
+
+        // First, delete all tierlists linked to the user id
+        IEnumerable<TierlistModel> tierlists = await _context.Tierlists
+            .Where(tierlist => tierlist.UserId == E2E_USER_ID)
+            .Include(tierlist => tierlist.RankedElements)
+            .ToListAsync();
+
+        foreach (TierlistModel tierlist in tierlists)
+        {
+            _context.Tierlists.Remove(tierlist);
+        }
+
+        // Then, we can delete all the templates
+        IEnumerable<TemplateModel> templates = await _context.Templates
+            .Where(template => template.UserId == E2E_USER_ID)
+            .Include(template => template.Tiers)
+            .Include(template => template.Elements)
+            .ToListAsync();
+
+        foreach (TemplateModel template in templates)
+        {
+            _context.Templates.Remove(template);
+        }
+
+        // Some ranked elements are created during the e2e tests with a template which is mocked
+        // So we have to delete them manually
+
+        // Retrieve the ranked elements ids from the .json mock used in e2e tests
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp/cypress/fixtures/template_sample.json");
+        IEnumerable<TemplateModel>? sampleTemplates =
+            JsonConvert.DeserializeObject<IEnumerable<TemplateModel>>(
+                System.IO.File.ReadAllText(path)
+            );
+
+        if (sampleTemplates != null) {
+            IEnumerable<Guid> elementsIdToDelete = sampleTemplates.ToArray()[0].Elements.Select(elt => elt.Id).ToArray();
+
+            IEnumerable<RankedElement> rankedElementsToDelete = await _context.RankedElements
+                .Where(rankedElement => elementsIdToDelete.Contains(rankedElement.ElementId))
+                .ToListAsync();
+
+            foreach (RankedElement rankedElement in rankedElementsToDelete) {
+                _context.RankedElements.Remove(rankedElement);
+            }
+        }
         await _context.SaveChangesAsync();
 
         return NoContent();

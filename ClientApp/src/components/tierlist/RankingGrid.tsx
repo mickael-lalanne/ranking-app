@@ -4,13 +4,18 @@ import { TIERS_COLORS, Template } from '../../models/Template';
 import { RankedElement, Element } from '../../models/Element';
 import ElementInCell from './ElementInCell';
 
-const RankingGrid = ({ template, dropHandler, rankedElements, readonly = false, innerRef }: {
+export interface RankingGridProps {
     template?: Template,
     rankedElements: RankedElement[],
     dropHandler?: (draggedElement: Element, tierId: string, rank: number) => void,
     readonly?: boolean,
     innerRef?: React.MutableRefObject<null>
-}) => {
+}
+
+const RankingGrid = (
+    { template, dropHandler, rankedElements, readonly = false, innerRef }:
+    RankingGridProps    
+) => {
     /**
      * @param {string} tierId necessary for the drop handler
      * @returns {React.JSX.Element[]} the 5 cells contained in a tier
@@ -45,7 +50,12 @@ const RankingGrid = ({ template, dropHandler, rankedElements, readonly = false, 
 
         template.tiers.forEach(tier => {
             lines.push(
-                <div className={tier_line_style} style={{ backgroundColor: TIERS_COLORS[tier.rank]}} key={tier.id}>
+                <div
+                    className={tier_line_style}
+                    style={{ backgroundColor: TIERS_COLORS[tier.rank]}}
+                    key={tier.id}
+                    data-cy="ranking-grid-tier-line"
+                >
                     {TierCells(tier.id!)}
                 </div>
             );
@@ -55,7 +65,12 @@ const RankingGrid = ({ template, dropHandler, rankedElements, readonly = false, 
     };
 
     return(<>
-        <div className={tiers_grid_style} ref={innerRef}>
+        <div
+            className={tiers_grid_style}
+            ref={innerRef}
+            data-cy="ranking-grid"
+            data-testid="ranking-grid"
+        >
             {TiersLines()}
         </div>
     </>);

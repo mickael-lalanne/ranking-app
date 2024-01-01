@@ -265,7 +265,12 @@ const RankingLayout = (
     const DeleteItemButton = (): JSX.Element => {
         if (rankingLayoutMode === ERankingLayoutMode.Editor) {
             return (
-                <Button onClick={onDeleteItemButtonClick} className={delete_btn_style} disabled={loading}>
+                <Button
+                    onClick={onDeleteItemButtonClick}
+                    className={delete_btn_style}
+                    disabled={loading}
+                    data-cy="delete-item-button"
+                >
                     <DeleteForeverIcon style={{ height: '32px', width: '32px' }} />
                 </Button>
             );
@@ -277,7 +282,7 @@ const RankingLayout = (
         <div className={header_style}>
             <AppTitle title={headerTitle} subtitle={headerSubtitle} />
             <div className="app_spacer"></div>
-            <div className={header_btn_style}>
+            <div className={header_btn_style} data-cy="header-buttons">
                 {DeleteItemButton()}
                 <AppButton
                     text={headerButtonText}

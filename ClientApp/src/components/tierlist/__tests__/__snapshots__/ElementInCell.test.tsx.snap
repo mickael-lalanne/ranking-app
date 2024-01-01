@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes element in cell screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1u0sc0w"
+      data-cy="element-in-cell"
+    >
+      <div
+        class="css-13ambje"
+        data-cy="element-preview"
+        data-testid="element-preview"
+        draggable="true"
+        style="opacity: 1;"
+      >
+        <img
+          class="css-40zi5q"
+          data-cy="element-preview-img"
+          src="https://res.cloudinary.com/ranking-app/image/upload/elt image"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Screenshot takes empty cell screenshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1u0sc0w"
+      data-cy="element-in-cell"
+    />
+  </div>
+</body>
+`;

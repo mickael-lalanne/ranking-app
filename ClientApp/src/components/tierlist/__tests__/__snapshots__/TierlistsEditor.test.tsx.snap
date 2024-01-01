@@ -1,0 +1,463 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes builder screenshot 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1fj7l11 css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        data-cy="template-selector"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for=":r0:"
+          id=":r0:-label"
+        >
+          Template
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <div
+            aria-controls=":r1:"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby=":r0:-label :r0:"
+            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+            id=":r0:"
+            role="combobox"
+            tabindex="0"
+          >
+            <span
+              class="notranslate"
+            >
+              ​
+            </span>
+          </div>
+          <input
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value=""
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-yjsfm1"
+            >
+              <span>
+                Template
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <div
+        class="css-afv6yl"
+        data-cy="info-box"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1695c0c css-i4bv87-MuiSvgIcon-root"
+          data-testid="TipsAndUpdatesIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 20h4c0 1.1-.9 2-2 2s-2-.9-2-2zm-2-1h8v-2H5v2zm11.5-9.5c0 3.82-2.66 5.86-3.77 6.5H5.27c-1.11-.64-3.77-2.68-3.77-6.5C1.5 5.36 4.86 2 9 2s7.5 3.36 7.5 7.5zm4.87-2.13L20 8l1.37.63L22 10l.63-1.37L24 8l-1.37-.63L22 6l-.63 1.37zM19 6l.94-2.06L22 3l-2.06-.94L19 0l-.94 2.06L16 3l2.06.94L19 6z"
+          />
+        </svg>
+        <span>
+          🡹 To be able to create a tierlist, you must first select a template in the list above.
+        </span>
+      </div>
+      <div
+        class="css-10cvn1p"
+        data-cy="ranking-grid"
+        data-testid="ranking-grid"
+      />
+    </div>
+    <div
+      class="css-1adhuzi"
+    >
+      <div
+        class="app_spacer"
+      />
+      <div
+        class=""
+        data-cy="create-tierlist"
+        data-mui-internal-clone-element="true"
+      >
+        <button
+          class="
+                css-1t5c0s4
+                css-av1nc5
+            "
+          data-cy="app-button"
+          disabled=""
+          role="button"
+        >
+          <span
+            class="css-1uxuv1w add_btn_shadow"
+          />
+          <span
+            class="css-e5grz5"
+          />
+          <span
+            class="
+                    css-1pqqf9o
+                    add_btn_front
+                    
+                "
+            style="color: white;"
+          >
+            Create tierlist
+          </span>
+        </button>
+      </div>
+      <div
+        aria-label="Download as PNG"
+        class=""
+        data-mui-internal-clone-element="true"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1s7l3vo css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+          disabled=""
+          tabindex="-1"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="DownloadIcon"
+            focusable="false"
+            style="height: 32px; width: 32px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Screenshot takes editor screenshot 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1fj7l11 css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        data-cy="template-selector"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="true"
+          for=":r4:"
+          id=":r4:-label"
+        >
+          Template
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <div
+            aria-controls=":r5:"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby=":r4:-label :r4:"
+            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+            id=":r4:"
+            role="combobox"
+            tabindex="0"
+          >
+            My template name
+          </div>
+          <input
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="template-id"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-14lo706"
+            >
+              <span>
+                Template
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <div
+        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        data-cy="tierlist-name-field"
+        style="margin-bottom: 40px;"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="true"
+          for=":r8:"
+          id=":r8:-label"
+        >
+          Name
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+            id=":r8:"
+            type="text"
+            value="Tierlist to edit name"
+          />
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-14lo706"
+            >
+              <span>
+                Name
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <div
+        class="css-10cvn1p"
+        data-cy="ranking-grid"
+        data-testid="ranking-grid"
+      >
+        <div
+          class="css-1ik4laa"
+          data-cy="ranking-grid-tier-line"
+          style="background-color: rgb(255, 140, 127);"
+        >
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          >
+            <div
+              class="css-13ambje"
+              data-cy="element-preview"
+              data-testid="element-preview"
+              draggable="true"
+              style="opacity: 1;"
+            >
+              <img
+                class="css-40zi5q"
+                data-cy="element-preview-img"
+                src="https://res.cloudinary.com/ranking-app/image/upload/img-1"
+              />
+            </div>
+          </div>
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+        </div>
+        <div
+          class="css-1ik4laa"
+          data-cy="ranking-grid-tier-line"
+          style="background-color: rgb(255, 192, 125);"
+        >
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          >
+            <div
+              class="css-13ambje"
+              data-cy="element-preview"
+              data-testid="element-preview"
+              draggable="true"
+              style="opacity: 1;"
+            >
+              <img
+                class="css-40zi5q"
+                data-cy="element-preview-img"
+                src="https://res.cloudinary.com/ranking-app/image/upload/img-2"
+              />
+            </div>
+          </div>
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+        </div>
+        <div
+          class="css-1ik4laa"
+          data-cy="ranking-grid-tier-line"
+          style="background-color: rgb(254, 247, 130);"
+        >
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          />
+          <div
+            class="css-1u0sc0w"
+            data-cy="element-in-cell"
+          >
+            <div
+              class="css-13ambje"
+              data-cy="element-preview"
+              data-testid="element-preview"
+              draggable="true"
+              style="opacity: 1;"
+            >
+              <img
+                class="css-40zi5q"
+                data-cy="element-preview-img"
+                src="https://res.cloudinary.com/ranking-app/image/upload/img-3"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-1njjqgc"
+        data-cy="to-rank-section"
+        data-testid="to-rank-section"
+      />
+    </div>
+    <div
+      class="css-1adhuzi"
+    >
+      <div
+        class="app_spacer"
+      />
+      <div
+        aria-label=""
+        class=""
+        data-cy="create-tierlist"
+        data-mui-internal-clone-element="true"
+      >
+        <button
+          class="
+                css-1t5c0s4
+                
+            "
+          data-cy="app-button"
+          role="button"
+        >
+          <span
+            class="css-1uxuv1w add_btn_shadow"
+          />
+          <span
+            class="css-e5grz5"
+          />
+          <span
+            class="
+                    css-1pqqf9o
+                    add_btn_front
+                    
+                "
+            style="color: white;"
+          >
+            Save changes
+          </span>
+        </button>
+      </div>
+      <div
+        aria-label="Download as PNG"
+        class=""
+        data-mui-internal-clone-element="true"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1s7l3vo css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="DownloadIcon"
+            focusable="false"
+            style="height: 32px; width: 32px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"
+            />
+          </svg>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+`;

@@ -16,7 +16,7 @@ import html2canvas from 'html2canvas';
 import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Tooltip from '@mui/material/Tooltip';
-import { getTooltipTitleForSaveButtons } from '../../services/Util';
+import { getTooltipTitleForSaveButtons } from '../../utils/Util';
 import InfoBox from '../shared/InfoBox';
 
 // Hack : without an empty template used in the useState default value,
@@ -26,13 +26,16 @@ import InfoBox from '../shared/InfoBox';
 // Cf https://stackoverflow.com/questions/63567876/react-hooks-not-setting-the-select-value-after-fetching-options
 const emptyTemplate: Template = { id: '', name: '', tiers: [], elements: []};
 
+export const NO_TEMPLATE_SELECTED_MESSAGE: string =
+    '🡹 To be able to create a tierlist, you must first select a template in the list above.';
+
 const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps) => {
     const [selectedTemplate, setSelectedTemplate] = useState<Template | undefined>(emptyTemplate);
     const [tierlistName, setTierlistName] = useState<string>('');
     const [rankedElements, setRankedElements] = useState<RankedElement[]>([]);
     const [saveButtonText, setSaveButtonText] = useState<string>('');
     const [disableSave, setDisableSave] = useState<string>('');
-    
+
     const gridRef: React.MutableRefObject<null> = useRef(null);
 
     useEffect(() => {
@@ -145,7 +148,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     };
 
     /**
-     * Called when the delete icon of a ranked element has been click
+     * Called when a ranked element has been droped back to the "to rank" section
      * @param {string} elementId id of the element to unrank
      */
     const onElementUnrank = (elementId: string) => {
@@ -192,7 +195,15 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
         const AllTemplatesMenuItem = (): React.JSX.Element[] => {
             const items: React.JSX.Element[] = [];
             allUserTemplates.forEach(template => {
-                items.push(<MenuItem key={template.id} value={template.id}>{template.name}</MenuItem>);
+                items.push(
+                    <MenuItem
+                        key={template.id}
+                        value={template.id}
+                        data-cy="template-selector-item"
+                    >
+                        {template.name}
+                    </MenuItem>
+                );
             });
             return items;
         };
@@ -204,6 +215,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 label="Template"
                 select
                 onChange={handleTemplateSelectChange}
+                data-cy="template-selector"
             >
                 {AllTemplatesMenuItem()}
             </TextField>
@@ -225,6 +237,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 value={tierlistName}
                 fullWidth={true}
                 disabled={loading}
+                data-cy="tierlist-name-field"
             />;
         }
         // Otherwise, display a custom message to encourage the user to select a template
@@ -257,7 +270,7 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
         <div className={footer_style}>
             <div className="app_spacer"></div>
             <Tooltip title={getTooltipTitleForSaveButtons(disableSave)}>
-                <div>
+                <div data-cy="create-tierlist">
                     <AppButton
                         text={saveButtonText}
                         onClickHandler={onSaveButtonClick}

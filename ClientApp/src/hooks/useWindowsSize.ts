@@ -34,5 +34,5 @@ export function useWindowSize() {
 const _convertPxSizeToEm = (sizeInPx: number): number => {
     return sizeInPx / parseFloat(
         getComputedStyle(document.querySelector('body')!).fontSize
-    );
+    ) | sizeInPx; // Added | sizeInPx otherwises it returns a NaN value in jest tests
 };

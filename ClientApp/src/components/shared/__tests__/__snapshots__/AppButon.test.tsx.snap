@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes default screenshot 1`] = `
+<body>
+  <div>
+    <button
+      class="
+                css-1t5c0s4
+                
+            "
+      data-cy="app-button"
+      role="button"
+    >
+      <span
+        class="css-1uxuv1w add_btn_shadow"
+      />
+      <span
+        class="css-e5grz5"
+      />
+      <span
+        class="
+                    css-1pqqf9o
+                    add_btn_front
+                    
+                "
+        style="color: white;"
+      >
+        My Button text
+      </span>
+    </button>
+  </div>
+</body>
+`;

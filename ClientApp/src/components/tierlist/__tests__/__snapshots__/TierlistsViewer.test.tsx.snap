@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screenshot takes screenshot when fetching tierlists: Fetching tierlists 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yhl6zy"
+      data-cy="app-loading"
+    >
+      <div
+        class="css-12lhfml"
+      >
+        <div
+          class="css-fvsue4"
+        >
+          <div
+            class="css-qls6c6"
+          >
+            <div
+              class="css-hthcbb"
+            >
+              <div
+                class="css-1b6vs5j css-8q6na4"
+              />
+              <div
+                class="css-1b6vs5j css-0"
+              />
+              <div
+                class="css-1b6vs5j css-1t5wwna"
+              />
+              <div
+                class="css-1b6vs5j css-1gu2kcg"
+              />
+              <div
+                class="css-1b6vs5j css-17zyqrd"
+              />
+              <div
+                class="css-1b6vs5j css-156lazp"
+              />
+              <div
+                class="css-1b6vs5j css-17i4z6a"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-xyomv4"
+      >
+        <div
+          class="css-ircun"
+        >
+          Fetching tierlists
+        </div>
+        <div
+          class="css-1lfmw4p"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Screenshot takes screenshot with tierlists: With tierlists 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        class="css-1yd03il"
+        data-testid="tierlists-viewer"
+      >
+        <div
+          class="css-g3eofm"
+          data-cy="tierlist-preview"
+        >
+          <div
+            class="css-10cvn1p"
+            data-cy="ranking-grid"
+            data-testid="ranking-grid"
+          >
+            <div
+              class="css-1ik4laa"
+              data-cy="ranking-grid-tier-line"
+              style="background-color: rgb(255, 140, 127);"
+            >
+              <div
+                class="css-1u0sc0w"
+                data-cy="element-in-cell"
+              />
+              <div
+                class="css-1u0sc0w"
+                data-cy="element-in-cell"
+              />
+              <div
+                class="css-1u0sc0w"
+                data-cy="element-in-cell"
+              />
+              <div
+                class="css-1u0sc0w"
+                data-cy="element-in-cell"
+              />
+              <div
+                class="css-1u0sc0w"
+                data-cy="element-in-cell"
+              />
+            </div>
+          </div>
+          <div
+            class="css-tr0r3x"
+          >
+            My tierlist name
+          </div>
+        </div>
+      </div>
+      <div />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Screenshot takes screenshot without tierlist: Without template 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        class="css-1yd03il"
+        data-testid="tierlists-viewer"
+      >
+        <div
+          class="css-afv6yl"
+          data-cy="info-box"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1695c0c css-i4bv87-MuiSvgIcon-root"
+            data-testid="TipsAndUpdatesIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 20h4c0 1.1-.9 2-2 2s-2-.9-2-2zm-2-1h8v-2H5v2zm11.5-9.5c0 3.82-2.66 5.86-3.77 6.5H5.27c-1.11-.64-3.77-2.68-3.77-6.5C1.5 5.36 4.86 2 9 2s7.5 3.36 7.5 7.5zm4.87-2.13L20 8l1.37.63L22 10l.63-1.37L24 8l-1.37-.63L22 6l-.63 1.37zM19 6l.94-2.06L22 3l-2.06-.94L19 0l-.94 2.06L16 3l2.06.94L19 6z"
+            />
+          </svg>
+          <span>
+            It seems you don't have any template yet. 
+            <br />
+            Start by going to the templates page !
+          </span>
+        </div>
+      </div>
+      <div />
+    </div>
+  </div>
+</body>
+`;

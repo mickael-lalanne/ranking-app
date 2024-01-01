@@ -32,7 +32,12 @@ const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
 
         userTierlists.forEach(tierlist => {
             tierlists.push(
-                <div className={tierlist_element_style} key={tierlist.id} onClick={() => editHandler(tierlist)}>
+                <div
+                    className={tierlist_element_style}
+                    key={tierlist.id}
+                    onClick={() => editHandler(tierlist)}
+                    data-cy="tierlist-preview"
+                >
                     {TierlistPreview(tierlist)}
                     <div className={tierlist_title_style}>{tierlist.name}</div>
                 </div>
@@ -62,7 +67,7 @@ const TierlistsViewer = ({ editHandler } : ViewerComponentProps) => {
     }
 
     return(<div>
-        <div className={viewer_container_style}>
+        <div className={viewer_container_style} data-testid="tierlists-viewer">
             {EmptyMessage()}
             {TierlistsList()}
         </div>

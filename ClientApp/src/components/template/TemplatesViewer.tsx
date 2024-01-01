@@ -22,7 +22,12 @@ const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
 
         tiers.forEach(tier => {
             tierItems.push(
-                <div className={tier_style} key={tier.id} style={{backgroundColor: TIERS_COLORS[tier.rank]}}></div>
+                <div
+                    className={tier_style}
+                    key={tier.id}
+                    style={{backgroundColor: TIERS_COLORS[tier.rank]}}
+                    data-cy="template-tier"
+                ></div>
             );
         });
 
@@ -38,7 +43,12 @@ const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
 
         userTemplates.forEach(template => {
             litsItems.push(
-                <div className={template_container_style} key={template.id} onClick={() => editHandler(template)}>
+                <div
+                    className={template_container_style}
+                    key={template.id}
+                    onClick={() => editHandler(template)}
+                    data-cy="template-preview"
+                >
                     <div className="app_spacer"></div>
                     <div style={{ padding: '20px' }}>{template.name}</div>
                     <div className="app_spacer"></div>
@@ -64,7 +74,7 @@ const TemplatesViewer = ({ editHandler } : ViewerComponentProps) => {
 
     return (<>
         {EmptyMessage()}
-        <div className={templates_container_style}>
+        <div className={templates_container_style} data-testid="templates-viewer">
             {generateTemplatesPreviewItems()}
         </div>
     </>);

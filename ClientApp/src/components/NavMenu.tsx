@@ -14,6 +14,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useAppSelector } from '../app/hooks';
 import { THEMES_COLORS } from '../utils/theme';
 import { SignOutButton } from '@clerk/clerk-react';
+import rankingAppIcon from '../assets/icon.png';
 
 const NavMenu = (
     { height }: { height: string}
@@ -44,6 +45,7 @@ const NavMenu = (
                 light
             >
                 <NavbarBrand tag={Link} to="/">
+                    <img src={rankingAppIcon} className={icon_style} />
                     Ranking App
                 </NavbarBrand>
                 <NavbarToggler
@@ -121,4 +123,9 @@ const nav_disabled_style = css({
     pointerEvents: 'none',
     userSelect: 'none',
     opacity: 0.5
+});
+
+const icon_style = css({
+    height: '25px',
+    marginRight: '7px'
 });

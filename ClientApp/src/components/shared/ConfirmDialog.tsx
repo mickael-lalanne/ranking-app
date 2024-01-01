@@ -8,6 +8,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 
+export interface ConfirmDialogTypes {  
+    title: string;
+    content: string;
+    open: boolean;
+    cancelHandler: () => void;
+    confirmHandler: () => void;
+    textValidation?: string;
+}
+
 const ConfirmDialog = ({
     title,
     open,
@@ -15,14 +24,7 @@ const ConfirmDialog = ({
     confirmHandler,
     content,
     textValidation,
-}: {
-    title: string;
-    content: string;
-    open: boolean;
-    cancelHandler: () => void;
-    confirmHandler: () => void;
-    textValidation?: string;
-}) => {
+}: ConfirmDialogTypes ) => {
     const [disableConfirmButton, setDisableConfirmButton] = useState<boolean>(!!textValidation);
 
     // Reset disable state when open and textValidation props changed
@@ -48,6 +50,7 @@ const ConfirmDialog = ({
                     fullWidth
                     variant="standard"
                     onChange={onTextValidationChange}
+                    data-cy="confirm-dialog-name-field"
                 />
             );
         }
@@ -55,7 +58,7 @@ const ConfirmDialog = ({
 
     return (
         <Dialog open={open} onClose={cancelHandler} style={{ padding: '5px'}}>
-            <div className={dialog_container_style}>
+            <div className={dialog_container_style} data-cy="confirm-dialog">
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>{content}</DialogContentText>
@@ -66,6 +69,7 @@ const ConfirmDialog = ({
                     <Button
                         disabled={disableConfirmButton && !!textValidation}
                         onClick={confirmHandler}
+                        data-cy="confirm-dialog-button"
                     >
                         Confirm
                     </Button>

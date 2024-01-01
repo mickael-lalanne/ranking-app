@@ -7,7 +7,7 @@ import {
     updateTemplate as updateTemplateInStore
 } from '../store/TemplateStore';
 import { deleteElementsImages } from './CloudinaryService';
-import { isTemporaryId } from './Util';
+import { isTemporaryId } from '../utils/Util';
 import axios, { AxiosResponse } from 'axios';
 
 const TEMPLATE_ENDPOINT: string = 'template';

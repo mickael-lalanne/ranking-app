@@ -4,12 +4,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="react_icon.png" alt="Logo" width="80" height="80">
+    <img src="README-icon.png" alt="Logo" width="80" height="80">
 
-  <h3 align="center">Mickaël Lalanne</h3>
+  <h3 align="center">Ranking App</h3>
 
   <p align="center">
-    Ranking app with React, .NET and PostgreSQL.
+      With React, .NET and PostgreSQL.
   </p>
 </div>
 
@@ -132,6 +132,33 @@ With a `Ranking_App_DB` database, use the `setupDB.sql` script to initialize the
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📋 Tests
+
+### Jest - Unit tests
+* Run a specific test 
+   ```sh
+   npm test -- your_file_name.tsx
+   ```
+* Run all tests
+   ```sh
+   npm test
+   ```
+### Cypress - End To End tests
+* Run a specific test 
+   ```sh
+   npx cypress run --spec cypress/e2e/your_test_name.cy.ts --env type=base --browser chrome
+   ```
+* Run tests in the cypress console
+   ```sh
+   npm run cypress:open
+   ```
+* Change base screenshots used for visual testing 
+   ```sh
+   npm run cypress:takeBaseScreenshots
+   ```
+<br>
+
 
 <!-- CONTACT -->
 ## Contact
