@@ -42,8 +42,10 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        Console.WriteLine("#AddAuthentication#");
         // Authority is the URL of your clerk instance
         options.Authority = builder.Configuration["Clerk:Authority"];
+        Console.WriteLine(options.Authority);
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             // Disable audience validation as we aren't using it
@@ -55,7 +57,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // Additional validation for AZP claim
             OnTokenValidated = context =>
             {
+                Console.WriteLine("#OnTokenValidated#");
                 var azp = context.Principal?.FindFirstValue("azp");
+
+                Console.WriteLine("azp :");
+                Console.WriteLine(azp);
                 // AuthorizedParty is the base URL of your frontend.
                 if (string.IsNullOrEmpty(azp) || !azp.Equals(builder.Configuration["Clerk:AuthorizedParty"]))
                     context.Fail("AZP Claim is invalid or missing");
