@@ -34,7 +34,7 @@ jobs:
           CI: "" # To ignore warning messages, otherwise the build will fail
 
       - name: Generate deployment package 
-        run: cd site; zip -r ../site.zip *; cd ..; zip ranking-app.zip site.zip aws-windows-deployment-manifest.json
+        run: cd site; zip -r ../site.zip *; cd ..; zip ranking-app.zip site.zip aws-windows-deployment-manifest.json .ebextensions/**
 
       - name: Archive zip folder as artifacts
         uses: actions/upload-artifact@v3
