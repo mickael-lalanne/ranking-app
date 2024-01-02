@@ -4,6 +4,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using ranking_app.Data;
 using System.Net;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +26,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 // HTTPS
-builder.Services.AddHttpsRedirection(options =>
+// builder.Services.AddHttpsRedirection(options =>
+// {
+//     options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+//     options.HttpsPort = 443;
+// });
+// To fix ERR_TOO_MANY_REDIRECTS error
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
-    options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
-    options.HttpsPort = 443;
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 });
 
 // AUTHENTICATION
@@ -60,6 +67,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -71,7 +79,7 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
