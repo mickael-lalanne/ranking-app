@@ -59,14 +59,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // Additional validation for AZP claim
             OnTokenValidated = context =>
             {
-                Console.WriteLine("#OnTokenValidated#");
-                var azp = context.Principal?.FindFirstValue("azp");
+                // Console.WriteLine("#OnTokenValidated#");
+                // var azp = context.Principal?.FindFirstValue("azp");
 
-                Console.WriteLine("azp :");
-                Console.WriteLine(azp);
-                // AuthorizedParty is the base URL of your frontend.
-                if (string.IsNullOrEmpty(azp) || !azp.Equals(builder.Configuration["Clerk:AuthorizedParty"]))
-                    context.Fail("AZP Claim is invalid or missing");
+                // Console.WriteLine("azp :");
+                // Console.WriteLine(azp);
+                // // AuthorizedParty is the base URL of your frontend.
+                // if (string.IsNullOrEmpty(azp) || !azp.Equals(builder.Configuration["Clerk:AuthorizedParty"]))
+                //     context.Fail("AZP Claim is invalid or missing");
 
                 return Task.CompletedTask;
             }
