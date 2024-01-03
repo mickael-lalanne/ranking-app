@@ -6,6 +6,7 @@ using ranking_app.Data;
 using System.Net;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +71,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 return Task.CompletedTask;
             }
         };
+        options.Configuration = new OpenIdConnectConfiguration();
     });
 
 var app = builder.Build();
