@@ -9,16 +9,7 @@ import {
     TEMPLATE_LAYOUT_PROPS,
     TIERLIST_LAYOUT_PROPS,
 } from '../../models/RankingLayout';
-import { Template } from '../../models/Template';
 import { act } from 'react-dom/test-utils';
-
-const clerkPath: string = '@clerk/clerk-react';
-jest.mock(clerkPath, () => ({
-    ...jest.requireActual(clerkPath),
-    useAuth: () => {
-        return { userId: 'user-id' };
-    },
-}));
 
 // Mock the server calls from the template service when saving a template
 const templateServicePath = '../../services/TemplateServices';

@@ -21,7 +21,6 @@ const tierlistSample: Tierlist = {
     name: 'My tierlist name',
     rankedElements: [],
     templateId: templateSample.id!,
-    userId: 'user-id',
     createdAt: ''
 }
 const storeWithData: ExtendedRenderOptions = {
