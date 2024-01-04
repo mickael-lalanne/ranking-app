@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using ranking_app.Data;
-using System.Net;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.IdentityModel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +24,6 @@ builder.Services.AddDbContext<RankingAppDbContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// HTTPS
-// builder.Services.AddHttpsRedirection(options =>
-// {
-//     options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
-//     options.HttpsPort = 443;
-// });
 // To fix ERR_TOO_MANY_REDIRECTS error
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -57,11 +49,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // Additional validation for AZP claim
             OnTokenValidated = context =>
             {
-                System.Diagnostics.Debug.WriteLine("#OnTokenValidated#");
                 var azp = context.Principal?.FindFirstValue("azp");
 
-                System.Diagnostics.Debug.WriteLine("azp :");
-                System.Diagnostics.Debug.WriteLine(azp);
                 // AuthorizedParty is the base URL of your frontend.
                 if (string.IsNullOrEmpty(azp) || !azp.Equals(builder.Configuration["Clerk:AuthorizedParty"]))
                     context.Fail("AZP Claim is invalid or missing");
@@ -85,9 +74,6 @@ else
     app.UseHsts();
 }
 
-IdentityModelEventSource.ShowPII = true;
-
-// app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
