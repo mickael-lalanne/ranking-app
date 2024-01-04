@@ -28,7 +28,6 @@ const TierlistsEditorTest = (
 };
 
 const templateName: string = 'My template name';
-const userId: string = 'user-id';
 const templateId: string = 'template-id';
 const tiers: Tier[] = [
     { id: '0', name: 'Tier 1', rank: 0 },
@@ -47,7 +46,6 @@ const storeWithData: ExtendedRenderOptions = {
             fetchingTemplates: false,
             loading: false,
             fetchingTierlists: false,
-            user: { id: userId },
         },
         templates: {
             templates: [
@@ -95,7 +93,6 @@ describe('Screenshot', () => {
                     },
                 ],
                 templateId,
-                userId,
                 createdAt: '',
             }),
             storeWithData
@@ -140,7 +137,6 @@ describe('Common', () => {
             name: tierlistName,
             rankedElements: [],
             templateId,
-            userId,
         });
     });
 });
