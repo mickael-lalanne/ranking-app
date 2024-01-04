@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using ranking_app.Data;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,10 +24,18 @@ builder.Services.AddDbContext<RankingAppDbContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+// To fix ERR_TOO_MANY_REDIRECTS error
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
+
 // AUTHENTICATION
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        System.Diagnostics.Debug.WriteLine("#AddAuthentication#");
         // Authority is the URL of your clerk instance
         options.Authority = builder.Configuration["Clerk:Authority"];
         options.TokenValidationParameters = new TokenValidationParameters()
@@ -41,6 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             OnTokenValidated = context =>
             {
                 var azp = context.Principal?.FindFirstValue("azp");
+
                 // AuthorizedParty is the base URL of your frontend.
                 if (string.IsNullOrEmpty(azp) || !azp.Equals(builder.Configuration["Clerk:AuthorizedParty"]))
                     context.Fail("AZP Claim is invalid or missing");
@@ -52,6 +62,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -63,7 +74,6 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 

@@ -179,6 +179,7 @@ Mickaël Lalanne - mickael.lalanne03@gmail.com
 * [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows)
 * [Using GitHub Actions For CI/CD with .NET Core 5 and AWS Elastic Beanstalk)](https://medium.com/geekculture/using-github-actions-for-ci-cd-with-net-core-5-and-aws-elastic-beanstalk-5141228b61bd)
 * [Clerk SDK for .NET by Hawxy](https://github.com/Hawxy/Clerk.Net?tab=readme-ov-file#what-about-jwt-auth)
+* [https://medium.com/@chiragmehta900/adding-a-custom-domain-for-the-aws-elastic-beanstalk-application-using-route-53-1fd89f204651](https://medium.com/@chiragmehta900/adding-a-custom-domain-for-the-aws-elastic-beanstalk-application-using-route-53-1fd89f204651)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
