@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../models/User';
 
 // Define a type for the slice state
 interface ApplicationState {
-    user?: User;
     loading: boolean;
     fetchingTemplates: boolean;
     fetchingTierlists: boolean;
@@ -21,9 +19,6 @@ export const applicationSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        updateUser: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
-        },
         updateLoading: (state, action: PayloadAction<boolean>) => {
             state.loading = action.payload;
         },
@@ -36,6 +31,6 @@ export const applicationSlice = createSlice({
     },
 });
 
-export const { updateUser, updateLoading, updateFetchingTemplates, updateFetchingTierlists } = applicationSlice.actions;
+export const { updateLoading, updateFetchingTemplates, updateFetchingTierlists } = applicationSlice.actions;
 
 export default applicationSlice.reducer;

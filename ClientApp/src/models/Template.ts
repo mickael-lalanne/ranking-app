@@ -1,10 +1,9 @@
 import { Element } from './Element';
-import { UserId } from './User';
 
 export interface Template {
     id?: string;
     name: string;
-    userId?: UserId;
+    userId?: string;
     tiers: Tier[];
     elements: Element[];
     createdAt?: string; // ex: "2023-11-16T20:26:59.654363Z"

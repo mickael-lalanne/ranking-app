@@ -10,7 +10,6 @@ import RankingGrid from './RankingGrid';
 import ToRankSection from './ToRankSection';
 import AppButton from '../shared/AppButton';
 import { Tierlist } from '../../models/Tierlist';
-import { UserId } from '../../models/User';
 import { updateLoading } from '../../store/ApplicationStore';
 import html2canvas from 'html2canvas';
 import { Button } from '@mui/material';
@@ -78,7 +77,6 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
     const dispatch = useAppDispatch();
     // Retrieve user templates from the store
     const allUserTemplates: Template[] = useAppSelector((state) => state.templates.templates);
-    const userId: UserId = useAppSelector(state => state.application.user?.id);
     const loading: boolean = useAppSelector(state => state.application.loading);
 
     /**
@@ -168,7 +166,6 @@ const TierlistsEditor = ({ itemToEdit, saveHandler, mode }: EditorComponentProps
                 name: tierlistName,
                 rankedElements: rankedElements,
                 templateId: selectedTemplate.id,
-                userId
             };
             saveHandler(tierlistToSave);
         }
