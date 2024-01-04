@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CloudinaryDotNet;
+using System.Security.Claims;
 
 namespace ranking_app.Controllers;
 
@@ -21,14 +22,15 @@ public class CloudinaryController : ControllerBase
         cloudinary = new Cloudinary(url);
         cloudinary.Api.Secure = true;
 
+
     }
 
     [Route("uploadSignature", Name="uploadSignature")]
     [HttpPost]
-    public async Task<ActionResult<UploadSignResponse>> UploadSignature(UploadSignPayload payload)
+    public async Task<ActionResult<UploadSignResponse>> UploadSignature()
     {
         long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-        string folder = payload.UserId + "/elements";
+        string folder = UserId() + "/elements";
     
         IDictionary<string, object> parameters = new Dictionary<string, object>
         {
@@ -76,5 +78,10 @@ public class CloudinaryController : ControllerBase
         }
     
         return response;
+    }
+
+    private string UserId()
+    {
+        return User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
 }

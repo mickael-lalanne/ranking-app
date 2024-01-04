@@ -4,7 +4,7 @@ public class TemplateModel
 {
     public Guid Id { get; set; }
     public required string Name { get; set; }
-    public required string UserId { get; set; }
+    public string? UserId { get; set; }
     public ICollection<Tier> Tiers { get; set; }
     public ICollection<Element> Elements { get; set; }
     public DateTime CreatedAt { get; set; }
