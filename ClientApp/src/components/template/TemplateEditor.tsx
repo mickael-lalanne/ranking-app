@@ -12,7 +12,6 @@ import Button from '@mui/material/Button';
 import { ERankingLayoutMode, EditorComponentProps } from '../../models/RankingLayout';
 import ElementPreview from '../shared/ElementPreview';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { UserId } from '../../models/User';
 import { deleteElementsImages, uploadElementsImages } from '../../services/CloudinaryService';
 import AddElementButton from '../shared/AddElementButton';
 import { ResizedImage, generateRandomId, getTooltipTitleForSaveButtons, isTemporaryId, resizeImage } from '../../utils/Util';
@@ -82,7 +81,6 @@ const TemplateEditor = (
     }, [templateName, tiersToCreate, elementsToCreate]);
 
     const dispatch = useAppDispatch();
-    const userId: UserId = useAppSelector(state => state.application.user?.id);
     const loading: boolean = useAppSelector(state => state.application.loading);
 
     /**
@@ -120,7 +118,7 @@ const TemplateEditor = (
         // For CREATION, upload ALL the elements images to cloudinary
         if (mode === ERankingLayoutMode.Builder) {
             elementsWithUploadedImages =
-                await uploadElementsImages(elementsToCreate, userId!);
+                await uploadElementsImages(elementsToCreate);
         }
         // For EDITION
         else if (mode === ERankingLayoutMode.Editor) {
@@ -128,7 +126,7 @@ const TemplateEditor = (
             const elementsAlreadyCreated: Element[] = elementsToCreate.filter(elt => !isTemporaryId(elt.id!));
             const elementsNotYetCreated: Element[] = elementsToCreate.filter(elt => isTemporaryId(elt.id!));
 
-            const newElementsWithImages: Element[] = await uploadElementsImages(elementsNotYetCreated, userId!);
+            const newElementsWithImages: Element[] = await uploadElementsImages(elementsNotYetCreated);
 
             elementsWithUploadedImages = elementsAlreadyCreated.concat(newElementsWithImages);
 
@@ -146,7 +144,6 @@ const TemplateEditor = (
             name: templateName,
             tiers: tiersToCreate,
             elements: elementsWithUploadedImages,
-            userId
         };
 
         saveHandler(templateToSave);

@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getTierlists } from '../services/TierlistServices';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from "@clerk/clerk-react";
-import { updateFetchingTemplates, updateFetchingTierlists, updateLoading, updateUser } from '../store/ApplicationStore';
+import { updateFetchingTemplates, updateFetchingTierlists, updateLoading } from '../store/ApplicationStore';
 import ConfirmDialog from './shared/ConfirmDialog';
 import { Template } from '../models/Template';
 import { EResponsiveBreakpoints } from '../utils/css-utils';
@@ -45,18 +45,14 @@ const RankingLayout = (
 
     const dispatch = useAppDispatch();
     const location = useLocation();
-    const { userId } = useAuth();
     const windowSize = useWindowSize();
 
     const templates: Template[] = useAppSelector(state => state.templates.templates);
 
     // Called when the component is initialized
     useEffect(() => {
-        // First, get user info and store it into the store
-        dispatch(updateUser({ id: userId}));
-
         // Then, get all user templates from the database
-        const fetchTemplates: () => Promise<void> = async () => await getTemplates(dispatch, userId!);
+        const fetchTemplates: () => Promise<void> = async () => await getTemplates(dispatch);
         fetchTemplates()
             .then(() => dispatch(updateFetchingTemplates(false)))
             .catch(err => {

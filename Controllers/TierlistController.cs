@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ranking_app.Data;
 using ranking_app.Models;
+using System.Security.Claims;
 
 namespace ranking_app.Controllers;
 
@@ -23,6 +24,7 @@ public class TierlistController : ControllerBase
     public async Task<ActionResult<IEnumerable<TierlistModel>>> GetTierlists()
     {
         return await _context.Tierlists
+            .Where(template => template.UserId == UserId())
             .Include(tierlist => tierlist.RankedElements)
             .ToListAsync();
     }
@@ -40,6 +42,11 @@ public class TierlistController : ControllerBase
             return NotFound();
         }
 
+        if (tierlist.UserId != UserId())
+        {
+            return Forbid();
+        }
+
         return tierlist;
     }
 
@@ -47,6 +54,7 @@ public class TierlistController : ControllerBase
     public async Task<ActionResult<TierlistModel>> PostTierlist(TierlistModel tierlist)
     {
         tierlist.CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        tierlist.UserId = UserId();
         _context.Tierlists.Add(tierlist);
         await _context.SaveChangesAsync();
 
@@ -59,6 +67,12 @@ public class TierlistController : ControllerBase
         if (id != tierlist.Id)
         {
             return BadRequest();
+        }
+    
+
+        if (UserId() != tierlist.UserId)
+        {
+            return Forbid();
         }
 
         TierlistModel baseTierlist = await _context.Tierlists
@@ -115,6 +129,11 @@ public class TierlistController : ControllerBase
             return NotFound();
         }
 
+        if (tierlist.UserId != UserId())
+        {
+            return Forbid();
+        }
+
         _context.Tierlists.Remove(tierlist);
         await _context.SaveChangesAsync();
 
@@ -124,5 +143,10 @@ public class TierlistController : ControllerBase
     private bool TierlistExists(Guid id)
     {
         return _context.Tierlists.Any(e => e.Id == id);
+    }
+
+    private string UserId()
+    {
+        return User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
 }

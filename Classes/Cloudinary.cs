@@ -21,11 +21,6 @@ public class DeleteSignResponse : SignResponse
 
 }
 
-public class UploadSignPayload
-{
-    public required string UserId { get; set; }
-}
-
 public class DeleteSignPayload
 {
     public required ICollection<string> PublicIds { get; set; }

@@ -13,14 +13,11 @@ import axios, { AxiosResponse } from 'axios';
 const TEMPLATE_ENDPOINT: string = 'template';
 
 // GET ALL
-export const getTemplates = async (dispatch: AppDispatch, userId: string): Promise<void> => {
-    const queryParams: string = `?userId=${userId}`;
+export const getTemplates = async (dispatch: AppDispatch): Promise<void> => {
+    const serverResponse: AxiosResponse<Template[]> =
+        await axios.get<Template[]>(TEMPLATE_ENDPOINT);
 
-    const templatesResponse: AxiosResponse<Template[]> = await axios.get(
-        TEMPLATE_ENDPOINT + queryParams
-    );
-
-    const allUserTemplates: Template[] = await templatesResponse.data;
+    const allUserTemplates: Template[] = await serverResponse.data;
     // Save user templates in the store
     dispatch(init(allUserTemplates));
 };
@@ -65,7 +62,7 @@ export const updateTemplate = async (
 ): Promise<void> => {
     _removeTmpIds(templateToUpdate);
 
-    await axios.put(`${TEMPLATE_ENDPOINT}/${templateToUpdate.id}`,templateToUpdate);
+    await axios.put(`${TEMPLATE_ENDPOINT}/${templateToUpdate.id}`, templateToUpdate);
 
     // Once template is updated in base, update the store
     dispatch(updateTemplateInStore(templateToUpdate)); 

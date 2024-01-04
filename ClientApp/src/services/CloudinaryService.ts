@@ -39,16 +39,14 @@ export const getElementImageUrl = (imagePath: string): string => {
  * Called when a template needs to be created, before updating the database
  * Upload all images elements to Cloudinary and fill elements object with the returned public id
  * @param {Element[]} elements elements from the template to create, image field should be a File
- * @param {string} userId used for the upload folder path
  * @returns {Promise<Element[]>} elements array but the image field should be the public id string
  */
 export const uploadElementsImages = async (
-    elements: Element[],
-    userId: string
+    elements: Element[]
 ): Promise<Element[]> => {
     // First, call the server to get signature data
     const signatureResponse: AxiosResponse<UploadSignatureResponse> =
-        await axios.post(UPLOAD_ENDPOINT, { userId });
+        await axios.post(UPLOAD_ENDPOINT);
     
     const signData: UploadSignatureResponse = await signatureResponse.data;
 

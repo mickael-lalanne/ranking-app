@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +24,9 @@ public class TemplateController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TemplateModel>>> GetTemplates()
     {
-        string userId = HttpContext.Request.Query["userId"].ToString();
-
+        var test = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         return await _context.Templates
-            .Where(template => template.UserId == userId)
+            .Where(template => template.UserId == UserId())
             .Include(template => template.Tiers)
             .Include(template => template.Elements)
             .ToListAsync();
@@ -35,11 +35,8 @@ public class TemplateController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<TemplateModel>> GetTemplate(Guid id)
     {
-        string userId = HttpContext.Request.Query["userId"].ToString();
-
         var template = await _context.Templates
             .Where(template => template.Id == id)
-            .Where(template => template.UserId == userId)
             .Include(template => template.Tiers)
             .Include(template => template.Elements)
             .FirstAsync();
@@ -49,6 +46,11 @@ public class TemplateController : ControllerBase
             return NotFound();
         }
 
+        if (template.UserId != UserId())
+        {
+            return Forbid();
+        }
+
         return template;
     }
 
@@ -56,6 +58,7 @@ public class TemplateController : ControllerBase
     public async Task<ActionResult<TemplateModel>> PostTemplate(TemplateModel template)
     {
         template.CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        template.UserId = UserId();
         _context.Templates.Add(template);
         await _context.SaveChangesAsync();
 
@@ -68,6 +71,11 @@ public class TemplateController : ControllerBase
         if (id != template.Id)
         {
             return BadRequest();
+        }
+
+        if (UserId() != template.UserId)
+        {
+            return Forbid();
         }
 
         try
@@ -132,6 +140,22 @@ public class TemplateController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTemplate(Guid id)
     {
+        TemplateModel template = await _context.Templates
+            .Where(template => template.Id == id)
+            .Include(template => template.Tiers)
+            .Include(template => template.Elements)
+            .FirstAsync();
+
+        if (template == null)
+        {
+            return NotFound();
+        }
+
+        if (template.UserId != UserId())
+        {
+            return Forbid();
+        }
+
         // First, delete all tierlists linked to the template
         IEnumerable<TierlistModel> tierlists = await _context.Tierlists
             .Where(tierlist => tierlist.TemplateId == id)
@@ -144,17 +168,6 @@ public class TemplateController : ControllerBase
         }
 
         // Then, we can delete the template
-        TemplateModel template = await _context.Templates
-            .Where(template => template.Id == id)
-            .Include(template => template.Tiers)
-            .Include(template => template.Elements)
-            .FirstAsync();
-
-        if (template == null)
-        {
-            return NotFound();
-        }
-
         _context.Templates.Remove(template);
         await _context.SaveChangesAsync();
 
@@ -221,5 +234,10 @@ public class TemplateController : ControllerBase
     private bool TemplateExists(Guid id)
     {
         return _context.Templates.Any(e => e.Id == id);
+    }
+
+    private string UserId()
+    {
+        return User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
 }
