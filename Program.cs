@@ -90,7 +90,7 @@ app.Use(async (context, next) =>
     context.Response.Headers.Add("Permissions-Policy", "camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), usb=()");
     context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' https://renewed-bobcat-2.clerk.accounts.dev https://accounts.mickael-lalanne.fr https://ranking-app.mickael-lalanne.fr https://api.cloudinary.com https://clerk.mickael-lalanne.fr ;"
         + "img-src data: https: http: blob: ;"
-        + "script-src 'self' 'unsafe-inline' https://renewed-bobcat-2.clerk.accounts.dev https://accounts.mickael-lalanne.fr https://ranking-app.mickael-lalanne.fr ; "
+        + "script-src 'self' 'unsafe-inline' https://renewed-bobcat-2.clerk.accounts.dev https://accounts.mickael-lalanne.fr https://ranking-app.mickael-lalanne.fr https://clerk.mickael-lalanne.fr ; "
         + "worker-src 'self' 'unsafe-inline' blob: ; "
         + "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google-analytics.com ; "
         + "font-src 'self' https://fonts.gstatic.com;");
