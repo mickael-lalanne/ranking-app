@@ -9,7 +9,7 @@
   <h3 align="center">Ranking App</h3>
 
   <p align="center">
-      With React, .NET and PostgreSQL.
+      By Mickaël Lalanne
   </p>
 </div>
 
@@ -30,7 +30,20 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#👷-handle-changes-in the-backend-architecture">Handle changes in the backend architecture</a></li>
+    <li>
+      <a href="#👷-backend-utilities">👷 Backend utilities</a>
+      <ul>
+        <li><a href="#how-to-debug-in-vs-code">How to debug in VS Code</a></li>
+        <li><a href="#handle-changes-in-the-backend-architecture">Handle changes in the backend architecture</a></li>
+      </ul>
+   </li>
+    <li>
+      <a href="#📋-tests">📋 Tests</a>
+      <ul>
+        <li><a href="#jest-unit-tests">Jest - Unit tests</a></li>
+        <li><a href="#cypress-end-to-end-tests">Cypress - End To End tests</a></li>
+      </ul>
+   </li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -39,15 +52,24 @@
 <!-- ABOUT THE PROJECT -->
 ## About the project
 
-<!-- ![Product Name Screen Shot][product-screenshot] -->
-Description coming soon...
+![Product Name Screen Shot][product-screenshot]
+Ranking App is a web application allowing users to create their own templates and tierlists.<br>
+First, users create their templates by setting a name, tiers and elements they want to rank.<br>
+Then, they use their templates to create tierlists. Users can save the result and even download it as a PNG image.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
 * [![React][React]][React-url]
+* ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 * [![.NET][NET]][NET-url]
+* ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+* ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+* ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+* ![cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e)
+
+And also [Clerk](https://clerk.com/) for authentication and [Cloudinary](https://cloudinary.com/) for image management. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -96,7 +118,7 @@ With a `Ranking_App_DB` database, use the `setupDB.sql` script to initialize the
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 👷 Backend functioning
+## 👷 Backend utilities
 
 ### How to debug in VS Code
 1. Set a breakpoint
